@@ -16,16 +16,16 @@ return [
     'modules' => [],
     'components' => [
         'request' => [
-            'csrfParam' => '_csrf-core',
+            'csrfParam' => '_csrf-core-asikmakan-synctech',
         ],
         'user' => [
             'identityClass' => 'core\models\User',
             'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-core', 'httpOnly' => true],
+            'identityCookie' => ['name' => '_identity-core-asikmakan-synctech', 'httpOnly' => true],
         ],
         'session' => [
             // this is the name of the session cookie used for login on the core
-            'name' => 'advanced-core',
+            'name' => 'core-asikmakan',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
