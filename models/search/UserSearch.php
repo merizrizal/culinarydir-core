@@ -79,6 +79,7 @@ class UserSearch extends User
         $query->andFilterWhere([
             'id' => $this->id,
             'user_level_id' => $this->user_level_id,
+            'not_active' => $this->not_active,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
@@ -88,7 +89,6 @@ class UserSearch extends User
             ->andFilterWhere(['ilike', 'full_name', $this->full_name])
             ->andFilterWhere(['ilike', 'password', $this->password])
             ->andFilterWhere(['ilike', 'image', $this->image])
-            ->andFilterWhere(['ilike', 'not_active', $this->not_active])
             ->andFilterWhere(['ilike', 'user_level.nama_level', $this->getAttribute('userLevel.nama_level')]);
 
         return $dataProvider;
