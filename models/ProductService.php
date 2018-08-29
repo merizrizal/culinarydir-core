@@ -5,30 +5,29 @@ namespace core\models;
 use Yii;
 
 /**
- * This is the model class for table "user_app_module".
+ * This is the model class for table "product_service".
  *
  * @property int $id
- * @property string $sub_program
- * @property string $nama_module
- * @property string $module_action
+ * @property string $name
+ * @property string $note
+ * @property bool $not_active
  * @property string $created_at
  * @property int $user_created
  * @property string $updated_at
  * @property int $user_updated
- * @property bool $guest_can_access
  *
- * @property UserAkses[] $userAkses
+ * @property MembershipTypeProductService[] $membershipTypeProductServices
  * @property User $userCreated
  * @property User $userUpdated
  */
-class UserAppModule extends \sybase\SybaseModel
+class ProductService extends \sybase\SybaseModel
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'user_app_module';
+        return 'product_service';
     }
 
     /**
@@ -37,12 +36,13 @@ class UserAppModule extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['sub_program', 'nama_module', 'module_action'], 'required'],
+            [['name'], 'required'],
+            [['note'], 'string'],
+            [['not_active'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
             [['user_created', 'user_updated'], 'default', 'value' => null],
             [['user_created', 'user_updated'], 'integer'],
-            [['guest_can_access'], 'boolean'],
-            [['sub_program', 'nama_module', 'module_action'], 'string', 'max' => 128],
+            [['name'], 'string', 'max' => 64],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
         ];
@@ -55,23 +55,22 @@ class UserAppModule extends \sybase\SybaseModel
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'sub_program' => Yii::t('app', 'Sub Program'),
-            'nama_module' => Yii::t('app', 'Nama Module'),
-            'module_action' => Yii::t('app', 'Module Action'),
+            'name' => Yii::t('app', 'Name'),
+            'note' => Yii::t('app', 'Note'),
+            'not_active' => Yii::t('app', 'Not Active'),
             'created_at' => Yii::t('app', 'Created At'),
             'user_created' => Yii::t('app', 'User Created'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'user_updated' => Yii::t('app', 'User Updated'),
-            'guest_can_access' => Yii::t('app', 'Guest Can Access'),
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserAkses()
+    public function getMembershipTypeProductServices()
     {
-        return $this->hasMany(UserAkses::className(), ['user_app_module_id' => 'id']);
+        return $this->hasMany(MembershipTypeProductService::className(), ['product_service_id' => 'id']);
     }
 
     /**

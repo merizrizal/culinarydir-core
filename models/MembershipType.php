@@ -9,7 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property string $name
- * @property bool $is_free
+ * @property bool $is_premium
  * @property int $time_limit
  * @property int $price
  * @property string $note
@@ -20,11 +20,11 @@ use Yii;
  * @property int $user_created
  * @property string $updated_at
  * @property int $user_updated
- * @property bool $is_default
  *
  * @property Business[] $businesses
  * @property User $userCreated
  * @property User $userUpdated
+ * @property MembershipTypeProductService[] $membershipTypeProductServices
  * @property RegistryBusiness[] $registryBusinesses
  * @property RegistryBusinessApprovalLog[] $registryBusinessApprovalLogs
  */
@@ -45,7 +45,7 @@ class MembershipType extends \sybase\SybaseModel
     {
         return [
             [['name'], 'required'],
-            [['is_free', 'is_active', 'as_archive', 'is_default'], 'boolean'],
+            [['is_premium', 'is_active', 'as_archive'], 'boolean'],
             [['time_limit', 'price', 'order', 'user_created', 'user_updated'], 'default', 'value' => null],
             [['time_limit', 'price', 'order', 'user_created', 'user_updated'], 'integer'],
             [['note'], 'string'],
@@ -64,7 +64,7 @@ class MembershipType extends \sybase\SybaseModel
         return [
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Name'),
-            'is_free' => Yii::t('app', 'Is Free'),
+            'is_premium' => Yii::t('app', 'Is Premium'),
             'time_limit' => Yii::t('app', 'Time Limit'),
             'price' => Yii::t('app', 'Price'),
             'note' => Yii::t('app', 'Note'),
@@ -75,7 +75,6 @@ class MembershipType extends \sybase\SybaseModel
             'user_created' => Yii::t('app', 'User Created'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'user_updated' => Yii::t('app', 'User Updated'),
-            'is_default' => Yii::t('app', 'Is Default'),
         ];
     }
 
@@ -86,7 +85,6 @@ class MembershipType extends \sybase\SybaseModel
     {
         return $this->hasMany(Business::className(), ['membership_type_id' => 'id']);
     }
-
 
     /**
      * @return \yii\db\ActiveQuery
@@ -102,6 +100,14 @@ class MembershipType extends \sybase\SybaseModel
     public function getUserUpdated()
     {
         return $this->hasOne(User::className(), ['id' => 'user_updated']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMembershipTypeProductServices()
+    {
+        return $this->hasMany(MembershipTypeProductService::className(), ['membership_type_id' => 'id']);
     }
 
     /**

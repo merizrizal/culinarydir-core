@@ -18,7 +18,7 @@ class MembershipTypeSearch extends MembershipType
     public function rules()
     {
         return [
-            [['id', 'is_free', 'time_limit', 'price', 'is_active', 'order', 'as_archive', 'user_created', 'user_updated'], 'integer'],
+            [['id', 'is_premium', 'time_limit', 'price', 'is_active', 'order', 'as_archive', 'user_created', 'user_updated'], 'integer'],
             [['name', 'note', 'created_at', 'updated_at'], 'safe'],
         ];
     }
@@ -64,7 +64,7 @@ class MembershipTypeSearch extends MembershipType
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'is_free' => $this->is_free,
+            'is_premium' => $this->is_premium,
             'time_limit' => $this->time_limit,
             'price' => $this->price,
             'is_active' => $this->is_active,

@@ -22,7 +22,7 @@ use Yii;
  * @property int $district_id
  * @property int $village_id
  * @property string $coordinate
- * @property string $status
+ * @property int $application_business_id
  * @property int $user_in_charge
  * @property string $created_at
  * @property int $user_created
@@ -30,7 +30,9 @@ use Yii;
  * @property int $user_updated
  * @property int $price_min
  * @property int $price_max
+ * @property int $application_business_counter
  *
+ * @property ApplicationBusiness $applicationBusiness
  * @property City $city
  * @property District $district
  * @property MembershipType $membershipType
@@ -40,9 +42,10 @@ use Yii;
  * @property Village $village
  * @property RegistryBusinessApprovalLog $registryBusinessApprovalLog
  * @property RegistryBusinessCategory[] $registryBusinessCategories
+ * @property RegistryBusinessContactPerson[] $registryBusinessContactPeople
  * @property RegistryBusinessFacility[] $registryBusinessFacilities
- * @property RegistryBusinessImage[] $registryBusinessImages
  * @property RegistryBusinessHour[] $registryBusinessHours
+ * @property RegistryBusinessImage[] $registryBusinessImages
  * @property RegistryBusinessProductCategory[] $registryBusinessProductCategories
  */
 class RegistryBusiness extends \sybase\SybaseModel
@@ -61,7 +64,7 @@ class RegistryBusiness extends \sybase\SybaseModel
         $scenarios[self::SCENARIO_CREATE] = [
             'membership_type_id', 'name', 'unique_name', 'email', 'phone1', 'phone2', 'phone3', 'address_type', 'address', 'address_info',
             'city_id', 'district_id', 'village_id', 'coordinate', 'status', 'user_in_charge', 'created_at', 'user_created', 'updated_at', 'user_updated',
-            'price_min', 'price_max'
+            'price_min', 'price_max', 'application_business_id'
         ];
 
         return $scenarios;
@@ -73,16 +76,17 @@ class RegistryBusiness extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['membership_type_id', 'name', 'unique_name', 'address_type', 'address', 'city_id', 'district_id', 'village_id', 'coordinate'], 'required'],
-            [['membership_type_id', 'city_id', 'district_id', 'village_id', 'user_in_charge', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['membership_type_id', 'city_id', 'district_id', 'village_id', 'user_in_charge', 'user_created', 'user_updated', 'price_min', 'price_max'], 'integer'],
-            [['address_type', 'address', 'address_info', 'status'], 'string'],
+            [['membership_type_id', 'name', 'unique_name', 'address_type', 'address', 'city_id', 'district_id', 'village_id', 'coordinate', 'application_business_id'], 'required'],
+            [['membership_type_id', 'city_id', 'district_id', 'village_id', 'application_business_id', 'user_in_charge', 'user_created', 'user_updated', 'price_min', 'price_max', 'application_business_counter'], 'default', 'value' => null],
+            [['membership_type_id', 'city_id', 'district_id', 'village_id', 'application_business_id', 'user_in_charge', 'user_created', 'user_updated', 'price_min', 'price_max', 'application_business_counter'], 'integer'],
+            [['address_type', 'address', 'address_info'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['name', 'email'], 'string', 'max' => 48],
             [['unique_name', 'coordinate'], 'string', 'max' => 64],
             [['phone1', 'phone2', 'phone3'], 'string', 'max' => 16],
             [['unique_name'], 'unique', 'on' => self::SCENARIO_CREATE],
             [['email'], 'email'],
+            [['application_business_id'], 'exist', 'skipOnError' => true, 'targetClass' => ApplicationBusiness::className(), 'targetAttribute' => ['application_business_id' => 'id']],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['city_id' => 'id']],
             [['district_id'], 'exist', 'skipOnError' => true, 'targetClass' => District::className(), 'targetAttribute' => ['district_id' => 'id']],
             [['membership_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => MembershipType::className(), 'targetAttribute' => ['membership_type_id' => 'id']],
@@ -104,9 +108,9 @@ class RegistryBusiness extends \sybase\SybaseModel
             'name' => Yii::t('app', 'Name'),
             'unique_name' => Yii::t('app', 'Unique Name'),
             'email' => Yii::t('app', 'Email'),
-            'phone1' => Yii::t('app', 'Phone 1'),
-            'phone2' => Yii::t('app', 'Phone 2'),
-            'phone3' => Yii::t('app', 'Phone 3'),
+            'phone1' => Yii::t('app', 'Phone1'),
+            'phone2' => Yii::t('app', 'Phone2'),
+            'phone3' => Yii::t('app', 'Phone3'),
             'address_type' => Yii::t('app', 'Address Type'),
             'address' => Yii::t('app', 'Address'),
             'address_info' => Yii::t('app', 'Address Info'),
@@ -114,7 +118,7 @@ class RegistryBusiness extends \sybase\SybaseModel
             'district_id' => Yii::t('app', 'District ID'),
             'village_id' => Yii::t('app', 'Village ID'),
             'coordinate' => Yii::t('app', 'Coordinate'),
-            'status' => Yii::t('app', 'Status'),
+            'application_business_id' => Yii::t('app', 'Application Business ID'),
             'user_in_charge' => Yii::t('app', 'User In Charge'),
             'created_at' => Yii::t('app', 'Created At'),
             'user_created' => Yii::t('app', 'User Created'),
@@ -122,8 +126,19 @@ class RegistryBusiness extends \sybase\SybaseModel
             'user_updated' => Yii::t('app', 'User Updated'),
             'price_min' => Yii::t('app', 'Price Min'),
             'price_max' => Yii::t('app', 'Price Max'),
+            'application_business_counter' => Yii::t('app', 'Application Business Counter'),
+
             'membershipType.name' => Yii::t('app', 'Membership Type'),
+            'userInCharge.full_name' => Yii::t('app', 'Marketing'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getApplicationBusiness()
+    {
+        return $this->hasOne(ApplicationBusiness::className(), ['id' => 'application_business_id']);
     }
 
     /**
@@ -201,6 +216,14 @@ class RegistryBusiness extends \sybase\SybaseModel
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getRegistryBusinessContactPeople()
+    {
+        return $this->hasMany(RegistryBusinessContactPerson::className(), ['registry_business_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getRegistryBusinessFacilities()
     {
         return $this->hasMany(RegistryBusinessFacility::className(), ['registry_business_id' => 'id']);
@@ -209,17 +232,17 @@ class RegistryBusiness extends \sybase\SybaseModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRegistryBusinessImages()
+    public function getRegistryBusinessHours()
     {
-        return $this->hasMany(RegistryBusinessImage::className(), ['registry_business_id' => 'id']);
+        return $this->hasMany(RegistryBusinessHour::className(), ['registry_business_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRegistryBusinessHours()
+    public function getRegistryBusinessImages()
     {
-        return $this->hasMany(RegistryBusinessHour::className(), ['registry_business_id' => 'id']);
+        return $this->hasMany(RegistryBusinessImage::className(), ['registry_business_id' => 'id']);
     }
 
     /**

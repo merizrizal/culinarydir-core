@@ -5,12 +5,12 @@ namespace core\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use core\models\ProductCategory;
+use core\models\ProductService;
 
 /**
- * ProductCategorySearch represents the model behind the search form of `core\models\ProductCategory`.
+ * ProductServiceSearch represents the model behind the search form of `core\models\ProductService`.
  */
-class ProductCategorySearch extends ProductCategory
+class ProductServiceSearch extends ProductService
 {
     /**
      * @inheritdoc
@@ -18,8 +18,9 @@ class ProductCategorySearch extends ProductCategory
     public function rules()
     {
         return [
-            [['id', 'is_parent', 'user_created', 'user_updated'], 'integer'],
-            [['name', 'is_active', 'created_at', 'updated_at'], 'safe'],
+            [['id', 'user_created', 'user_updated'], 'integer'],
+            [['name', 'note', 'created_at', 'updated_at'], 'safe'],
+            [['not_active'], 'boolean'],
         ];
     }
 
@@ -41,14 +42,14 @@ class ProductCategorySearch extends ProductCategory
      */
     public function search($params)
     {
-        $query = ProductCategory::find();
+        $query = ProductService::find();
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => array(
-                'pageSize' => Yii::$app->params['pageSize'],
+                'pageSize' => 15,
             ),
         ]);
 
@@ -62,16 +63,16 @@ class ProductCategorySearch extends ProductCategory
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'product_category.id' => $this->id,
-            'product_category.is_parent' => $this->is_parent,
-            'product_category.is_active' => $this->is_active,
-            'product_category.created_at' => $this->created_at,
-            'product_category.user_created' => $this->user_created,
-            'product_category.updated_at' => $this->updated_at,
-            'product_category.user_updated' => $this->user_updated,
+            'id' => $this->id,
+            'not_active' => $this->not_active,
+            'created_at' => $this->created_at,
+            'user_created' => $this->user_created,
+            'updated_at' => $this->updated_at,
+            'user_updated' => $this->user_updated,
         ]);
 
-        $query->andFilterWhere(['ilike', 'product_category.name', $this->name]);
+        $query->andFilterWhere(['ilike', 'name', $this->name])
+            ->andFilterWhere(['ilike', 'note', $this->note]);
 
         return $dataProvider;
     }

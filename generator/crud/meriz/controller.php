@@ -71,10 +71,6 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
      */
     public function actionIndex()
     {
-        if (Yii::$app->request->isAjax) {
-            $this->layout = 'ajax';
-        }
-
 <?php if (!empty($generator->searchModelClass)): ?>
         $searchModel = new <?= isset($searchModelAlias) ? $searchModelAlias : $searchModelClass ?>();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -102,10 +98,6 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
      */
     public function actionView(<?= $actionParams ?>)
     {
-        if (Yii::$app->request->isAjax) {
-            $this->layout = 'ajax';
-        }
-
         return $this->render('view', [
             'model' => $this->findModel(<?= $actionParams ?>),
         ]);
@@ -118,10 +110,6 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
      */
     public function actionCreate($save = null)
     {
-        if (Yii::$app->request->isAjax) {
-            $this->layout = 'ajax';
-        }
-
         $render = 'create';
 
         $model = new <?= $modelClass ?>();
@@ -165,10 +153,6 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
      */
     public function actionUpdate(<?= $actionParams ?>, $save = null)
     {
-        if (Yii::$app->request->isAjax) {
-            $this->layout = 'ajax';
-        }
-
         $model = $this->findModel(<?= $actionParams ?>);
 
         if ($model->load(Yii::$app->request->post())) {

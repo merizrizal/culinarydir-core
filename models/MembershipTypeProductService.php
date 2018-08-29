@@ -5,31 +5,31 @@ namespace core\models;
 use Yii;
 
 /**
- * This is the model class for table "product".
+ * This is the model class for table "membership_type_product_service".
  *
  * @property int $id
- * @property int $product_category_id
- * @property string $name
+ * @property int $product_service_id
  * @property string $note
- * @property int $is_active
+ * @property bool $not_active
  * @property string $created_at
  * @property int $user_created
  * @property string $updated_at
  * @property int $user_updated
+ * @property int $membership_type_id
  *
- * @property BusinessProduct[] $businessProducts
- * @property ProductCategory $productCategory
+ * @property MembershipType $membershipType
+ * @property ProductService $productService
  * @property User $userCreated
  * @property User $userUpdated
  */
-class Product extends \sybase\SybaseModel
+class MembershipTypeProductService extends \sybase\SybaseModel
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'product';
+        return 'membership_type_product_service';
     }
 
     /**
@@ -38,13 +38,14 @@ class Product extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['product_category_id', 'name'], 'required'],
-            [['product_category_id', 'user_created', 'user_updated'], 'integer'],
+            [['product_service_id', 'membership_type_id'], 'required'],
+            [['product_service_id', 'user_created', 'user_updated', 'membership_type_id'], 'default', 'value' => null],
+            [['product_service_id', 'user_created', 'user_updated', 'membership_type_id'], 'integer'],
             [['note'], 'string'],
-            [['is_active'], 'boolean'],
+            [['not_active'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
-            [['name'], 'string', 'max' => 48],
-            [['product_category_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProductCategory::className(), 'targetAttribute' => ['product_category_id' => 'id']],
+            [['membership_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => MembershipType::className(), 'targetAttribute' => ['membership_type_id' => 'id']],
+            [['product_service_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProductService::className(), 'targetAttribute' => ['product_service_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
         ];
@@ -57,31 +58,31 @@ class Product extends \sybase\SybaseModel
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'product_category_id' => Yii::t('app', 'Product Category ID'),
-            'name' => Yii::t('app', 'Product'),
+            'product_service_id' => Yii::t('app', 'Product Service ID'),
             'note' => Yii::t('app', 'Note'),
-            'is_active' => Yii::t('app', 'Is Active'),
+            'not_active' => Yii::t('app', 'Not Active'),
             'created_at' => Yii::t('app', 'Created At'),
             'user_created' => Yii::t('app', 'User Created'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'user_updated' => Yii::t('app', 'User Updated'),
+            'membership_type_id' => Yii::t('app', 'Membership Type ID'),
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getBusinessProducts()
+    public function getMembershipType()
     {
-        return $this->hasMany(BusinessProduct::className(), ['product_id' => 'id']);
+        return $this->hasOne(MembershipType::className(), ['id' => 'membership_type_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProductCategory()
+    public function getProductService()
     {
-        return $this->hasOne(ProductCategory::className(), ['id' => 'product_category_id']);
+        return $this->hasOne(ProductService::className(), ['id' => 'product_service_id']);
     }
 
     /**

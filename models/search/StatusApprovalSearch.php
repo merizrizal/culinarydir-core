@@ -5,12 +5,12 @@ namespace core\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use core\models\UserLevel;
+use core\models\StatusApproval;
 
 /**
- * UserLevelSearch represents the model behind the search form of `core\models\UserLevel`.
+ * StatusApprovalSearch represents the model behind the search form of `core\models\StatusApproval`.
  */
-class UserLevelSearch extends UserLevel
+class StatusApprovalSearch extends StatusApproval
 {
     /**
      * @inheritdoc
@@ -18,9 +18,9 @@ class UserLevelSearch extends UserLevel
     public function rules()
     {
         return [
-            [['id', 'user_created', 'user_updated'], 'integer'],
-            [['nama_level', 'keterangan', 'created_at', 'updated_at'], 'safe'],
-            [['is_super_admin'], 'boolean'],
+            [['id', 'name', 'note', 'instruction', 'status', 'execute_action', 'created_at', 'updated_at'], 'safe'],
+            [['order', 'branch', 'group', 'user_created', 'user_updated'], 'integer'],
+            [['condition', 'not_active'], 'boolean'],
         ];
     }
 
@@ -42,14 +42,15 @@ class UserLevelSearch extends UserLevel
      */
     public function search($params)
     {
-        $query = UserLevel::find();
+        $query = StatusApproval::find()
+                ->orderBy('order');
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => array(
-                'pageSize' => Yii::$app->params['pageSize'],
+                'pageSize' => 15,
             ),
         ]);
 
@@ -63,16 +64,23 @@ class UserLevelSearch extends UserLevel
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'is_super_admin' => $this->is_super_admin,
+            'order' => $this->order,
+            'condition' => $this->condition,
+            'branch' => $this->branch,
+            'group' => $this->group,
+            'not_active' => $this->not_active,
             'created_at' => $this->created_at,
             'user_created' => $this->user_created,
             'updated_at' => $this->updated_at,
             'user_updated' => $this->user_updated,
         ]);
 
-        $query->andFilterWhere(['ilike', 'nama_level', $this->nama_level])
-            ->andFilterWhere(['ilike', 'keterangan', $this->keterangan]);
+        $query->andFilterWhere(['ilike', 'id', $this->id])
+            ->andFilterWhere(['ilike', 'name', $this->name])
+            ->andFilterWhere(['ilike', 'note', $this->note])
+            ->andFilterWhere(['ilike', 'instruction', $this->instruction])
+            ->andFilterWhere(['ilike', 'status', $this->status])
+            ->andFilterWhere(['ilike', 'execute_action', $this->execute_action]);
 
         return $dataProvider;
     }

@@ -39,8 +39,8 @@ class ProductCategory extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['is_parent', 'name'], 'required'],
             [['is_parent', 'is_active'], 'boolean'],
+            [['name'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             [['user_created', 'user_updated'], 'default', 'value' => null],
             [['user_created', 'user_updated'], 'integer'],

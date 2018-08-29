@@ -5,31 +5,29 @@ namespace core\models;
 use Yii;
 
 /**
- * This is the model class for table "registry_business_facility".
+ * This is the model class for table "status_approval_require".
  *
  * @property int $id
- * @property string $unique_id
- * @property int $registry_business_id
- * @property int $facility_id
- * @property bool $is_active
+ * @property string $status_approval_id
+ * @property string $require_status_approval_id
  * @property string $created_at
  * @property int $user_created
  * @property string $updated_at
  * @property int $user_updated
  *
- * @property Facility $facility
- * @property RegistryBusiness $registryBusiness
+ * @property StatusApproval $statusApproval
+ * @property StatusApproval $requireStatusApproval
  * @property User $userCreated
  * @property User $userUpdated
  */
-class RegistryBusinessFacility extends \sybase\SybaseModel
+class StatusApprovalRequire extends \sybase\SybaseModel
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'registry_business_facility';
+        return 'status_approval_require';
     }
 
     /**
@@ -38,15 +36,13 @@ class RegistryBusinessFacility extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['unique_id', 'registry_business_id', 'facility_id'], 'required'],
-            [['registry_business_id', 'facility_id', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['registry_business_id', 'facility_id', 'user_created', 'user_updated'], 'integer'],
-            [['is_active'], 'boolean'],
+            [['status_approval_id', 'require_status_approval_id'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
-            [['unique_id'], 'string', 'max' => 15],
-            [['unique_id'], 'unique'],
-            [['facility_id'], 'exist', 'skipOnError' => true, 'targetClass' => Facility::className(), 'targetAttribute' => ['facility_id' => 'id']],
-            [['registry_business_id'], 'exist', 'skipOnError' => true, 'targetClass' => RegistryBusiness::className(), 'targetAttribute' => ['registry_business_id' => 'id']],
+            [['user_created', 'user_updated'], 'default', 'value' => null],
+            [['user_created', 'user_updated'], 'integer'],
+            [['status_approval_id', 'require_status_approval_id'], 'string', 'max' => 7],
+            [['status_approval_id'], 'exist', 'skipOnError' => true, 'targetClass' => StatusApproval::className(), 'targetAttribute' => ['status_approval_id' => 'id']],
+            [['require_status_approval_id'], 'exist', 'skipOnError' => true, 'targetClass' => StatusApproval::className(), 'targetAttribute' => ['require_status_approval_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
         ];
@@ -59,10 +55,8 @@ class RegistryBusinessFacility extends \sybase\SybaseModel
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'unique_id' => Yii::t('app', 'Unique ID'),
-            'registry_business_id' => Yii::t('app', 'Registry Business ID'),
-            'facility_id' => Yii::t('app', 'Facility ID'),
-            'is_active' => Yii::t('app', 'Is Active'),
+            'status_approval_id' => Yii::t('app', 'Status Approval ID'),
+            'require_status_approval_id' => Yii::t('app', 'Require Status Approval ID'),
             'created_at' => Yii::t('app', 'Created At'),
             'user_created' => Yii::t('app', 'User Created'),
             'updated_at' => Yii::t('app', 'Updated At'),
@@ -73,17 +67,17 @@ class RegistryBusinessFacility extends \sybase\SybaseModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getFacility()
+    public function getStatusApproval()
     {
-        return $this->hasOne(Facility::className(), ['id' => 'facility_id']);
+        return $this->hasOne(StatusApproval::className(), ['id' => 'status_approval_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRegistryBusiness()
+    public function getRequireStatusApproval()
     {
-        return $this->hasOne(RegistryBusiness::className(), ['id' => 'registry_business_id']);
+        return $this->hasOne(StatusApproval::className(), ['id' => 'require_status_approval_id']);
     }
 
     /**

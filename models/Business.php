@@ -23,7 +23,9 @@ use Yii;
  * @property string $updated_at
  * @property int $user_updated
  * @property int $membership_type_id
+ * @property int $application_business_id
  *
+ * @property ApplicationBusiness $applicationBusiness
  * @property Business $parent
  * @property Business[] $businesses
  * @property MembershipType $membershipType
@@ -63,9 +65,9 @@ class Business extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['parent_id', 'user_in_charge', 'user_created', 'user_updated', 'membership_type_id'], 'default', 'value' => null],
-            [['parent_id', 'user_in_charge', 'user_created', 'user_updated', 'membership_type_id'], 'integer'],
-            [['name', 'unique_name', 'membership_type_id'], 'required'],
+            [['parent_id', 'user_in_charge', 'user_created', 'user_updated', 'membership_type_id', 'application_business_id'], 'default', 'value' => null],
+            [['parent_id', 'user_in_charge', 'user_created', 'user_updated', 'membership_type_id', 'application_business_id'], 'integer'],
+            [['name', 'unique_name', 'membership_type_id', 'application_business_id'], 'required'],
             [['about'], 'string'],
             [['is_active'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
@@ -73,6 +75,7 @@ class Business extends \sybase\SybaseModel
             [['unique_name'], 'string', 'max' => 45],
             [['phone1', 'phone2', 'phone3'], 'string', 'max' => 16],
             [['unique_name'], 'unique'],
+            [['application_business_id'], 'exist', 'skipOnError' => true, 'targetClass' => ApplicationBusiness::className(), 'targetAttribute' => ['application_business_id' => 'id']],
             [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['parent_id' => 'id']],
             [['membership_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => MembershipType::className(), 'targetAttribute' => ['membership_type_id' => 'id']],
             [['user_in_charge'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_in_charge' => 'id']],
@@ -103,9 +106,18 @@ class Business extends \sybase\SybaseModel
             'updated_at' => Yii::t('app', 'Updated At'),
             'user_updated' => Yii::t('app', 'User Updated'),
             'membership_type_id' => Yii::t('app', 'Membership Type ID'),
+            'application_business_id' => Yii::t('app', 'Application Business ID'),
 
             'membershipType.name' => Yii::t('app', 'Membership Type'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getApplicationBusiness()
+    {
+        return $this->hasOne(ApplicationBusiness::className(), ['id' => 'application_business_id']);
     }
 
     /**
@@ -243,7 +255,7 @@ class Business extends \sybase\SybaseModel
     {
         return $this->hasMany(BusinessPromo::className(), ['business_id' => 'id']);
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */

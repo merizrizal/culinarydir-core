@@ -22,6 +22,7 @@ use yii\web\IdentityInterface;
  * @property string $created_at
  * @property string $updated_at
  *
+ * @property ApplicationBusiness[] $applicationBusinesses
  * @property Business[] $businesses
  * @property RegistryBusiness[] $registryBusinesses
  * @property UserLevel $userLevel
@@ -106,6 +107,14 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getApplicationBusinesses()
+    {
+        return $this->hasMany(ApplicationBusiness::className(), ['user_in_charge' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getBusinesses()
     {
         return $this->hasMany(Business::className(), ['user_in_charge' => 'id']);
@@ -166,7 +175,7 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     {
         return $this->hasMany(UserPostLove::className(), ['user_id' => 'id']);
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */

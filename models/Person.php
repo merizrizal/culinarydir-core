@@ -23,6 +23,7 @@ use Yii;
  * @property City $city
  * @property User $userCreated
  * @property User $userUpdated
+ * @property RegistryBusinessContactPerson[] $registryBusinessContactPeople
  * @property UserPerson $userPerson
  */
 class Person extends \sybase\SybaseModel
@@ -41,7 +42,7 @@ class Person extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['first_name', 'last_name', 'phone'], 'required'],
+            [['first_name', 'last_name', 'email', 'phone'], 'required'],
             [['city_id', 'user_created', 'user_updated'], 'default', 'value' => null],
             [['city_id', 'user_created', 'user_updated'], 'integer'],
             [['address', 'about_me'], 'string'],
@@ -49,6 +50,7 @@ class Person extends \sybase\SybaseModel
             [['first_name', 'last_name', 'phone'], 'string', 'max' => 16],
             [['email'], 'string', 'max' => 64],
             [['email'], 'email'],
+            [['email'], 'unique'],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['city_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
@@ -98,6 +100,14 @@ class Person extends \sybase\SybaseModel
     public function getUserUpdated()
     {
         return $this->hasOne(User::className(), ['id' => 'user_updated']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRegistryBusinessContactPeople()
+    {
+        return $this->hasMany(RegistryBusinessContactPerson::className(), ['person_id' => 'id']);
     }
 
     /**
