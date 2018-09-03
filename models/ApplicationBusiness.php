@@ -18,7 +18,7 @@ use Yii;
  * @property User $userInCharge
  * @property User $userCreated
  * @property User $userUpdated
- * @property Business[] $businesses
+ * @property Business $business
  * @property LogStatusApproval[] $logStatusApprovals
  * @property RegistryBusiness[] $registryBusinesses
  */
@@ -94,9 +94,9 @@ class ApplicationBusiness extends \sybase\SybaseModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getBusinesses()
+    public function getBusiness()
     {
-        return $this->hasMany(Business::className(), ['application_business_id' => 'id']);
+        return $this->hasOne(Business::className(), ['application_business_id' => 'id']);
     }
 
     /**

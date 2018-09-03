@@ -132,7 +132,7 @@ if (($tableSchema = $generator->getTableSchema()) === false) {
                         </div>
                     </div>',
                 'buttons' => [
-                    'view' =>  function($url, $model, $key) {
+                    'view' => function($url, $model, $key) {
                         return Html::a('<i class="fa fa-search-plus"></i>', $url, [
                             'id' => 'view',
                             'class' => 'btn btn-primary',
@@ -141,7 +141,7 @@ if (($tableSchema = $generator->getTableSchema()) === false) {
                             'title' => 'View',
                         ]);
                     },
-                    'update' =>  function($url, $model, $key) {
+                    'update' => function($url, $model, $key) {
                         return Html::a('<i class="fa fa-pencil-alt"></i>', $url, [
                             'id' => 'update',
                             'class' => 'btn btn-success',
@@ -150,7 +150,7 @@ if (($tableSchema = $generator->getTableSchema()) === false) {
                             'title' => 'Edit',
                         ]);
                     },
-                    'delete' =>  function($url, $model, $key) {
+                    'delete' => function($url, $model, $key) {
                         return Html::a('<i class="fa fa-trash-alt"></i>', $url, [
                             'id' => 'delete',
                             'class' => 'btn btn-danger',

@@ -33,7 +33,7 @@ use Yii;
  * @property User $userCreated
  * @property User $userUpdated
  * @property BusinessCategory[] $businessCategories
- * @property BusinessContract $businessContract
+ * @property BusinessContactPerson[] $businessContactPeople
  * @property BusinessDetail $businessDetail
  * @property BusinessDetailVote[] $businessDetailVotes
  * @property BusinessFacility[] $businessFacilities
@@ -46,6 +46,7 @@ use Yii;
  * @property RegistryBusinessApprovalLog[] $registryBusinessApprovalLogs
  * @property UserLove[] $userLoves
  * @property UserPost[] $userPosts
+ * @property UserPostMain[] $userPostMains
  * @property UserReport[] $userReports
  * @property UserVisit[] $userVisits
  */
@@ -101,14 +102,12 @@ class Business extends \sybase\SybaseModel
             'phone3' => Yii::t('app', 'Phone3'),
             'user_in_charge' => Yii::t('app', 'User In Charge'),
             'is_active' => Yii::t('app', 'Is Active'),
-            'created_at' => Yii::t('app', 'Approval Date'),
+            'created_at' => Yii::t('app', 'Approved At'),
             'user_created' => Yii::t('app', 'User Created'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'user_updated' => Yii::t('app', 'User Updated'),
             'membership_type_id' => Yii::t('app', 'Membership Type ID'),
             'application_business_id' => Yii::t('app', 'Application Business ID'),
-
-            'membershipType.name' => Yii::t('app', 'Membership Type'),
         ];
     }
 
@@ -179,9 +178,9 @@ class Business extends \sybase\SybaseModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getBusinessContract()
+    public function getBusinessContactPeople()
     {
-        return $this->hasOne(BusinessContract::className(), ['business_id' => 'id']);
+        return $this->hasMany(BusinessContactPerson::className(), ['business_id' => 'id']);
     }
 
     /**
@@ -278,6 +277,14 @@ class Business extends \sybase\SybaseModel
     public function getUserPosts()
     {
         return $this->hasMany(UserPost::className(), ['business_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserPostMains()
+    {
+        return $this->hasMany(UserPostMain::className(), ['business_id' => 'id']);
     }
 
     /**
