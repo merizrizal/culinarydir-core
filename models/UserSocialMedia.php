@@ -3,6 +3,8 @@
 namespace core\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "user_social_media".
@@ -23,6 +25,21 @@ class UserSocialMedia extends \sybase\SybaseModel
     public static function tableName()
     {
         return 'user_social_media';
+    }
+
+    public function behaviors() {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_at',
+                ],
+                'value' => function($event) {
+                    return date('Y-m-d H:i:s');
+                },
+            ],
+        ];
     }
 
     /**

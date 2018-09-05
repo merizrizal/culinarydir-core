@@ -32,6 +32,7 @@ use yii\web\IdentityInterface;
  * @property UserPostComment[] $userPostComments
  * @property UserPostLove[] $userPostLoves
  * @property UserReport[] $userReports
+ * @property UserSocialMedia $userSocialMedia
  * @property UserVisit[] $userVisits
  */
 class User extends \sybase\SybaseModel implements IdentityInterface
@@ -182,6 +183,14 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     public function getUserReports()
     {
         return $this->hasMany(UserReport::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserSocialMedia()
+    {
+        return $this->hasOne(UserSocialMedia::className(), ['user_id' => 'id']);
     }
 
     /**
