@@ -43,7 +43,7 @@ use Yii;
  * @property BusinessProduct[] $businessProducts
  * @property BusinessProductCategory[] $businessProductCategories
  * @property BusinessPromo[] $businessPromos
- * @property RegistryBusinessApprovalLog[] $registryBusinessApprovalLogs
+ * @property ContractMembership[] $contractMemberships
  * @property UserLove[] $userLoves
  * @property UserPost[] $userPosts
  * @property UserPostMain[] $userPostMains
@@ -75,6 +75,7 @@ class Business extends \sybase\SybaseModel
             [['name', 'email'], 'string', 'max' => 48],
             [['unique_name'], 'string', 'max' => 45],
             [['phone1', 'phone2', 'phone3'], 'string', 'max' => 16],
+            [['application_business_id'], 'unique'],
             [['unique_name'], 'unique'],
             [['application_business_id'], 'exist', 'skipOnError' => true, 'targetClass' => ApplicationBusiness::className(), 'targetAttribute' => ['application_business_id' => 'id']],
             [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['parent_id' => 'id']],
@@ -102,7 +103,7 @@ class Business extends \sybase\SybaseModel
             'phone3' => Yii::t('app', 'Phone3'),
             'user_in_charge' => Yii::t('app', 'User In Charge'),
             'is_active' => Yii::t('app', 'Is Active'),
-            'created_at' => Yii::t('app', 'Approved At'),
+            'created_at' => Yii::t('app', 'Created At'),
             'user_created' => Yii::t('app', 'User Created'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'user_updated' => Yii::t('app', 'User Updated'),
@@ -258,9 +259,9 @@ class Business extends \sybase\SybaseModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRegistryBusinessApprovalLogs()
+    public function getContractMemberships()
     {
-        return $this->hasMany(RegistryBusinessApprovalLog::className(), ['business_id' => 'id']);
+        return $this->hasMany(ContractMembership::className(), ['business_id' => 'id']);
     }
 
     /**

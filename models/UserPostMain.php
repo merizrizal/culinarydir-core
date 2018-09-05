@@ -5,39 +5,42 @@ namespace core\models;
 use Yii;
 
 /**
- * This is the model class for table "user_post".
+ * This is the model class for table "user_post_main".
  *
  * @property int $id
  * @property int $parent_id
+ * @property string $unique_id
  * @property int $business_id
- * @property string $type
  * @property int $user_id
+ * @property string $type
  * @property string $text
- * @property bool $is_publish
  * @property string $image
+ * @property bool $is_publish
+ * @property int $love_value
  * @property string $created_at
  * @property int $user_created
  * @property string $updated_at
  * @property int $user_updated
- * @property int $love_value
- * @property int $user_post_main_id
  *
+ * @property UserPost[] $userPosts
+ * @property UserPostComment[] $userPostComments
+ * @property UserPostLove[] $userPostLoves
  * @property Business $business
  * @property User $user
  * @property User $userCreated
  * @property User $userUpdated
- * @property UserPost $parent
- * @property UserPost[] $userPosts
- * @property UserPostMain $userPostMain
+ * @property UserPostMain $parent
+ * @property UserPostMain[] $userPostMains
+ * @property UserVote[] $userVotes
  */
-class UserPost extends \sybase\SybaseModel
+class UserPostMain extends \sybase\SybaseModel
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'user_post';
+        return 'user_post_main';
     }
 
     /**
@@ -46,18 +49,19 @@ class UserPost extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['parent_id', 'business_id', 'user_id', 'user_created', 'user_updated', 'love_value', 'user_post_main_id'], 'default', 'value' => null],
-            [['parent_id', 'business_id', 'user_id', 'user_created', 'user_updated', 'love_value', 'user_post_main_id'], 'integer'],
-            [['business_id', 'type', 'user_id'], 'required'],
+            [['parent_id', 'business_id', 'user_id', 'love_value', 'user_created', 'user_updated'], 'default', 'value' => null],
+            [['parent_id', 'business_id', 'user_id', 'love_value', 'user_created', 'user_updated'], 'integer'],
+            [['unique_id', 'business_id', 'user_id', 'type'], 'required'],
             [['type', 'text', 'image'], 'string'],
             [['is_publish'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
+            [['unique_id'], 'string', 'max' => 35],
+            [['unique_id'], 'unique'],
             [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
-            [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserPost::className(), 'targetAttribute' => ['parent_id' => 'id']],
-            [['user_post_main_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserPostMain::className(), 'targetAttribute' => ['user_post_main_id' => 'id']],
+            [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserPostMain::className(), 'targetAttribute' => ['parent_id' => 'id']],
         ];
     }
 
@@ -69,19 +73,43 @@ class UserPost extends \sybase\SybaseModel
         return [
             'id' => Yii::t('app', 'ID'),
             'parent_id' => Yii::t('app', 'Parent ID'),
+            'unique_id' => Yii::t('app', 'Unique ID'),
             'business_id' => Yii::t('app', 'Business ID'),
-            'type' => Yii::t('app', 'Type'),
             'user_id' => Yii::t('app', 'User ID'),
+            'type' => Yii::t('app', 'Type'),
             'text' => Yii::t('app', 'Text'),
-            'is_publish' => Yii::t('app', 'Is Publish'),
             'image' => Yii::t('app', 'Image'),
+            'is_publish' => Yii::t('app', 'Is Publish'),
+            'love_value' => Yii::t('app', 'Love Value'),
             'created_at' => Yii::t('app', 'Created At'),
             'user_created' => Yii::t('app', 'User Created'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'user_updated' => Yii::t('app', 'User Updated'),
-            'love_value' => Yii::t('app', 'Love Value'),
-            'user_post_main_id' => Yii::t('app', 'User Post Main ID'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserPosts()
+    {
+        return $this->hasMany(UserPost::className(), ['user_post_main_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserPostComments()
+    {
+        return $this->hasMany(UserPostComment::className(), ['user_post_main_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserPostLoves()
+    {
+        return $this->hasMany(UserPostLove::className(), ['user_post_main_id' => 'id']);
     }
 
     /**
@@ -121,22 +149,22 @@ class UserPost extends \sybase\SybaseModel
      */
     public function getParent()
     {
-        return $this->hasOne(UserPost::className(), ['id' => 'parent_id']);
+        return $this->hasOne(UserPostMain::className(), ['id' => 'parent_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserPosts()
+    public function getUserPostMains()
     {
-        return $this->hasMany(UserPost::className(), ['parent_id' => 'id']);
+        return $this->hasMany(UserPostMain::className(), ['parent_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserPostMain()
+    public function getUserVotes()
     {
-        return $this->hasOne(UserPostMain::className(), ['id' => 'user_post_main_id']);
+        return $this->hasMany(UserVote::className(), ['user_post_main_id' => 'id']);
     }
 }

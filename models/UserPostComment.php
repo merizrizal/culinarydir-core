@@ -7,19 +7,19 @@ use Yii;
 /**
  * This is the model class for table "user_post_comment".
  *
- * @property string $id
- * @property string $user_post_id
- * @property string $user_id
+ * @property int $id
+ * @property int $user_post_main_id
+ * @property int $user_id
  * @property string $text
  * @property string $created_at
- * @property string $user_created
+ * @property int $user_created
  * @property string $updated_at
- * @property string $user_updated
+ * @property int $user_updated
  *
  * @property User $user
  * @property User $userCreated
  * @property User $userUpdated
- * @property UserPost $userPost
+ * @property UserPostMain $userPostMain
  */
 class UserPostComment extends \sybase\SybaseModel
 {
@@ -37,15 +37,15 @@ class UserPostComment extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['user_post_id', 'user_id', 'text'], 'required'],
-            [['user_post_id', 'user_id', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['user_post_id', 'user_id', 'user_created', 'user_updated'], 'integer'],
+            [['user_post_main_id', 'user_id', 'text'], 'required'],
+            [['user_post_main_id', 'user_id', 'user_created', 'user_updated'], 'default', 'value' => null],
+            [['user_post_main_id', 'user_id', 'user_created', 'user_updated'], 'integer'],
             [['text'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
-            [['user_post_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserPost::className(), 'targetAttribute' => ['user_post_id' => 'id']],
+            [['user_post_main_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserPostMain::className(), 'targetAttribute' => ['user_post_main_id' => 'id']],
         ];
     }
 
@@ -56,7 +56,7 @@ class UserPostComment extends \sybase\SybaseModel
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'user_post_id' => Yii::t('app', 'User Post ID'),
+            'user_post_main_id' => Yii::t('app', 'User Post Main ID'),
             'user_id' => Yii::t('app', 'User ID'),
             'text' => Yii::t('app', 'Text'),
             'created_at' => Yii::t('app', 'Created At'),
@@ -93,8 +93,8 @@ class UserPostComment extends \sybase\SybaseModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserPost()
+    public function getUserPostMain()
     {
-        return $this->hasOne(UserPost::className(), ['id' => 'user_post_id']);
+        return $this->hasOne(UserPostMain::className(), ['id' => 'user_post_main_id']);
     }
 }

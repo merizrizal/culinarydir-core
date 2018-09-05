@@ -14,12 +14,12 @@ use Yii;
  * @property string $updated_at
  * @property int $user_updated
  * @property int $rating_component_id
- * @property int $user_post_id
+ * @property int $user_post_main_id
  *
  * @property RatingComponent $ratingComponent
  * @property User $userCreated
  * @property User $userUpdated
- * @property UserPost $userPost
+ * @property UserPostMain $userPostMain
  */
 class UserVote extends \sybase\SybaseModel
 {
@@ -37,14 +37,14 @@ class UserVote extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['vote_value', 'user_created', 'user_updated', 'rating_component_id', 'user_post_id'], 'default', 'value' => null],
-            [['vote_value', 'user_created', 'user_updated', 'rating_component_id', 'user_post_id'], 'integer'],
+            [['vote_value', 'rating_component_id', 'user_post_main_id'], 'required'],
+            [['vote_value', 'user_created', 'user_updated', 'rating_component_id', 'user_post_main_id'], 'default', 'value' => null],
+            [['vote_value', 'user_created', 'user_updated', 'rating_component_id', 'user_post_main_id'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['rating_component_id', 'user_post_id'], 'required'],
             [['rating_component_id'], 'exist', 'skipOnError' => true, 'targetClass' => RatingComponent::className(), 'targetAttribute' => ['rating_component_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
-            [['user_post_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserPost::className(), 'targetAttribute' => ['user_post_id' => 'id']],
+            [['user_post_main_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserPostMain::className(), 'targetAttribute' => ['user_post_main_id' => 'id']],
         ];
     }
 
@@ -61,7 +61,7 @@ class UserVote extends \sybase\SybaseModel
             'updated_at' => Yii::t('app', 'Updated At'),
             'user_updated' => Yii::t('app', 'User Updated'),
             'rating_component_id' => Yii::t('app', 'Rating Component ID'),
-            'user_post_id' => Yii::t('app', 'User Post ID'),
+            'user_post_main_id' => Yii::t('app', 'User Post Main ID'),
         ];
     }
 
@@ -92,8 +92,8 @@ class UserVote extends \sybase\SybaseModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserPost()
+    public function getUserPostMain()
     {
-        return $this->hasOne(UserPost::className(), ['id' => 'user_post_id']);
+        return $this->hasOne(UserPostMain::className(), ['id' => 'user_post_main_id']);
     }
 }

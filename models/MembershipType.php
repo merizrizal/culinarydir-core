@@ -22,11 +22,11 @@ use Yii;
  * @property int $user_updated
  *
  * @property Business[] $businesses
+ * @property ContractMembership[] $contractMemberships
  * @property User $userCreated
  * @property User $userUpdated
  * @property MembershipTypeProductService[] $membershipTypeProductServices
  * @property RegistryBusiness[] $registryBusinesses
- * @property RegistryBusinessApprovalLog[] $registryBusinessApprovalLogs
  */
 class MembershipType extends \sybase\SybaseModel
 {
@@ -89,6 +89,14 @@ class MembershipType extends \sybase\SybaseModel
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getContractMemberships()
+    {
+        return $this->hasMany(ContractMembership::className(), ['membership_type_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getUserCreated()
     {
         return $this->hasOne(User::className(), ['id' => 'user_created']);
@@ -116,13 +124,5 @@ class MembershipType extends \sybase\SybaseModel
     public function getRegistryBusinesses()
     {
         return $this->hasMany(RegistryBusiness::className(), ['membership_type_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRegistryBusinessApprovalLogs()
-    {
-        return $this->hasMany(RegistryBusinessApprovalLog::className(), ['membership_type_id' => 'id']);
     }
 }

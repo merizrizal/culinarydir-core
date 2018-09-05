@@ -32,6 +32,7 @@ use Yii;
  * @property int $price_max
  * @property int $application_business_counter
  *
+ * @property ContractMembership $contractMembership
  * @property ApplicationBusiness $applicationBusiness
  * @property City $city
  * @property District $district
@@ -40,7 +41,6 @@ use Yii;
  * @property User $userCreated
  * @property User $userUpdated
  * @property Village $village
- * @property RegistryBusinessApprovalLog $registryBusinessApprovalLog
  * @property RegistryBusinessCategory[] $registryBusinessCategories
  * @property RegistryBusinessContactPerson[] $registryBusinessContactPeople
  * @property RegistryBusinessFacility[] $registryBusinessFacilities
@@ -136,6 +136,14 @@ class RegistryBusiness extends \sybase\SybaseModel
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getContractMembership()
+    {
+        return $this->hasOne(ContractMembership::className(), ['registry_business_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getApplicationBusiness()
     {
         return $this->hasOne(ApplicationBusiness::className(), ['id' => 'application_business_id']);
@@ -195,14 +203,6 @@ class RegistryBusiness extends \sybase\SybaseModel
     public function getVillage()
     {
         return $this->hasOne(Village::className(), ['id' => 'village_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRegistryBusinessApprovalLog()
-    {
-        return $this->hasOne(RegistryBusinessApprovalLog::className(), ['registry_business_id' => 'id']);
     }
 
     /**
