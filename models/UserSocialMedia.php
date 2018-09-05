@@ -1,0 +1,65 @@
+<?php
+
+namespace core\models;
+
+use Yii;
+
+/**
+ * This is the model class for table "user_social_media".
+ *
+ * @property int $user_id
+ * @property string $facebook_id
+ * @property string $google_id
+ * @property string $created_at
+ * @property string $updated_at
+ *
+ * @property User $user
+ */
+class UserSocialMedia extends \sybase\SybaseModel
+{
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'user_social_media';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['user_id'], 'required'],
+            [['user_id'], 'default', 'value' => null],
+            [['user_id'], 'integer'],
+            [['created_at', 'updated_at'], 'safe'],
+            [['facebook_id', 'google_id'], 'string', 'max' => 64],
+            [['user_id'], 'unique'],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'user_id' => Yii::t('app', 'User ID'),
+            'facebook_id' => Yii::t('app', 'Facebook ID'),
+            'google_id' => Yii::t('app', 'Google ID'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
+        ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+}
