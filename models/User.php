@@ -21,6 +21,7 @@ use yii\web\IdentityInterface;
  * @property bool $not_active
  * @property string $created_at
  * @property string $updated_at
+ * @property string $password_reset_token
  *
  * @property ApplicationBusiness[] $applicationBusinesses
  * @property Business[] $businesses
@@ -75,7 +76,7 @@ class User extends \sybase\SybaseModel implements IdentityInterface
             [['image'], 'string'],
             [['not_active'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
-            [['email', 'username', 'password'], 'string', 'max' => 64],
+            [['email', 'username', 'password', 'password_reset_token'], 'string', 'max' => 64],
             [['full_name'], 'string', 'max' => 32],
             [['email'], 'unique'],
             [['username'], 'unique'],
@@ -102,6 +103,7 @@ class User extends \sybase\SybaseModel implements IdentityInterface
             'not_active' => Yii::t('app', 'Not Active'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
+            'password_reset_token' => Yii::t('app', 'Password Reset Token'),
         ];
     }
 
@@ -257,7 +259,7 @@ class User extends \sybase\SybaseModel implements IdentityInterface
 
         return static::findOne([
             'password_reset_token' => $token,
-            'status' => self::STATUS_ACTIVE,
+            'not_active' => false,
         ]);
     }
 
@@ -350,7 +352,7 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     public function business()
     {
     	return array(
-    		'user' => array(self::BELONGS_TO, 'Business', 'user_in_charge')
+            'user' => array(self::BELONGS_TO, 'Business', 'user_in_charge')
     	);
     }
 }
