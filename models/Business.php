@@ -77,6 +77,7 @@ class Business extends \sybase\SybaseModel
             [['phone1', 'phone2', 'phone3'], 'string', 'max' => 16],
             [['application_business_id'], 'unique'],
             [['unique_name'], 'unique'],
+            [['email'], 'email'],
             [['application_business_id'], 'exist', 'skipOnError' => true, 'targetClass' => ApplicationBusiness::className(), 'targetAttribute' => ['application_business_id' => 'id']],
             [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['parent_id' => 'id']],
             [['membership_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => MembershipType::className(), 'targetAttribute' => ['membership_type_id' => 'id']],
@@ -109,6 +110,8 @@ class Business extends \sybase\SybaseModel
             'user_updated' => Yii::t('app', 'User Updated'),
             'membership_type_id' => Yii::t('app', 'Membership Type ID'),
             'application_business_id' => Yii::t('app', 'Application Business ID'),
+
+            'membershipType.name' => Yii::t('app', 'Membership Type'),
         ];
     }
 
