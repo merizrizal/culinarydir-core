@@ -51,6 +51,7 @@ class BusinessSearch extends Business
     public function search($params)
     {
         $query = Business::find()
+                ->select('business.*, membership_type.name')
                 ->joinWith([
                     'membershipType',
                     'userInCharge',

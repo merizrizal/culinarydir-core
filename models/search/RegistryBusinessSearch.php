@@ -51,6 +51,7 @@ class RegistryBusinessSearch extends RegistryBusiness
     public function search($params)
     {
         $query = RegistryBusiness::find()
+            ->select('registry_business.*, membership_type.name')
             ->joinWith([
                 'membershipType',
                 'userInCharge',
