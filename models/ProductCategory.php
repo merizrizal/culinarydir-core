@@ -16,9 +16,7 @@ use Yii;
  * @property string $updated_at
  * @property int $user_updated
  *
- * @property BusinessProduct[] $businessProducts
  * @property BusinessProductCategory[] $businessProductCategories
- * @property Product[] $products
  * @property User $userCreated
  * @property User $userUpdated
  * @property RegistryBusinessProductCategory[] $registryBusinessProductCategories
@@ -70,25 +68,9 @@ class ProductCategory extends \sybase\SybaseModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getBusinessProducts()
-    {
-        return $this->hasMany(BusinessProduct::className(), ['product_category_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getBusinessProductCategories()
     {
         return $this->hasMany(BusinessProductCategory::className(), ['product_category_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProducts()
-    {
-        return $this->hasMany(Product::className(), ['product_category_id' => 'id']);
     }
 
     /**
