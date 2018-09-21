@@ -277,8 +277,9 @@ class User extends \sybase\SybaseModel implements IdentityInterface
             return false;
         }
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
-        $parts = explode('_', $token);
-        $timestamp = (int) end($parts);
+        $parts = substr($token, 32);
+        $timeToken = explode('askrst', $parts);
+        $timestamp = (int) end($timeToken);
         return $timestamp + $expire >= time();
     }
 
@@ -340,7 +341,7 @@ class User extends \sybase\SybaseModel implements IdentityInterface
      */
     public function generatePasswordResetToken()
     {
-        $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
+        $this->password_reset_token = Yii::$app->security->generateRandomString() . $this->id . 'askrst' . time();
     }
 
     /**
