@@ -351,11 +351,4 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
-
-    public function business()
-    {
-    	return array(
-            'user' => array(self::BELONGS_TO, 'Business', 'user_in_charge')
-    	);
-    }
 }
