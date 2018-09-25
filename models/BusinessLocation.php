@@ -80,6 +80,15 @@ class BusinessLocation extends \sybase\SybaseModel
         ];
     }
 
+    public function setCoordinate() {
+
+        if (!empty($this->coordinate)) {
+
+            $coordinate = explode(',', $this->coordinate);
+            $this->coordinate = trim($coordinate[0]) . ',' . trim($coordinate[1]);
+        }
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
