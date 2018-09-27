@@ -10,11 +10,12 @@ use Yii;
  * @property int $id
  * @property int $business_id
  * @property int $rating_component_id
- * @property int $vote_value
+ * @property double $vote_value
  * @property string $created_at
  * @property int $user_created
  * @property string $updated_at
  * @property int $user_updated
+ * @property int $total_vote_points
  *
  * @property Business $business
  * @property RatingComponent $ratingComponent
@@ -37,9 +38,10 @@ class BusinessDetailVote extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['business_id', 'rating_component_id'], 'required'],
-            [['business_id', 'rating_component_id', 'vote_value', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['business_id', 'rating_component_id', 'vote_value', 'user_created', 'user_updated'], 'integer'],
+            [['business_id', 'rating_component_id', 'vote_value'], 'required'],
+            [['business_id', 'rating_component_id', 'user_created', 'user_updated', 'total_vote_points'], 'default', 'value' => null],
+            [['business_id', 'rating_component_id', 'user_created', 'user_updated', 'total_vote_points'], 'integer'],
+            [['vote_value'], 'number'],
             [['created_at', 'updated_at'], 'safe'],
             [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],
             [['rating_component_id'], 'exist', 'skipOnError' => true, 'targetClass' => RatingComponent::className(), 'targetAttribute' => ['rating_component_id' => 'id']],
@@ -62,6 +64,7 @@ class BusinessDetailVote extends \sybase\SybaseModel
             'user_created' => Yii::t('app', 'User Created'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'user_updated' => Yii::t('app', 'User Updated'),
+            'total_vote_points' => Yii::t('app', 'Total Vote Points'),
         ];
     }
 

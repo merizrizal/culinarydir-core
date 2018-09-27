@@ -19,6 +19,7 @@ use Yii;
  * @property int $user_updated
  * @property int $love_value
  * @property int $visit_value
+ * @property int $total_vote_points
  *
  * @property Business $business
  * @property User $userCreated
@@ -41,8 +42,8 @@ class BusinessDetail extends \sybase\SybaseModel
     {
         return [
             [['business_id'], 'required'],
-            [['business_id', 'price_min', 'price_max', 'voters', 'user_created', 'user_updated', 'love_value', 'visit_value'], 'default', 'value' => null],
-            [['business_id', 'price_min', 'price_max', 'voters', 'user_created', 'user_updated', 'love_value', 'visit_value'], 'integer'],
+            [['business_id', 'price_min', 'price_max', 'voters', 'user_created', 'user_updated', 'love_value', 'visit_value', 'total_vote_points'], 'default', 'value' => null],
+            [['business_id', 'price_min', 'price_max', 'voters', 'user_created', 'user_updated', 'love_value', 'visit_value', 'total_vote_points'], 'integer'],
             [['vote_value', 'vote_points'], 'number'],
             [['created_at', 'updated_at'], 'safe'],
             [['business_id'], 'unique'],
@@ -70,6 +71,7 @@ class BusinessDetail extends \sybase\SybaseModel
             'user_updated' => Yii::t('app', 'User Updated'),
             'love_value' => Yii::t('app', 'Love Value'),
             'visit_value' => Yii::t('app', 'Visit Value'),
+            'total_vote_points' => Yii::t('app', 'Total Vote Points'),
         ];
     }
 
