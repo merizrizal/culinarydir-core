@@ -20,6 +20,7 @@ use Yii;
  * @property string $updated_at
  * @property int $user_updated
  *
+ * @property BusinessContactPerson[] $businessContactPeople
  * @property City $city
  * @property User $userCreated
  * @property User $userUpdated
@@ -42,7 +43,7 @@ class Person extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['first_name', 'last_name', 'email', 'phone'], 'required'],
+            [['first_name'], 'required'],
             [['city_id', 'user_created', 'user_updated'], 'default', 'value' => null],
             [['city_id', 'user_created', 'user_updated'], 'integer'],
             [['address', 'about_me'], 'string'],
@@ -76,6 +77,14 @@ class Person extends \sybase\SybaseModel
             'updated_at' => Yii::t('app', 'Updated At'),
             'user_updated' => Yii::t('app', 'User Updated'),
         ];
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBusinessContactPeople()
+    {
+        return $this->hasMany(BusinessContactPerson::className(), ['person_id' => 'id']);
     }
 
     /**
