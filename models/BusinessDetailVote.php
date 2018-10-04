@@ -38,7 +38,7 @@ class BusinessDetailVote extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['business_id', 'rating_component_id', 'vote_value'], 'required'],
+            [['business_id', 'rating_component_id'], 'required'],
             [['business_id', 'rating_component_id', 'user_created', 'user_updated', 'total_vote_points'], 'default', 'value' => null],
             [['business_id', 'rating_component_id', 'user_created', 'user_updated', 'total_vote_points'], 'integer'],
             [['vote_value'], 'number'],
