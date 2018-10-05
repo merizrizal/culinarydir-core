@@ -15,6 +15,7 @@ use Yii;
  * @property int $user_created
  * @property string $updated_at
  * @property int $user_updated
+ * @property string $unique_id
  *
  * @property Business $business
  * @property User $user
@@ -37,11 +38,13 @@ class UserLove extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['user_id', 'business_id'], 'required'],
+            [['user_id', 'business_id', 'unique_id'], 'required'],
             [['user_id', 'business_id', 'user_created', 'user_updated'], 'default', 'value' => null],
             [['user_id', 'business_id', 'user_created', 'user_updated'], 'integer'],
             [['is_active'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
+            [['unique_id'], 'string', 'max' => 39],
+            [['unique_id'], 'unique'],
             [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
@@ -63,6 +66,7 @@ class UserLove extends \sybase\SybaseModel
             'user_created' => Yii::t('app', 'User Created'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'user_updated' => Yii::t('app', 'User Updated'),
+            'unique_id' => Yii::t('app', 'Unique ID'),
         ];
     }
 
