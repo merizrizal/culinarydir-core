@@ -24,6 +24,7 @@ use Yii;
  * @property int $user_updated
  * @property int $membership_type_id
  * @property int $application_business_id
+ * @property string $note
  *
  * @property ApplicationBusiness $applicationBusiness
  * @property Business $parent
@@ -69,7 +70,7 @@ class Business extends \sybase\SybaseModel
             [['parent_id', 'user_in_charge', 'user_created', 'user_updated', 'membership_type_id', 'application_business_id'], 'default', 'value' => null],
             [['parent_id', 'user_in_charge', 'user_created', 'user_updated', 'membership_type_id', 'application_business_id'], 'integer'],
             [['name', 'unique_name', 'membership_type_id', 'application_business_id'], 'required'],
-            [['about'], 'string'],
+            [['about', 'note'], 'string'],
             [['is_active'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
             [['name', 'email'], 'string', 'max' => 48],
@@ -110,6 +111,7 @@ class Business extends \sybase\SybaseModel
             'user_updated' => Yii::t('app', 'User Updated'),
             'membership_type_id' => Yii::t('app', 'Membership Type ID'),
             'application_business_id' => Yii::t('app', 'Application Business ID'),
+            'note' => Yii::t('app', 'Note'),
 
             'membershipType.name' => Yii::t('app', 'Membership Type'),
         ];
