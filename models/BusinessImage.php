@@ -18,6 +18,7 @@ use Yii;
  * @property int $user_created
  * @property string $updated_at
  * @property int $user_updated
+ * @property string $category
  *
  * @property Business $business
  * @property User $userCreated
@@ -52,7 +53,7 @@ class BusinessImage extends \sybase\SybaseModel
             [['business_id', 'type'], 'required'],
             [['business_id', 'user_created', 'user_updated'], 'default', 'value' => null],
             [['business_id', 'user_created', 'user_updated'], 'integer'],
-            [['image', 'caption', 'type'], 'string'],
+            [['image', 'caption', 'type', 'category'], 'string'],
             [['is_primary'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
             [['title'], 'string', 'max' => 128],
@@ -81,6 +82,7 @@ class BusinessImage extends \sybase\SybaseModel
             'user_created' => Yii::t('app', 'User Created'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'user_updated' => Yii::t('app', 'User Updated'),
+            'category' => Yii::t('app', 'Category'),
         ];
     }
 
