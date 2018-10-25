@@ -16,6 +16,7 @@ use Yii;
  * @property string $updated_at
  * @property int $user_updated
  * @property string $note
+ * @property string $position
  *
  * @property Business $business
  * @property Person $person
@@ -43,7 +44,7 @@ class BusinessContactPerson extends \sybase\SybaseModel
             [['business_id', 'person_id', 'user_created', 'user_updated'], 'integer'],
             [['is_primary_contact'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
-            [['note'], 'string'],
+            [['note', 'position'], 'string'],
             [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],
             [['person_id'], 'exist', 'skipOnError' => true, 'targetClass' => Person::className(), 'targetAttribute' => ['person_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
@@ -66,6 +67,7 @@ class BusinessContactPerson extends \sybase\SybaseModel
             'updated_at' => Yii::t('app', 'Updated At'),
             'user_updated' => Yii::t('app', 'User Updated'),
             'note' => Yii::t('app', 'Note'),
+            'position' => Yii::t('app', 'Position'),
         ];
     }
 
