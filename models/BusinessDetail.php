@@ -20,6 +20,7 @@ use Yii;
  * @property int $love_value
  * @property int $visit_value
  * @property int $total_vote_points
+ * @property string $note_business_hour
  *
  * @property Business $business
  * @property User $userCreated
@@ -46,6 +47,7 @@ class BusinessDetail extends \sybase\SybaseModel
             [['business_id', 'price_min', 'price_max', 'voters', 'user_created', 'user_updated', 'love_value', 'visit_value', 'total_vote_points'], 'integer'],
             [['vote_value', 'vote_points'], 'number'],
             [['created_at', 'updated_at'], 'safe'],
+            [['note_business_hour'], 'string'],
             [['business_id'], 'unique'],
             [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
@@ -72,6 +74,7 @@ class BusinessDetail extends \sybase\SybaseModel
             'love_value' => Yii::t('app', 'Love Value'),
             'visit_value' => Yii::t('app', 'Visit Value'),
             'total_vote_points' => Yii::t('app', 'Total Vote Points'),
+            'note_business_hour' => Yii::t('app', 'Note Business Hour'),
         ];
     }
 
