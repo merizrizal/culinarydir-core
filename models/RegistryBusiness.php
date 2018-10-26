@@ -32,11 +32,8 @@ use Yii;
  * @property int $price_max
  * @property int $application_business_counter
  * @property string $note
-<<<<<<< HEAD
- * @property string $about
-=======
  * @property string $note_business_hour
->>>>>>> ec5cdfdc8b3d5758afaff8f19112f4c59a09391a
+ * @property string $about
  *
  * @property ContractMembership $contractMembership
  * @property ApplicationBusiness $applicationBusiness
