@@ -32,6 +32,7 @@ use Yii;
  * @property int $price_max
  * @property int $application_business_counter
  * @property string $note
+ * @property string $about
  *
  * @property ContractMembership $contractMembership
  * @property ApplicationBusiness $applicationBusiness
@@ -65,7 +66,7 @@ class RegistryBusiness extends \sybase\SybaseModel
         $scenarios[self::SCENARIO_CREATE] = [
             'membership_type_id', 'name', 'unique_name', 'email', 'phone1', 'phone2', 'phone3', 'address_type', 'address', 'address_info',
             'city_id', 'district_id', 'village_id', 'coordinate', 'status', 'user_in_charge', 'created_at', 'user_created', 'updated_at', 'user_updated',
-            'price_min', 'price_max', 'application_business_id', 'note'
+            'price_min', 'price_max', 'application_business_id', 'note', 'about'
         ];
 
         return $scenarios;
@@ -80,7 +81,7 @@ class RegistryBusiness extends \sybase\SybaseModel
             [['membership_type_id', 'name', 'unique_name', 'address_type', 'address', 'city_id', 'district_id', 'village_id', 'coordinate', 'application_business_id'], 'required'],
             [['membership_type_id', 'city_id', 'district_id', 'village_id', 'application_business_id', 'user_in_charge', 'user_created', 'user_updated', 'price_min', 'price_max', 'application_business_counter'], 'default', 'value' => null],
             [['membership_type_id', 'city_id', 'district_id', 'village_id', 'application_business_id', 'user_in_charge', 'user_created', 'user_updated', 'price_min', 'price_max', 'application_business_counter'], 'integer'],
-            [['address_type', 'address', 'address_info', 'note'], 'string'],
+            [['address_type', 'address', 'address_info', 'note', 'about'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['name', 'email'], 'string', 'max' => 48],
             [['unique_name', 'coordinate'], 'string', 'max' => 64],
@@ -129,6 +130,7 @@ class RegistryBusiness extends \sybase\SybaseModel
             'price_max' => Yii::t('app', 'Price Max'),
             'application_business_counter' => Yii::t('app', 'Application Business Counter'),
             'note' => Yii::t('app', 'Note'),
+            'about' => Yii::t('app', 'About'),
 
             'membershipType.name' => Yii::t('app', 'Membership Type'),
             'userInCharge.full_name' => Yii::t('app', 'Marketing'),
