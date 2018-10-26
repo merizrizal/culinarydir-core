@@ -87,7 +87,7 @@ class BusinessSearch extends Business
             'business.user_in_charge' => $this->user_in_charge,
             '(business.created_at + interval \'7 hour\')::date' => $this->created_at,
             'business.user_created' => $this->user_created,
-            '(business.updated_at + interval \'7 hour\')::date' => $this->created_at,
+            '(business.updated_at + interval \'7 hour\')::date' => $this->updated_at,
             'business.user_updated' => $this->user_updated,
             'business_location.district_id' => $this->getAttribute('businessLocation.district_id'),
             'business_location.village_id' => $this->getAttribute('businessLocation.village_id'),
