@@ -22,6 +22,7 @@ use Yii;
  * @property Business $business
  * @property User $userCreated
  * @property User $userUpdated
+ * @property BusinessHourAdditional[] $businessHourAdditionals
  */
 class BusinessHour extends \sybase\SybaseModel
 {
@@ -95,5 +96,13 @@ class BusinessHour extends \sybase\SybaseModel
     public function getUserUpdated()
     {
         return $this->hasOne(User::className(), ['id' => 'user_updated']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBusinessHourAdditionals()
+    {
+        return $this->hasMany(BusinessHourAdditional::className(), ['business_hour_id' => 'id']);
     }
 }
