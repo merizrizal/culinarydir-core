@@ -39,15 +39,14 @@ class RegistryBusinessHourAdditional extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['id', 'unique_id', 'registry_business_hour_id', 'day'], 'required'],
-            [['id', 'registry_business_hour_id', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['id', 'registry_business_hour_id', 'user_created', 'user_updated'], 'integer'],
+            [['unique_id', 'registry_business_hour_id', 'day'], 'required'],
+            [['registry_business_hour_id', 'user_created', 'user_updated'], 'default', 'value' => null],
+            [['registry_business_hour_id', 'user_created', 'user_updated'], 'integer'],
             [['day'], 'string'],
             [['is_open'], 'boolean'],
             [['open_at', 'close_at', 'created_at', 'updated_at'], 'safe'],
             [['unique_id'], 'string', 'max' => 12],
             [['unique_id'], 'unique'],
-            [['id'], 'unique'],
             [['registry_business_hour_id'], 'exist', 'skipOnError' => true, 'targetClass' => RegistryBusinessHour::className(), 'targetAttribute' => ['registry_business_hour_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
@@ -55,7 +54,7 @@ class RegistryBusinessHourAdditional extends \sybase\SybaseModel
     }
 
     /**
-     * inheritdoc
+     * @inheritdoc
      */
     public function attributeLabels()
     {

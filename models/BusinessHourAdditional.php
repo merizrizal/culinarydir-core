@@ -39,15 +39,14 @@ class BusinessHourAdditional extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['id', 'unique_id', 'business_hour_id', 'day'], 'required'],
-            [['id', 'business_hour_id', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['id', 'business_hour_id', 'user_created', 'user_updated'], 'integer'],
+            [['unique_id', 'business_hour_id', 'day'], 'required'],
+            [['business_hour_id', 'user_created', 'user_updated'], 'default', 'value' => null],
+            [['business_hour_id', 'user_created', 'user_updated'], 'integer'],
             [['day'], 'string'],
             [['is_open'], 'boolean'],
             [['open_at', 'close_at', 'created_at', 'updated_at'], 'safe'],
             [['unique_id'], 'string', 'max' => 12],
             [['unique_id'], 'unique'],
-            [['id'], 'unique'],
             [['business_hour_id'], 'exist', 'skipOnError' => true, 'targetClass' => BusinessHour::className(), 'targetAttribute' => ['business_hour_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
