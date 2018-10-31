@@ -5,9 +5,10 @@ namespace core\models;
 use Yii;
 
 /**
- * This is the model class for table "business_hour".
+ * This is the model class for table "business_hour_additional".
  *
  * @property int $id
+ * @property int $business_hour_id
  * @property string $unique_id
  * @property int $business_id
  * @property string $day
@@ -20,18 +21,18 @@ use Yii;
  * @property int $user_updated
  *
  * @property Business $business
+ * @property BusinessHour $businessHour
  * @property User $userCreated
  * @property User $userUpdated
- * @property BusinessHourAdditional[] $businessHourAdditionals
  */
-class BusinessHour extends \sybase\SybaseModel
+class BusinessHourAdditional extends \sybase\SybaseModel
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'business_hour';
+        return 'business_hour_additional';
     }
 
     /**
@@ -40,15 +41,17 @@ class BusinessHour extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['unique_id', 'business_id', 'day'], 'required'],
-            [['business_id', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['business_id', 'user_created', 'user_updated'], 'integer'],
+            [['id', 'business_hour_id', 'unique_id', 'business_id', 'day'], 'required'],
+            [['id', 'business_hour_id', 'business_id', 'user_created', 'user_updated'], 'default', 'value' => null],
+            [['id', 'business_hour_id', 'business_id', 'user_created', 'user_updated'], 'integer'],
             [['day'], 'string'],
             [['is_open'], 'boolean'],
             [['open_at', 'close_at', 'created_at', 'updated_at'], 'safe'],
             [['unique_id'], 'string', 'max' => 12],
             [['unique_id'], 'unique'],
+            [['id'], 'unique'],
             [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],
+            [['business_hour_id'], 'exist', 'skipOnError' => true, 'targetClass' => BusinessHour::className(), 'targetAttribute' => ['business_hour_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
         ];
@@ -61,6 +64,7 @@ class BusinessHour extends \sybase\SybaseModel
     {
         return [
             'id' => Yii::t('app', 'ID'),
+            'business_hour_id' => Yii::t('app', 'Business Hour ID'),
             'unique_id' => Yii::t('app', 'Unique ID'),
             'business_id' => Yii::t('app', 'Business ID'),
             'day' => Yii::t('app', 'Day'),
@@ -85,6 +89,14 @@ class BusinessHour extends \sybase\SybaseModel
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getBusinessHour()
+    {
+        return $this->hasOne(BusinessHour::className(), ['id' => 'business_hour_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getUserCreated()
     {
         return $this->hasOne(User::className(), ['id' => 'user_created']);
@@ -96,13 +108,5 @@ class BusinessHour extends \sybase\SybaseModel
     public function getUserUpdated()
     {
         return $this->hasOne(User::className(), ['id' => 'user_updated']);
-    }
-    
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getBusinessHourAdditionals()
-    {
-        return $this->hasMany(BusinessHourAdditional::className(), ['business_hour_id' => 'id']);
     }
 }

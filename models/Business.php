@@ -39,6 +39,7 @@ use Yii;
  * @property BusinessDetailVote[] $businessDetailVotes
  * @property BusinessFacility[] $businessFacilities
  * @property BusinessHour[] $businessHours
+ * @property BusinessHourAdditional[] $businessHourAdditionals
  * @property BusinessImage[] $businessImages
  * @property BusinessLocation $businessLocation
  * @property BusinessProduct[] $businessProducts
@@ -219,6 +220,14 @@ class Business extends \sybase\SybaseModel
     public function getBusinessHours()
     {
         return $this->hasMany(BusinessHour::className(), ['business_id' => 'id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBusinessHourAdditionals()
+    {
+        return $this->hasMany(BusinessHourAdditional::className(), ['business_id' => 'id']);
     }
 
     /**

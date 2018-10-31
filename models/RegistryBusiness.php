@@ -48,6 +48,7 @@ use Yii;
  * @property RegistryBusinessContactPerson[] $registryBusinessContactPeople
  * @property RegistryBusinessFacility[] $registryBusinessFacilities
  * @property RegistryBusinessHour[] $registryBusinessHours
+ * @property RegistryBusinessHourAdditional[] $registryBusinessHourAdditionals
  * @property RegistryBusinessImage[] $registryBusinessImages
  * @property RegistryBusinessProductCategory[] $registryBusinessProductCategories
  */
@@ -249,6 +250,14 @@ class RegistryBusiness extends \sybase\SybaseModel
     public function getRegistryBusinessHours()
     {
         return $this->hasMany(RegistryBusinessHour::className(), ['registry_business_id' => 'id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRegistryBusinessHourAdditionals()
+    {
+        return $this->hasMany(RegistryBusinessHourAdditional::className(), ['registry_business_id' => 'id']);
     }
 
     /**

@@ -5,11 +5,12 @@ namespace core\models;
 use Yii;
 
 /**
- * This is the model class for table "business_hour".
+ * This is the model class for table "registry_business_hour_additional".
  *
  * @property int $id
+ * @property int $registry_business_hour_id
  * @property string $unique_id
- * @property int $business_id
+ * @property int $registry_business_id
  * @property string $day
  * @property bool $is_open
  * @property string $open_at
@@ -19,19 +20,19 @@ use Yii;
  * @property string $updated_at
  * @property int $user_updated
  *
- * @property Business $business
+ * @property RegistryBusiness $registryBusiness
+ * @property RegistryBusinessHour $registryBusinessHour
  * @property User $userCreated
  * @property User $userUpdated
- * @property BusinessHourAdditional[] $businessHourAdditionals
  */
-class BusinessHour extends \sybase\SybaseModel
+class RegistryBusinessHourAdditional extends \sybase\SybaseModel
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'business_hour';
+        return 'registry_business_hour_additional';
     }
 
     /**
@@ -40,29 +41,32 @@ class BusinessHour extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['unique_id', 'business_id', 'day'], 'required'],
-            [['business_id', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['business_id', 'user_created', 'user_updated'], 'integer'],
+            [['id', 'registry_business_hour_id', 'unique_id', 'registry_business_id', 'day'], 'required'],
+            [['id', 'registry_business_hour_id', 'registry_business_id', 'user_created', 'user_updated'], 'default', 'value' => null],
+            [['id', 'registry_business_hour_id', 'registry_business_id', 'user_created', 'user_updated'], 'integer'],
             [['day'], 'string'],
             [['is_open'], 'boolean'],
             [['open_at', 'close_at', 'created_at', 'updated_at'], 'safe'],
             [['unique_id'], 'string', 'max' => 12],
             [['unique_id'], 'unique'],
-            [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],
+            [['id'], 'unique'],
+            [['registry_business_id'], 'exist', 'skipOnError' => true, 'targetClass' => RegistryBusiness::className(), 'targetAttribute' => ['registry_business_id' => 'id']],
+            [['registry_business_hour_id'], 'exist', 'skipOnError' => true, 'targetClass' => RegistryBusinessHour::className(), 'targetAttribute' => ['registry_business_hour_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
         ];
     }
 
     /**
-     * @inheritdoc
+     * {inheritdoc
      */
     public function attributeLabels()
     {
         return [
             'id' => Yii::t('app', 'ID'),
+            'registry_business_hour_id' => Yii::t('app', 'Registry Business Hour ID'),
             'unique_id' => Yii::t('app', 'Unique ID'),
-            'business_id' => Yii::t('app', 'Business ID'),
+            'registry_business_id' => Yii::t('app', 'Registry Business ID'),
             'day' => Yii::t('app', 'Day'),
             'is_open' => Yii::t('app', 'Is Open'),
             'open_at' => Yii::t('app', 'Open At'),
@@ -77,9 +81,17 @@ class BusinessHour extends \sybase\SybaseModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getBusiness()
+    public function getRegistryBusiness()
     {
-        return $this->hasOne(Business::className(), ['id' => 'business_id']);
+        return $this->hasOne(RegistryBusiness::className(), ['id' => 'registry_business_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRegistryBusinessHour()
+    {
+        return $this->hasOne(RegistryBusinessHour::className(), ['id' => 'registry_business_hour_id']);
     }
 
     /**
@@ -96,13 +108,5 @@ class BusinessHour extends \sybase\SybaseModel
     public function getUserUpdated()
     {
         return $this->hasOne(User::className(), ['id' => 'user_updated']);
-    }
-    
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getBusinessHourAdditionals()
-    {
-        return $this->hasMany(BusinessHourAdditional::className(), ['business_hour_id' => 'id']);
     }
 }
