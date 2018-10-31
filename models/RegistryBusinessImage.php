@@ -19,6 +19,7 @@ use Yii;
  * @property string $updated_at
  * @property int $user_updated
  * @property string $category
+ * @property int $order
  *
  * @property RegistryBusiness $registryBusiness
  * @property User $userCreated
@@ -51,8 +52,8 @@ class RegistryBusinessImage extends \sybase\SybaseModel
     {
         return [
             [['registry_business_id', 'type'], 'required'],
-            [['registry_business_id', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['registry_business_id', 'user_created', 'user_updated'], 'integer'],
+            [['registry_business_id', 'user_created', 'user_updated', 'order'], 'default', 'value' => null],
+            [['registry_business_id', 'user_created', 'user_updated', 'order'], 'integer'],
             [['image', 'caption', 'type', 'category'], 'string'],
             [['is_primary'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
@@ -83,6 +84,7 @@ class RegistryBusinessImage extends \sybase\SybaseModel
             'updated_at' => Yii::t('app', 'Updated At'),
             'user_updated' => Yii::t('app', 'User Updated'),
             'category' => Yii::t('app', 'Category'),
+            'order' => Yii::t('app', 'Order'),
         ];
     }
 
