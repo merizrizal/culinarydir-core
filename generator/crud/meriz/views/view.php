@@ -30,7 +30,7 @@ $status = Yii::$app->session->getFlash('status');
 $message1 = Yii::$app->session->getFlash('message1');
 $message2 = Yii::$app->session->getFlash('message2');
 
-if ($status !== null) :
+if ($status !== null) {
     $notif = new NotificationDialog([
         'status' => $status,
         'message1' => $message1,
@@ -40,7 +40,7 @@ if ($status !== null) :
     $notif->theScript();
     echo $notif->renderDialog();
 
-endif;
+}
 
 $this->title = $model-><?= $generator->getNameAttribute() ?>;
 $this->params['breadcrumbs'][] = ['label' => <?= 'Yii::t(\'app\', ' . $generator->generateString(Inflector::camel2words(StringHelper::basename($generator->modelClass))) . ')' ?>, 'url' => ['index']];

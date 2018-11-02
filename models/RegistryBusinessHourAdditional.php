@@ -45,7 +45,7 @@ class RegistryBusinessHourAdditional extends \sybase\SybaseModel
             [['day'], 'string'],
             [['is_open'], 'boolean'],
             [['open_at', 'close_at', 'created_at', 'updated_at'], 'safe'],
-            [['unique_id'], 'string', 'max' => 12],
+            [['unique_id'], 'string', 'max' => 14],
             [['unique_id'], 'unique'],
             [['registry_business_hour_id'], 'exist', 'skipOnError' => true, 'targetClass' => RegistryBusinessHour::className(), 'targetAttribute' => ['registry_business_hour_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
