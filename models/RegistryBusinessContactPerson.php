@@ -39,7 +39,7 @@ class RegistryBusinessContactPerson extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['registry_business_id', 'person_id'], 'required'],
+            [['registry_business_id', 'person_id', 'position'], 'required'],
             [['registry_business_id', 'person_id', 'user_created', 'user_updated'], 'default', 'value' => null],
             [['registry_business_id', 'person_id', 'user_created', 'user_updated'], 'integer'],
             [['is_primary_contact'], 'boolean'],

@@ -39,7 +39,7 @@ class BusinessContactPerson extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['business_id', 'person_id'], 'required'],
+            [['business_id', 'person_id', 'position'], 'required'],
             [['business_id', 'person_id', 'user_created', 'user_updated'], 'default', 'value' => null],
             [['business_id', 'person_id', 'user_created', 'user_updated'], 'integer'],
             [['is_primary_contact'], 'boolean'],
