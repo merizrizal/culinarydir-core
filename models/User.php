@@ -27,6 +27,7 @@ use yii\web\IdentityInterface;
  * @property ApplicationBusiness[] $applicationBusinesses
  * @property Business[] $businesses
  * @property RegistryBusiness[] $registryBusinesses
+ * @property TransactionSession[] $transactionSessions
  * @property UserLevel $userLevel
  * @property UserLove[] $userLoves
  * @property UserPerson $userPerson
@@ -131,6 +132,14 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     public function getRegistryBusinesses()
     {
         return $this->hasMany(RegistryBusiness::className(), ['user_in_charge' => 'id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTransactionSessions()
+    {
+        return $this->hasMany(TransactionSession::className(), ['user_ordered' => 'id']);
     }
 
     /**
