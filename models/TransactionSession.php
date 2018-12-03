@@ -17,6 +17,7 @@ use Yii;
  * @property string $updated_at
  * @property int $user_updated
  * @property bool $is_closed
+ * @property int $total_amount
  *
  * @property TransactionItem[] $transactionItems
  * @property Business $business
@@ -41,8 +42,8 @@ class TransactionSession extends \sybase\SybaseModel
     {
         return [
             [['user_ordered', 'business_id'], 'required'],
-            [['user_ordered', 'business_id', 'total_price', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['user_ordered', 'business_id', 'total_price', 'user_created', 'user_updated'], 'integer'],
+            [['user_ordered', 'business_id', 'total_price', 'user_created', 'user_updated', 'total_amount'], 'default', 'value' => null],
+            [['user_ordered', 'business_id', 'total_price', 'user_created', 'user_updated', 'total_amount'], 'integer'],
             [['note'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['is_closed'], 'boolean'],
@@ -69,6 +70,7 @@ class TransactionSession extends \sybase\SybaseModel
             'updated_at' => Yii::t('app', 'Updated At'),
             'user_updated' => Yii::t('app', 'User Updated'),
             'is_closed' => Yii::t('app', 'Is Closed'),
+            'total_amount' => Yii::t('app', 'Total Amount'),
         ];
     }
 
