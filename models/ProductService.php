@@ -15,7 +15,7 @@ use Yii;
  * @property int $user_created
  * @property string $updated_at
  * @property int $user_updated
- * @property string $product_service_code
+ * @property string $code_name
  *
  * @property MembershipTypeProductService[] $membershipTypeProductServices
  * @property User $userCreated
@@ -44,7 +44,7 @@ class ProductService extends \sybase\SybaseModel
             [['user_created', 'user_updated'], 'default', 'value' => null],
             [['user_created', 'user_updated'], 'integer'],
             [['name'], 'string', 'max' => 64],
-            [['product_service_code'], 'string', 'max' => 20],
+            [['code_name'], 'string', 'max' => 20],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
         ];
@@ -64,7 +64,7 @@ class ProductService extends \sybase\SybaseModel
             'user_created' => Yii::t('app', 'User Created'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'user_updated' => Yii::t('app', 'User Updated'),
-            'product_service_code' => Yii::t('app', 'Product Service Code'),
+            'code_name' => Yii::t('app', 'Code Name'),
         ];
     }
 
