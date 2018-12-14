@@ -18,7 +18,7 @@ class BusinessProductSearch extends BusinessProduct
     public function rules()
     {
         return [
-            [['id', 'business_id', 'price', 'user_created', 'user_updated'], 'integer'],
+            [['id', 'business_id', 'price', 'user_created', 'user_updated', 'order'], 'integer'],
             [['name', 'description', 'image', 'created_at', 'updated_at'], 'safe'],
             [['not_active'], 'boolean'],
         ];
@@ -42,7 +42,8 @@ class BusinessProductSearch extends BusinessProduct
      */
     public function search($params)
     {
-        $query = BusinessProduct::find();
+        $query = BusinessProduct::find()
+            ->orderBy('order ASC');
 
         // add conditions that should always apply here
 
@@ -71,6 +72,7 @@ class BusinessProductSearch extends BusinessProduct
             'user_created' => $this->user_created,
             'updated_at' => $this->updated_at,
             'user_updated' => $this->user_updated,
+            'order' => $this->order,
         ]);
 
         $query->andFilterWhere(['ilike', 'name', $this->name])
