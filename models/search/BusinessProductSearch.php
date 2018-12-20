@@ -19,9 +19,18 @@ class BusinessProductSearch extends BusinessProduct
     {
         return [
             [['id', 'business_id', 'price', 'user_created', 'user_updated', 'order'], 'integer'],
-            [['name', 'description', 'image', 'created_at', 'updated_at'], 'safe'],
+            [['name', 'description', 'image', 'created_at', 'updated_at',
+                'businessProductCategory.productCategory.name'], 'safe'],
             [['not_active'], 'boolean'],
         ];
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function attributes() {
+        // add related fields to searchable attributes
+        return array_merge(parent::attributes(), ['businessProductCategory.productCategory.name']);
     }
 
     /**
@@ -43,6 +52,10 @@ class BusinessProductSearch extends BusinessProduct
     public function search($params)
     {
         $query = BusinessProduct::find()
+            ->joinWith([
+                'businessProductCategory',
+                'businessProductCategory.productCategory'
+            ])
             ->orderBy('order ASC');
 
         // add conditions that should always apply here
@@ -53,6 +66,11 @@ class BusinessProductSearch extends BusinessProduct
                 'pageSize' => 15,
             ),
         ]);
+        
+        $dataProvider->sort->attributes['businessProductCategory.productCategory.name'] = [
+            'asc' => ['product_category.name' => SORT_ASC],
+            'desc' => ['product_category.name' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -64,20 +82,21 @@ class BusinessProductSearch extends BusinessProduct
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'business_id' => $this->business_id,
-            'price' => $this->price,
-            'not_active' => $this->not_active,
-            'created_at' => $this->created_at,
-            'user_created' => $this->user_created,
-            'updated_at' => $this->updated_at,
-            'user_updated' => $this->user_updated,
-            'order' => $this->order,
+            'business_product.id' => $this->id,
+            'business_product.business_id' => $this->business_id,
+            'business_product.price' => $this->price,
+            'business_product.not_active' => $this->not_active,
+            'business_product.created_at' => $this->created_at,
+            'business_product.user_created' => $this->user_created,
+            'business_product.updated_at' => $this->updated_at,
+            'business_product.user_updated' => $this->user_updated,
+            'business_product.order' => $this->order,
         ]);
 
-        $query->andFilterWhere(['ilike', 'name', $this->name])
-            ->andFilterWhere(['ilike', 'description', $this->description])
-            ->andFilterWhere(['ilike', 'image', $this->image]);
+        $query->andFilterWhere(['ilike', 'business_product.name', $this->name])
+            ->andFilterWhere(['ilike', 'business_product.description', $this->description])
+            ->andFilterWhere(['ilike', 'business_product.image', $this->image])
+            ->andFilterWhere(['ilike', 'product_category.name', $this->getAttribute('businessProductCategory.productCategory.name')]);
 
         return $dataProvider;
     }

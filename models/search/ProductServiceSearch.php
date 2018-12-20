@@ -19,7 +19,7 @@ class ProductServiceSearch extends ProductService
     {
         return [
             [['id', 'user_created', 'user_updated'], 'integer'],
-            [['name', 'note', 'created_at', 'updated_at'], 'safe'],
+            [['name', 'note', 'created_at', 'updated_at', 'code_name'], 'safe'],
             [['not_active'], 'boolean'],
         ];
     }
@@ -72,7 +72,8 @@ class ProductServiceSearch extends ProductService
         ]);
 
         $query->andFilterWhere(['ilike', 'name', $this->name])
-            ->andFilterWhere(['ilike', 'note', $this->note]);
+            ->andFilterWhere(['ilike', 'note', $this->note])
+            ->andFilterWhere(['ilike', 'code_name', $this->code_name]);
 
         return $dataProvider;
     }
