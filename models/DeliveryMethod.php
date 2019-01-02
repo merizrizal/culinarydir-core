@@ -17,6 +17,8 @@ use Yii;
  *
  * @property User $userCreated
  * @property User $userUpdated
+ * @property RegistryBusinessDelivery[] $registryBusinessDeliveries
+ * @property TransactionSessionOrder[] $transactionSessionOrders
  */
 class DeliveryMethod extends \sybase\SybaseModel
 {
@@ -75,5 +77,21 @@ class DeliveryMethod extends \sybase\SybaseModel
     public function getUserUpdated()
     {
         return $this->hasOne(User::className(), ['id' => 'user_updated']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRegistryBusinessDeliveries()
+    {
+        return $this->hasMany(RegistryBusinessDelivery::className(), ['delivery_method_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTransactionSessionOrders()
+    {
+        return $this->hasMany(TransactionSessionOrder::className(), ['delivery_method_id' => 'id']);
     }
 }

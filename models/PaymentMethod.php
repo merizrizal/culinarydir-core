@@ -18,6 +18,8 @@ use Yii;
  *
  * @property User $userCreated
  * @property User $userUpdated
+ * @property RegistryBusinessPayment[] $registryBusinessPayments
+ * @property TransactionSessionOrder[] $transactionSessionOrders
  */
 class PaymentMethod extends \sybase\SybaseModel
 {
@@ -78,5 +80,21 @@ class PaymentMethod extends \sybase\SybaseModel
     public function getUserUpdated()
     {
         return $this->hasOne(User::className(), ['id' => 'user_updated']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRegistryBusinessPayments()
+    {
+        return $this->hasMany(RegistryBusinessPayment::className(), ['payment_method_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTransactionSessionOrders()
+    {
+        return $this->hasMany(TransactionSessionOrder::className(), ['payment_method_id' => 'id']);
     }
 }
