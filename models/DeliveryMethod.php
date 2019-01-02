@@ -15,6 +15,7 @@ use Yii;
  * @property string $updated_at
  * @property int $user_updated
  *
+ * @property BusinessDelivery[] $businessDeliveries
  * @property User $userCreated
  * @property User $userUpdated
  * @property RegistryBusinessDelivery[] $registryBusinessDeliveries
@@ -62,6 +63,14 @@ class DeliveryMethod extends \sybase\SybaseModel
             'user_updated' => Yii::t('app', 'User Updated'),
         ];
     }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBusinessDeliveries()
+    {
+        return $this->hasMany(BusinessDelivery::className(), ['delivery_method_id' => 'id']);
+    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -78,7 +87,7 @@ class DeliveryMethod extends \sybase\SybaseModel
     {
         return $this->hasOne(User::className(), ['id' => 'user_updated']);
     }
-
+    
     /**
      * @return \yii\db\ActiveQuery
      */
