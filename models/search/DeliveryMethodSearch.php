@@ -5,12 +5,12 @@ namespace core\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use core\models\PaymentMethod;
+use core\models\DeliveryMethod;
 
 /**
- * PaymentMethodSearch represents the model behind the search form of `core\models\PaymentMethod`.
+ * DeliveryMethodSearch represents the model behind the search form of `core\models\DeliveryMethod`.
  */
-class PaymentMethodSearch extends PaymentMethod
+class DeliveryMethodSearch extends DeliveryMethod
 {
     /**
      * {@inheritdoc}
@@ -19,7 +19,7 @@ class PaymentMethodSearch extends PaymentMethod
     {
         return [
             [['id', 'user_created', 'user_updated'], 'integer'],
-            [['payment_name', 'method', 'created_at', 'updated_at'], 'safe'],
+            [['delivery_name', 'created_at', 'updated_at'], 'safe'],
             [['not_active'], 'boolean'],
         ];
     }
@@ -42,7 +42,7 @@ class PaymentMethodSearch extends PaymentMethod
      */
     public function search($params)
     {
-        $query = PaymentMethod::find();
+        $query = DeliveryMethod::find();
 
         // add conditions that should always apply here
 
@@ -72,8 +72,7 @@ class PaymentMethodSearch extends PaymentMethod
             'user_updated' => $this->user_updated,
         ]);
 
-        $query->andFilterWhere(['ilike', 'payment_name', $this->payment_name])
-            ->andFilterWhere(['method' => $this->method]);
+        $query->andFilterWhere(['ilike', 'delivery_name', $this->delivery_name]);
 
         return $dataProvider;
     }
