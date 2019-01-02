@@ -16,8 +16,10 @@ use Yii;
  * @property string $updated_at
  * @property int $user_updated
  *
+ * @property BusinessPayment[] $businessPayments
  * @property User $userCreated
  * @property User $userUpdated
+ * @property RegistryBusinessPayment[] $registryBusinessPayments
  */
 class PaymentMethod extends \sybase\SybaseModel
 {
@@ -63,6 +65,14 @@ class PaymentMethod extends \sybase\SybaseModel
             'user_updated' => Yii::t('app', 'User Updated'),
         ];
     }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBusinessPayments()
+    {
+        return $this->hasMany(BusinessPayment::className(), ['payment_method_id' => 'id']);
+    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -78,5 +88,13 @@ class PaymentMethod extends \sybase\SybaseModel
     public function getUserUpdated()
     {
         return $this->hasOne(User::className(), ['id' => 'user_updated']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRegistryBusinessPayments()
+    {
+        return $this->hasMany(RegistryBusinessPayment::className(), ['payment_method_id' => 'id']);
     }
 }

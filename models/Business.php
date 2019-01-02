@@ -35,12 +35,14 @@ use Yii;
  * @property User $userUpdated
  * @property BusinessCategory[] $businessCategories
  * @property BusinessContactPerson[] $businessContactPeople
+ * @property BusinessDelivery[] $businessDeliveries
  * @property BusinessDetail $businessDetail
  * @property BusinessDetailVote[] $businessDetailVotes
  * @property BusinessFacility[] $businessFacilities
  * @property BusinessHour[] $businessHours
  * @property BusinessImage[] $businessImages
  * @property BusinessLocation $businessLocation
+ * @property BusinessPayment[] $businessPayments
  * @property BusinessProduct[] $businessProducts
  * @property BusinessProductCategory[] $businessProductCategories
  * @property BusinessPromo[] $businessPromos
@@ -188,6 +190,14 @@ class Business extends \sybase\SybaseModel
     {
         return $this->hasMany(BusinessContactPerson::className(), ['business_id' => 'id']);
     }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBusinessDeliveries()
+    {
+        return $this->hasMany(BusinessDelivery::className(), ['business_id' => 'id']);
+    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -235,6 +245,14 @@ class Business extends \sybase\SybaseModel
     public function getBusinessLocation()
     {
         return $this->hasOne(BusinessLocation::className(), ['business_id' => 'id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBusinessPayments()
+    {
+        return $this->hasMany(BusinessPayment::className(), ['business_id' => 'id']);
     }
 
     /**

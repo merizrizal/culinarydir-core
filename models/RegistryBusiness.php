@@ -46,9 +46,11 @@ use Yii;
  * @property Village $village
  * @property RegistryBusinessCategory[] $registryBusinessCategories
  * @property RegistryBusinessContactPerson[] $registryBusinessContactPeople
+ * @property RegistryBusinessDelivery[] $registryBusinessDeliveries
  * @property RegistryBusinessFacility[] $registryBusinessFacilities
  * @property RegistryBusinessHour[] $registryBusinessHours
  * @property RegistryBusinessImage[] $registryBusinessImages
+ * @property RegistryBusinessPayment[] $registryBusinessPayments
  * @property RegistryBusinessProductCategory[] $registryBusinessProductCategories
  */
 class RegistryBusiness extends \sybase\SybaseModel
@@ -234,6 +236,14 @@ class RegistryBusiness extends \sybase\SybaseModel
     {
         return $this->hasMany(RegistryBusinessContactPerson::className(), ['registry_business_id' => 'id']);
     }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRegistryBusinessDeliveries()
+    {
+        return $this->hasMany(RegistryBusinessDelivery::className(), ['registry_business_id' => 'id']);
+    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -257,6 +267,14 @@ class RegistryBusiness extends \sybase\SybaseModel
     public function getRegistryBusinessImages()
     {
         return $this->hasMany(RegistryBusinessImage::className(), ['registry_business_id' => 'id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRegistryBusinessPayments()
+    {
+        return $this->hasMany(RegistryBusinessPayment::className(), ['registry_business_id' => 'id']);
     }
 
     /**
