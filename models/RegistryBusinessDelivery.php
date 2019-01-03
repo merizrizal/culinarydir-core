@@ -16,6 +16,7 @@ use Yii;
  * @property int $user_created
  * @property string $updated_at
  * @property int $user_updated
+ * @property string $note
  *
  * @property DeliveryMethod $deliveryMethod
  * @property RegistryBusiness $registryBusiness
@@ -43,6 +44,7 @@ class RegistryBusinessDelivery extends \sybase\SybaseModel
             [['registry_business_id', 'delivery_method_id', 'user_created', 'user_updated'], 'integer'],
             [['is_active'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
+            [['note'], 'string'],
             [['unique_id'], 'string', 'max' => 15],
             [['unique_id'], 'unique'],
             [['delivery_method_id'], 'exist', 'skipOnError' => true, 'targetClass' => DeliveryMethod::className(), 'targetAttribute' => ['delivery_method_id' => 'id']],
@@ -67,6 +69,7 @@ class RegistryBusinessDelivery extends \sybase\SybaseModel
             'user_created' => Yii::t('app', 'User Created'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'user_updated' => Yii::t('app', 'User Updated'),
+            'note' => Yii::t('app', 'Note'),
         ];
     }
 
