@@ -50,7 +50,7 @@ class StatusApprovalSearch extends StatusApproval
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => array(
-                'pageSize' => 15,
+                'pageSize' => Yii::$app->params['pageSize'],
             ),
         ]);
 

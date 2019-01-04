@@ -55,15 +55,15 @@ class BusinessProductSearch extends BusinessProduct
             ->joinWith([
                 'businessProductCategory',
                 'businessProductCategory.productCategory'
-            ])
-            ->orderBy('order ASC');
+            ]);
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['order' => SORT_ASC]],
             'pagination' => array(
-                'pageSize' => 15,
+                'pageSize' => Yii::$app->params['pageSize'],
             ),
         ]);
         
