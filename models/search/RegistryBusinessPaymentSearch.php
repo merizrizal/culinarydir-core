@@ -19,7 +19,7 @@ class RegistryBusinessPaymentSearch extends RegistryBusinessPayment
     {
         return [
             [['id', 'registry_business_id', 'payment_method_id', 'user_created', 'user_updated'], 'integer'],
-            [['unique_id', 'created_at', 'updated_at', 'note', 'paymentMethod.payment_name'], 'safe'],
+            [['created_at', 'updated_at', 'note', 'paymentMethod.payment_name'], 'safe'],
             [['is_active'], 'boolean'],
         ];
     }
@@ -88,8 +88,7 @@ class RegistryBusinessPaymentSearch extends RegistryBusinessPayment
             'user_updated' => $this->user_updated,
         ]);
 
-        $query->andFilterWhere(['ilike', 'unique_id', $this->unique_id])
-            ->andFilterWhere(['ilike', 'note', $this->note])
+        $query->andFilterWhere(['ilike', 'note', $this->note])
             ->andFilterWhere(['ilike', 'payment_method.payment_name', $this->getAttribute('paymentMethod.payment_name')]);
 
         return $dataProvider;

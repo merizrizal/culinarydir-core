@@ -19,7 +19,7 @@ class RegistryBusinessDeliverySearch extends RegistryBusinessDelivery
     {
         return [
             [['id', 'registry_business_id', 'delivery_method_id', 'user_created', 'user_updated'], 'integer'],
-            [['unique_id', 'created_at', 'updated_at', 'note', 'deliveryMethod.delivery_name'], 'safe'],
+            [['created_at', 'updated_at', 'note', 'deliveryMethod.delivery_name'], 'safe'],
             [['is_active'], 'boolean'],
         ];
     }
@@ -88,8 +88,7 @@ class RegistryBusinessDeliverySearch extends RegistryBusinessDelivery
             'user_updated' => $this->user_updated,
         ]);
 
-        $query->andFilterWhere(['ilike', 'unique_id', $this->unique_id])
-            ->andFilterWhere(['ilike', 'note', $this->note])
+        $query->andFilterWhere(['ilike', 'note', $this->note])
             ->andFilterWhere(['ilike', 'delivery_method.delivery_name', $this->getAttribute('deliveryMethod.delivery_name')]);
 
         return $dataProvider;
