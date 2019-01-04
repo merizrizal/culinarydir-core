@@ -19,9 +19,17 @@ class RegistryBusinessPaymentSearch extends RegistryBusinessPayment
     {
         return [
             [['id', 'registry_business_id', 'payment_method_id', 'user_created', 'user_updated'], 'integer'],
-            [['unique_id', 'created_at', 'updated_at', 'note'], 'safe'],
+            [['created_at', 'updated_at', 'note', 'paymentMethod.payment_name'], 'safe'],
             [['is_active'], 'boolean'],
         ];
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function attributes() {
+        // add related fields to searchable attributes
+        return array_merge(parent::attributes(), ['paymentMethod.payment_name']);
     }
 
     /**
@@ -42,7 +50,9 @@ class RegistryBusinessPaymentSearch extends RegistryBusinessPayment
      */
     public function search($params)
     {
-        $query = RegistryBusinessPayment::find();
+        $query = RegistryBusinessPayment::find()
+            ->joinWith(['paymentMethod'])
+            ->orderBy(['payment_method.payment_name' => SORT_ASC]);
 
         // add conditions that should always apply here
 
@@ -52,6 +62,11 @@ class RegistryBusinessPaymentSearch extends RegistryBusinessPayment
                 'pageSize' => Yii::$app->params['pageSize'],
             ),
         ]);
+        
+        $dataProvider->sort->attributes['paymentMethod.payment_name'] = [
+            'asc' => ['payment_method.payment_name' => SORT_ASC],
+            'desc' => ['payment_method.payment_name' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -73,8 +88,8 @@ class RegistryBusinessPaymentSearch extends RegistryBusinessPayment
             'user_updated' => $this->user_updated,
         ]);
 
-        $query->andFilterWhere(['ilike', 'unique_id', $this->unique_id])
-            ->andFilterWhere(['ilike', 'note', $this->note]);
+        $query->andFilterWhere(['ilike', 'note', $this->note])
+            ->andFilterWhere(['ilike', 'payment_method.payment_name', $this->getAttribute('paymentMethod.payment_name')]);
 
         return $dataProvider;
     }

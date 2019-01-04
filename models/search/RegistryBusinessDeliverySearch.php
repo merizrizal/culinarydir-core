@@ -19,9 +19,17 @@ class RegistryBusinessDeliverySearch extends RegistryBusinessDelivery
     {
         return [
             [['id', 'registry_business_id', 'delivery_method_id', 'user_created', 'user_updated'], 'integer'],
-            [['unique_id', 'created_at', 'updated_at', 'note'], 'safe'],
+            [['created_at', 'updated_at', 'note', 'deliveryMethod.delivery_name'], 'safe'],
             [['is_active'], 'boolean'],
         ];
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function attributes() {
+        // add related fields to searchable attributes
+        return array_merge(parent::attributes(), ['deliveryMethod.delivery_name']);
     }
 
     /**
@@ -42,7 +50,9 @@ class RegistryBusinessDeliverySearch extends RegistryBusinessDelivery
      */
     public function search($params)
     {
-        $query = RegistryBusinessDelivery::find();
+        $query = RegistryBusinessDelivery::find()
+            ->joinWith(['deliveryMethod'])
+            ->orderBy(['delivery_method.delivery_name' => SORT_ASC]);
 
         // add conditions that should always apply here
 
@@ -52,6 +62,11 @@ class RegistryBusinessDeliverySearch extends RegistryBusinessDelivery
                 'pageSize' => Yii::$app->params['pageSize'],
             ),
         ]);
+        
+        $dataProvider->sort->attributes['deliveryMethod.delivery_name'] = [
+            'asc' => ['delivery_method.delivery_name' => SORT_ASC],
+            'desc' => ['delivery_method.delivery_name' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -73,8 +88,8 @@ class RegistryBusinessDeliverySearch extends RegistryBusinessDelivery
             'user_updated' => $this->user_updated,
         ]);
 
-        $query->andFilterWhere(['ilike', 'unique_id', $this->unique_id])
-            ->andFilterWhere(['ilike', 'note', $this->note]);
+        $query->andFilterWhere(['ilike', 'note', $this->note])
+            ->andFilterWhere(['ilike', 'delivery_method.delivery_name', $this->getAttribute('deliveryMethod.delivery_name')]);
 
         return $dataProvider;
     }
