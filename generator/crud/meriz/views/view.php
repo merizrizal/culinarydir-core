@@ -31,6 +31,7 @@ $message1 = Yii::$app->session->getFlash('message1');
 $message2 = Yii::$app->session->getFlash('message2');
 
 if ($status !== null) {
+
     $notif = new NotificationDialog([
         'status' => $status,
         'message1' => $message1,
@@ -39,7 +40,6 @@ if ($status !== null) {
 
     $notif->theScript();
     echo $notif->renderDialog();
-
 }
 
 $this->title = $model-><?= $generator->getNameAttribute() ?>;
@@ -56,36 +56,19 @@ $this->params['breadcrumbs'][] = $this->title; ?>
 
                 <div class="x_content">
 
-                    <?= "<?= " ?>Html::a('<i class="fa fa-upload"></i> ' . <?= $generator->generateString('Create') ?>,
-                        ['create'],
-                        [
-                            'class' => 'btn btn-success',
-                            'style' => 'color:white'
-                        ]) ?>
+                    <?= "<?= " ?>Html::a('<i class="fa fa-upload"></i> Create', ['create'], ['class' => 'btn btn-success']) ?>
 
-                    <?= "<?= " ?>Html::a('<i class="fa fa-pencil-alt"></i> ' . <?= $generator->generateString('Edit') ?>,
-                        ['update', <?= $urlParams ?>],
-                        [
-                            'class' => 'btn btn-primary',
-                            'style' => 'color:white'
-                        ]) ?>
+                    <?= "<?= " ?>Html::a('<i class="fa fa-pencil-alt"></i> Edit', ['update', <?= $urlParams ?>], ['class' => 'btn btn-primary']) ?>
 
-                    <?= "<?= " ?>Html::a('<i class="fa fa-trash-alt"></i> ' . <?= $generator->generateString('Delete') ?>,
-                        ['delete', <?= $urlParams ?>],
-                        [
+                    <?= "<?= " ?>Html::a('<i class="fa fa-trash-alt"></i> Delete', ['delete', <?= $urlParams ?>], [
                             'id' => 'delete',
                             'class' => 'btn btn-danger',
-                            'style' => 'color:white',
                             'data-not-ajax' => 1,
                             'model-id' => $model->id,
                             'model-name' => $model->name,
                         ]) ?>
 
-                    <?= "<?= " ?>Html::a('<i class="fa fa-times"></i> ' . <?= $generator->generateString('Cancel') ?>,
-                        ['index'],
-                        [
-                            'class' => 'btn btn-default',
-                        ]) ?>
+                    <?= "<?= " ?>Html::a('<i class="fa fa-times"></i> Cancel', ['index'], ['class' => 'btn btn-default']) ?>
 
                     <div class="clearfix" style="margin-top: 15px"></div>
 
@@ -119,7 +102,6 @@ $this->params['breadcrumbs'][] = $this->title; ?>
 </div>
 
 <?= "<?php\n" ?>
-
 $modalDialog = new ModalDialog([
     'clickedComponent' => 'a#delete',
     'modelAttributeId' => 'model-id',
@@ -128,6 +110,4 @@ $modalDialog = new ModalDialog([
 
 $modalDialog->theScript(false);
 
-echo $modalDialog->renderDialog();
-
-?>
+echo $modalDialog->renderDialog(); ?>

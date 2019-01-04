@@ -36,6 +36,7 @@ $message1 = Yii::$app->session->getFlash('message1');
 $message2 = Yii::$app->session->getFlash('message2');
 
 if ($status !== null) {
+
     $notif = new NotificationDialog([
         'status' => $status,
         'message1' => $message1,
@@ -44,7 +45,6 @@ if ($status !== null) {
 
     $notif->theScript();
     echo $notif->renderDialog();
-
 } ?>
 
 <?= '<?=' ?> $ajaxRequest->component() ?>
@@ -54,7 +54,8 @@ if ($status !== null) {
         <div class="x_panel">
             <div class="<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>-form">
 
-                <?= "<?php " ?>$form = ActiveForm::begin([
+                <?= "<?php " ?>
+                $form = ActiveForm::begin([
                         'id' => '<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>-form',
                         'action' => $model->isNewRecord ? ['create'] : ['update', 'id' => $model->id],
                         'options' => [
@@ -62,17 +63,15 @@ if ($status !== null) {
                         ],
                         'fieldConfig' => [
                             'parts' => [
-                                '{inputClass}' => 'col-lg-12'
+                                '{inputClass}' => 'col-lg-6'
                             ],
                             'template' => '
                                 <div class="row">
                                     <div class="col-lg-3">
                                         {label}
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="{inputClass}">
-                                            {input}
-                                        </div>
+                                    <div class="{inputClass}">
+                                        {input}
                                     </div>
                                     <div class="col-lg-3">
                                         {error}
@@ -86,9 +85,11 @@ if ($status !== null) {
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-lg-6">
+                                
                                     <?= "<?php\n" ?>
                                     if (!$model->isNewRecord)
-                                        echo Html::a('<i class="fa fa-upload"></i> ' . 'Create', ['create'], ['class' => 'btn btn-success']); ?>
+                                        echo Html::a('<i class="fa fa-upload"></i> Create', ['create'], ['class' => 'btn btn-success']); ?>
+                                        
                                 </div>
                             </div>
                         </div>
@@ -104,20 +105,22 @@ if ($status !== null) {
                     } ?>
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-lg-3"></div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-offset-3 col-lg-6">
+                                
                                     <?= "<?php\n" ?>
                                     $icon = '<i class="fa fa-save"></i> ';
                                     echo Html::submitButton($model->isNewRecord ? $icon . <?= $generator->generateString('Save') ?> : $icon . <?= $generator->generateString('Update') ?>, ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']);
                                     echo Html::a('<i class="fa fa-times"></i> Cancel', ['index'], ['class' => 'btn btn-default']); ?>
+                                
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                <?= "<?php " ?>ActiveForm::end(); ?>
+                <?= "<?php " ?>
+                ActiveForm::end(); ?>
 
             </div>
         </div>
     </div>
-</div><!-- /.row -->
+</div>
