@@ -51,13 +51,13 @@ class RegistryBusinessDeliverySearch extends RegistryBusinessDelivery
     public function search($params)
     {
         $query = RegistryBusinessDelivery::find()
-            ->joinWith(['deliveryMethod'])
-            ->orderBy(['delivery_method.delivery_name' => SORT_ASC]);
+            ->joinWith(['deliveryMethod']);
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['id' => SORT_ASC]],
             'pagination' => array(
                 'pageSize' => Yii::$app->params['pageSize'],
             ),

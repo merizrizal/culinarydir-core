@@ -51,13 +51,13 @@ class RegistryBusinessPaymentSearch extends RegistryBusinessPayment
     public function search($params)
     {
         $query = RegistryBusinessPayment::find()
-            ->joinWith(['paymentMethod'])
-            ->orderBy(['payment_method.payment_name' => SORT_ASC]);
+            ->joinWith(['paymentMethod']);
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['id' => SORT_ASC]],
             'pagination' => array(
                 'pageSize' => Yii::$app->params['pageSize'],
             ),
