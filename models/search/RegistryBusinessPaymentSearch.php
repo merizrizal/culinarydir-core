@@ -19,7 +19,8 @@ class RegistryBusinessPaymentSearch extends RegistryBusinessPayment
     {
         return [
             [['id', 'registry_business_id', 'payment_method_id', 'user_created', 'user_updated'], 'integer'],
-            [['created_at', 'updated_at', 'note', 'paymentMethod.payment_name'], 'safe'],
+            [['created_at', 'updated_at', 'note',
+                'paymentMethod.payment_name'], 'safe'],
             [['is_active'], 'boolean'],
         ];
     }

@@ -19,7 +19,8 @@ class RegistryBusinessDeliverySearch extends RegistryBusinessDelivery
     {
         return [
             [['id', 'registry_business_id', 'delivery_method_id', 'user_created', 'user_updated'], 'integer'],
-            [['created_at', 'updated_at', 'note', 'deliveryMethod.delivery_name'], 'safe'],
+            [['created_at', 'updated_at', 'note', 
+                'deliveryMethod.delivery_name'], 'safe'],
             [['is_active'], 'boolean'],
         ];
     }
