@@ -24,6 +24,7 @@ use Yii;
  * @property User $userOrdered
  * @property User $userCreated
  * @property User $userUpdated
+ * @property TransactionSessionOrder[] $transactionSessionOrders
  */
 class TransactionSession extends \sybase\SybaseModel
 {
@@ -112,5 +113,13 @@ class TransactionSession extends \sybase\SybaseModel
     public function getUserUpdated()
     {
         return $this->hasOne(User::className(), ['id' => 'user_updated']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTransactionSessionOrders()
+    {
+        return $this->hasMany(TransactionSessionOrder::className(), ['transaction_session_id' => 'id']);
     }
 }
