@@ -58,8 +58,8 @@ class TransactionSessionOrder extends \sybase\SybaseModel
         return [
             'id' => Yii::t('app', 'ID'),
             'transaction_session_id' => Yii::t('app', 'Transaction Session ID'),
-            'business_payment_id' => Yii::t('app', 'Business Payment ID'),
-            'business_delivery_id' => Yii::t('app', 'Business Delivery ID'),
+            'business_payment_id' => Yii::t('app', 'Payment Methods'),
+            'business_delivery_id' => Yii::t('app', 'Delivery Methods'),
             'created_at' => Yii::t('app', 'Created At'),
             'user_created' => Yii::t('app', 'User Created'),
             'updated_at' => Yii::t('app', 'Updated At'),
