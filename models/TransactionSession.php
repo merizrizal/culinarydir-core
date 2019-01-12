@@ -24,7 +24,7 @@ use Yii;
  * @property User $userOrdered
  * @property User $userCreated
  * @property User $userUpdated
- * @property TransactionSessionOrder[] $transactionSessionOrders
+ * @property TransactionSessionOrder $transactionSessionOrder
  */
 class TransactionSession extends \sybase\SybaseModel
 {
@@ -118,8 +118,8 @@ class TransactionSession extends \sybase\SybaseModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTransactionSessionOrders()
+    public function getTransactionSessionOrder()
     {
-        return $this->hasMany(TransactionSessionOrder::className(), ['transaction_session_id' => 'id']);
+        return $this->hasOne(TransactionSessionOrder::className(), ['transaction_session_id' => 'id']);
     }
 }
