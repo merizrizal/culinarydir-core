@@ -7,14 +7,14 @@ use Yii;
 /**
  * This is the model class for table "business_delivery".
  *
- * @property int $id
- * @property int $business_id
- * @property int $delivery_method_id
+ * @property string $id
+ * @property string $business_id
+ * @property string $delivery_method_id
  * @property bool $is_active
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  * @property string $note
  * @property string $description
  *
@@ -41,11 +41,11 @@ class BusinessDelivery extends \sybase\SybaseModel
     {
         return [
             [['business_id', 'delivery_method_id'], 'required'],
-            [['business_id', 'delivery_method_id', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['business_id', 'delivery_method_id', 'user_created', 'user_updated'], 'integer'],
             [['is_active'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
             [['note', 'description'], 'string'],
+            [['id', 'business_id', 'delivery_method_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
+            [['id'], 'unique'], 
             [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],
             [['delivery_method_id'], 'exist', 'skipOnError' => true, 'targetClass' => DeliveryMethod::className(), 'targetAttribute' => ['delivery_method_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],

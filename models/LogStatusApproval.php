@@ -7,16 +7,16 @@ use Yii;
 /**
  * This is the model class for table "log_status_approval".
  *
- * @property int $id
- * @property int $application_business_id
+ * @property string $id
+ * @property string $application_business_id
  * @property string $status_approval_id
  * @property bool $is_actual
  * @property string $note
  * @property int $application_business_counter
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  *
  * @property ApplicationBusiness $applicationBusiness
  * @property StatusApproval $statusApproval
@@ -41,12 +41,13 @@ class LogStatusApproval extends \sybase\SybaseModel
     {
         return [
             [['application_business_id', 'status_approval_id', 'is_actual'], 'required'],
-            [['application_business_id', 'application_business_counter', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['application_business_id', 'application_business_counter', 'user_created', 'user_updated'], 'integer'],
             [['is_actual'], 'boolean'],
             [['note'], 'string'],
+            [['application_business_counter'], 'default', 'value' => null],
+            [['application_business_counter'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['status_approval_id'], 'string', 'max' => 7],
+            [['id', 'application_business_id', 'status_approval_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
+            [['id'], 'unique'],
             [['application_business_id'], 'exist', 'skipOnError' => true, 'targetClass' => ApplicationBusiness::className(), 'targetAttribute' => ['application_business_id' => 'id']],
             [['status_approval_id'], 'exist', 'skipOnError' => true, 'targetClass' => StatusApproval::className(), 'targetAttribute' => ['status_approval_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],

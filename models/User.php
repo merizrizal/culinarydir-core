@@ -11,8 +11,8 @@ use yii\web\IdentityInterface;
 /**
  * This is the model class for table "user".
  *
- * @property int $id
- * @property int $user_level_id
+ * @property string $id
+ * @property string $user_level_id
  * @property string $email
  * @property string $username
  * @property string $full_name
@@ -73,18 +73,17 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     {
         return [
             [['user_level_id', 'email', 'username', 'full_name', 'password'], 'required'],
-            [['user_level_id'], 'default', 'value' => null],
-            [['user_level_id'], 'integer'],
             [['image'], 'string'],
             [['not_active'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
+            [['id', 'user_level_id', 'full_name'], 'string', 'max' => 32], 
             [['email', 'username', 'password', 'password_reset_token', 'account_activation_token'], 'string', 'max' => 64],
-            [['full_name'], 'string', 'max' => 32],
             [['email'], 'unique'],
             [['username'], 'unique'],
             [['email'], 'email'],
             [['username'], 'match', 'pattern' => '/^[a-zA-Z0-9_-]+$/', 'message' => 'Hanya boleh angka, huruf, garis bawah dan strip.'],
             [['image'], 'file', 'maxSize' => 1024*1024*2],
+            [['id'], 'unique'],
             [['user_level_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserLevel::className(), 'targetAttribute' => ['user_level_id' => 'id']],
         ];
     }

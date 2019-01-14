@@ -7,14 +7,14 @@ use Yii;
 /**
  * This is the model class for table "payment_method".
  *
- * @property int $id
+ * @property string $id
  * @property string $payment_name
  * @property string $method
  * @property bool $not_active
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  *
  * @property BusinessPayment[] $businessPayments
  * @property User $userCreated
@@ -41,9 +41,8 @@ class PaymentMethod extends \sybase\SybaseModel
             [['method'], 'string'],
             [['not_active'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
-            [['user_created', 'user_updated'], 'default', 'value' => null],
-            [['user_created', 'user_updated'], 'integer'],
-            [['payment_name'], 'string', 'max' => 32],
+            [['id', 'payment_name', 'user_created', 'user_updated'], 'string', 'max' => 32],
+            [['id'], 'unique'],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
         ];

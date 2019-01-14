@@ -7,12 +7,12 @@ use Yii;
 /**
  * This is the model class for table "facility".
  *
- * @property int $id
+ * @property string $id
  * @property string $name
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  *
  * @property BusinessFacility[] $businessFacilities
  * @property User $userCreated
@@ -37,9 +37,9 @@ class Facility extends \sybase\SybaseModel
         return [
             [['name'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
-            [['user_created', 'user_updated'], 'default', 'value' => null],
-            [['user_created', 'user_updated'], 'integer'],
+            [['id', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['name'], 'string', 'max' => 48],
+            [['id'], 'unique'],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
         ];

@@ -7,8 +7,8 @@ use Yii;
 /**
  * This is the model class for table "registry_business".
  *
- * @property int $id
- * @property int $membership_type_id
+ * @property string $id
+ * @property string $membership_type_id
  * @property string $name
  * @property string $unique_name
  * @property string $email
@@ -18,16 +18,16 @@ use Yii;
  * @property string $address_type
  * @property string $address
  * @property string $address_info
- * @property int $city_id
- * @property int $district_id
- * @property int $village_id
+ * @property string $city_id
+ * @property string $district_id
+ * @property string $village_id
  * @property string $coordinate
- * @property int $application_business_id
- * @property int $user_in_charge
+ * @property string $application_business_id
+ * @property string $user_in_charge
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  * @property int $price_min
  * @property int $price_max
  * @property int $application_business_counter
@@ -82,15 +82,17 @@ class RegistryBusiness extends \sybase\SybaseModel
     {
         return [
             [['membership_type_id', 'name', 'unique_name', 'address_type', 'address', 'city_id', 'district_id', 'village_id', 'coordinate', 'application_business_id'], 'required'],
-            [['membership_type_id', 'city_id', 'district_id', 'village_id', 'application_business_id', 'user_in_charge', 'user_created', 'user_updated', 'price_min', 'price_max', 'application_business_counter'], 'default', 'value' => null],
-            [['membership_type_id', 'city_id', 'district_id', 'village_id', 'application_business_id', 'user_in_charge', 'user_created', 'user_updated', 'price_min', 'price_max', 'application_business_counter'], 'integer'],
             [['address_type', 'address', 'address_info', 'note', 'note_business_hour', 'about'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
+            [['price_min', 'price_max', 'application_business_counter'], 'default', 'value' => null],
+            [['price_min', 'price_max', 'application_business_counter'], 'integer'],
+            [['id', 'membership_type_id', 'city_id', 'district_id', 'village_id', 'application_business_id', 'user_in_charge', 'user_created', 'user_updated'], 'string', 'max' => 32], 
             [['name', 'email'], 'string', 'max' => 48],
             [['unique_name', 'coordinate'], 'string', 'max' => 64],
             [['phone1', 'phone2', 'phone3'], 'string', 'max' => 16],
             [['unique_name'], 'unique', 'on' => self::SCENARIO_CREATE],
             [['email'], 'email'],
+            [['id'], 'unique'],
             [['application_business_id'], 'exist', 'skipOnError' => true, 'targetClass' => ApplicationBusiness::className(), 'targetAttribute' => ['application_business_id' => 'id']],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['city_id' => 'id']],
             [['district_id'], 'exist', 'skipOnError' => true, 'targetClass' => District::className(), 'targetAttribute' => ['district_id' => 'id']],

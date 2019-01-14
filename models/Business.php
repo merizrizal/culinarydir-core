@@ -7,8 +7,8 @@ use Yii;
 /**
  * This is the model class for table "business".
  *
- * @property int $id
- * @property int $parent_id
+ * @property string $id
+ * @property string $parent_id
  * @property string $name
  * @property string $unique_name
  * @property string $about
@@ -16,14 +16,14 @@ use Yii;
  * @property string $phone1
  * @property string $phone2
  * @property string $phone3
- * @property int $user_in_charge
+ * @property string $user_in_charge
  * @property bool $is_active
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
- * @property int $membership_type_id
- * @property int $application_business_id
+ * @property string $user_updated
+ * @property string $membership_type_id
+ * @property string $application_business_id
  * @property string $note
  *
  * @property ApplicationBusiness $applicationBusiness
@@ -70,18 +70,18 @@ class Business extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['parent_id', 'user_in_charge', 'user_created', 'user_updated', 'membership_type_id', 'application_business_id'], 'default', 'value' => null],
-            [['parent_id', 'user_in_charge', 'user_created', 'user_updated', 'membership_type_id', 'application_business_id'], 'integer'],
             [['name', 'unique_name', 'membership_type_id', 'application_business_id'], 'required'],
             [['about', 'note'], 'string'],
             [['is_active'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
+            [['id', 'parent_id', 'user_in_charge', 'user_created', 'user_updated', 'membership_type_id', 'application_business_id'], 'string', 'max' => 32], 
             [['name', 'email'], 'string', 'max' => 48],
             [['unique_name'], 'string', 'max' => 45],
             [['phone1', 'phone2', 'phone3'], 'string', 'max' => 16],
             [['application_business_id'], 'unique'],
             [['unique_name'], 'unique'],
             [['email'], 'email'],
+            [['id'], 'unique'],
             [['application_business_id'], 'exist', 'skipOnError' => true, 'targetClass' => ApplicationBusiness::className(), 'targetAttribute' => ['application_business_id' => 'id']],
             [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['parent_id' => 'id']],
             [['membership_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => MembershipType::className(), 'targetAttribute' => ['membership_type_id' => 'id']],

@@ -7,14 +7,14 @@ use Yii;
 /**
  * This is the model class for table "business_detail_vote".
  *
- * @property int $id
- * @property int $business_id
- * @property int $rating_component_id
+ * @property string $id
+ * @property string $business_id
+ * @property string $rating_component_id
  * @property double $vote_value
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  * @property int $total_vote_points
  *
  * @property Business $business
@@ -39,10 +39,12 @@ class BusinessDetailVote extends \sybase\SybaseModel
     {
         return [
             [['business_id', 'rating_component_id'], 'required'],
-            [['business_id', 'rating_component_id', 'user_created', 'user_updated', 'total_vote_points'], 'default', 'value' => null],
-            [['business_id', 'rating_component_id', 'user_created', 'user_updated', 'total_vote_points'], 'integer'],
             [['vote_value'], 'number'],
             [['created_at', 'updated_at'], 'safe'],
+            [['total_vote_points'], 'default', 'value' => null],
+            [['total_vote_points'], 'integer'],
+            [['id', 'business_id', 'rating_component_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
+            [['id'], 'unique'],
             [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],
             [['rating_component_id'], 'exist', 'skipOnError' => true, 'targetClass' => RatingComponent::className(), 'targetAttribute' => ['rating_component_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],

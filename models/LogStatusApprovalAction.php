@@ -7,14 +7,14 @@ use Yii;
 /**
  * This is the model class for table "log_status_approval_action".
  *
- * @property int $id
- * @property int $log_status_approval_id
- * @property int $status_approval_action_id
+ * @property string $id
+ * @property string $log_status_approval_id
+ * @property string $status_approval_action_id
  * @property string $note
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  *
  * @property LogStatusApproval $logStatusApproval
  * @property StatusApprovalAction $statusApprovalAction
@@ -38,10 +38,10 @@ class LogStatusApprovalAction extends \sybase\SybaseModel
     {
         return [
             [['log_status_approval_id', 'status_approval_action_id'], 'required'],
-            [['log_status_approval_id', 'status_approval_action_id', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['log_status_approval_id', 'status_approval_action_id', 'user_created', 'user_updated'], 'integer'],
             [['note'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
+            [['id', 'log_status_approval_id', 'status_approval_action_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
+            [['id'], 'unique'],
             [['log_status_approval_id'], 'exist', 'skipOnError' => true, 'targetClass' => LogStatusApproval::className(), 'targetAttribute' => ['log_status_approval_id' => 'id']],
             [['status_approval_action_id'], 'exist', 'skipOnError' => true, 'targetClass' => StatusApprovalAction::className(), 'targetAttribute' => ['status_approval_action_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],

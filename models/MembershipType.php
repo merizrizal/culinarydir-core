@@ -7,7 +7,7 @@ use Yii;
 /**
  * This is the model class for table "membership_type".
  *
- * @property int $id
+ * @property string $id
  * @property string $name
  * @property bool $is_premium
  * @property int $time_limit
@@ -17,9 +17,9 @@ use Yii;
  * @property int $order
  * @property bool $as_archive
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  *
  * @property Business[] $businesses
  * @property ContractMembership[] $contractMemberships
@@ -46,11 +46,13 @@ class MembershipType extends \sybase\SybaseModel
         return [
             [['name'], 'required'],
             [['is_premium', 'is_active', 'as_archive'], 'boolean'],
-            [['time_limit', 'price', 'order', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['time_limit', 'price', 'order', 'user_created', 'user_updated'], 'integer'],
+            [['time_limit', 'price', 'order'], 'default', 'value' => null],
+            [['time_limit', 'price', 'order'], 'integer'],
             [['note'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
+            [['id', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['name'], 'string', 'max' => 48],
+            [['id'], 'unique'],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
         ];

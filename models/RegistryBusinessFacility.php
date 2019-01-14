@@ -7,15 +7,15 @@ use Yii;
 /**
  * This is the model class for table "registry_business_facility".
  *
- * @property int $id
+ * @property string $id
  * @property string $unique_id
- * @property int $registry_business_id
- * @property int $facility_id
+ * @property string $registry_business_id
+ * @property string $facility_id
  * @property bool $is_active
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  *
  * @property Facility $facility
  * @property RegistryBusiness $registryBusiness
@@ -39,12 +39,12 @@ class RegistryBusinessFacility extends \sybase\SybaseModel
     {
         return [
             [['unique_id', 'registry_business_id', 'facility_id'], 'required'],
-            [['registry_business_id', 'facility_id', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['registry_business_id', 'facility_id', 'user_created', 'user_updated'], 'integer'],
             [['is_active'], 'boolean'],
-            [['created_at', 'updated_at'], 'safe'],
-            [['unique_id'], 'string', 'max' => 15],
+            [['created_at', 'updated_at', 'facility_id'], 'safe'],
+            [['id', 'registry_business_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
+            [['unique_id'], 'string', 'max' => 65],
             [['unique_id'], 'unique'],
+            [['id'], 'unique'],
             [['facility_id'], 'exist', 'skipOnError' => true, 'targetClass' => Facility::className(), 'targetAttribute' => ['facility_id' => 'id']],
             [['registry_business_id'], 'exist', 'skipOnError' => true, 'targetClass' => RegistryBusiness::className(), 'targetAttribute' => ['registry_business_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],

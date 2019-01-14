@@ -7,14 +7,14 @@ use Yii;
 /**
  * This is the model class for table "rating_component".
  *
- * @property int $id
+ * @property string $id
  * @property string $name
  * @property bool $is_active
  * @property int $order
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  *
  * @property BusinessDetailVote[] $businessDetailVotes
  * @property User $userCreated
@@ -39,10 +39,11 @@ class RatingComponent extends \sybase\SybaseModel
         return [
             [['name'], 'required'],
             [['is_active'], 'boolean'],
-            [['order', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['order', 'user_created', 'user_updated'], 'integer'],
+            [['order'], 'default', 'value' => null],
+            [['order'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['name'], 'string', 'max' => 32],
+            [['id', 'name', 'user_created', 'user_updated'], 'string', 'max' => 32],
+            [['id'], 'unique'],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
         ];

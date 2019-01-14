@@ -7,19 +7,19 @@ use Yii;
 /**
  * This is the model class for table "business_product".
  *
- * @property int $id
- * @property int $business_id
+ * @property string $id
+ * @property string $business_id
  * @property string $name
  * @property string $description
  * @property int $price
  * @property string $image
  * @property bool $not_active
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  * @property int $order
- * @property int $business_product_category_id
+ * @property string $business_product_category_id
  *
  * @property Business $business
  * @property BusinessProductCategory $businessProductCategory
@@ -44,13 +44,15 @@ class BusinessProduct extends \sybase\SybaseModel
     {
         return [
             [['business_id', 'name', 'price', 'business_product_category_id'], 'required'],
-            [['business_id', 'price', 'user_created', 'user_updated', 'order', 'business_product_category_id'], 'default', 'value' => null],
-            [['business_id', 'price', 'user_created', 'user_updated', 'order', 'business_product_category_id'], 'integer'],
             [['description'], 'string'],
+            [['price', 'order'], 'default', 'value' => null],
+            [['price', 'order'], 'integer'],
             [['not_active'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
+            [['id', 'business_id', 'user_created', 'user_updated', 'business_product_category_id'], 'string', 'max' => 32],
             [['name'], 'string', 'max' => 64],
             [['image'], 'string', 'max' => 128],
+            [['id'], 'unique'],
             [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],
             [['business_product_category_id'], 'exist', 'skipOnError' => true, 'targetClass' => BusinessProductCategory::className(), 'targetAttribute' => ['business_product_category_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
@@ -87,7 +89,7 @@ class BusinessProduct extends \sybase\SybaseModel
     {
         return $this->hasOne(Business::className(), ['id' => 'business_id']);
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */

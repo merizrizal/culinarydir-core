@@ -7,14 +7,14 @@ use Yii;
 /**
  * This is the model class for table "product_category".
  *
- * @property int $id
+ * @property string $id
  * @property bool $is_parent
  * @property string $name
  * @property bool $is_active
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  *
  * @property BusinessProductCategory[] $businessProductCategories
  * @property User $userCreated
@@ -37,12 +37,12 @@ class ProductCategory extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['is_parent', 'is_active'], 'boolean'],
             [['name'], 'required'],
+            [['is_parent', 'is_active'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
-            [['user_created', 'user_updated'], 'default', 'value' => null],
-            [['user_created', 'user_updated'], 'integer'],
+            [['id', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['name'], 'string', 'max' => 48],
+            [['id'], 'unique'],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
         ];

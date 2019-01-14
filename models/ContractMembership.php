@@ -7,17 +7,17 @@ use Yii;
 /**
  * This is the model class for table "contract_membership".
  *
- * @property int $registry_business_id
- * @property int $business_id
- * @property int $membership_type_id
+ * @property string $registry_business_id
+ * @property string $business_id
+ * @property string $membership_type_id
  * @property int $price
  * @property string $started_at
  * @property string $due_at
  * @property bool $is_current
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  *
  * @property Business $business
  * @property MembershipType $membershipType
@@ -42,10 +42,11 @@ class ContractMembership extends \sybase\SybaseModel
     {
         return [
             [['registry_business_id', 'business_id', 'membership_type_id'], 'required'],
-            [['registry_business_id', 'business_id', 'membership_type_id', 'price', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['registry_business_id', 'business_id', 'membership_type_id', 'price', 'user_created', 'user_updated'], 'integer'],
+            [['price'], 'default', 'value' => null],
+            [['price'], 'integer'],
             [['started_at', 'due_at', 'created_at', 'updated_at'], 'safe'],
             [['is_current'], 'boolean'],
+            [['registry_business_id', 'business_id', 'membership_type_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['registry_business_id'], 'unique'],
             [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],
             [['membership_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => MembershipType::className(), 'targetAttribute' => ['membership_type_id' => 'id']],

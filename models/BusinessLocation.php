@@ -7,18 +7,18 @@ use Yii;
 /**
  * This is the model class for table "business_location".
  *
- * @property int $business_id
+ * @property string $business_id
  * @property string $address_type
  * @property string $address
  * @property string $address_info
- * @property int $city_id
- * @property int $district_id
- * @property int $village_id
+ * @property string $city_id
+ * @property string $district_id
+ * @property string $village_id
  * @property string $coordinate
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  *
  * @property Business $business
  * @property City $city
@@ -44,10 +44,9 @@ class BusinessLocation extends \sybase\SybaseModel
     {
         return [
             [['business_id', 'address_type', 'address', 'city_id', 'district_id', 'village_id', 'coordinate'], 'required'],
-            [['business_id', 'city_id', 'district_id', 'village_id', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['business_id', 'city_id', 'district_id', 'village_id', 'user_created', 'user_updated'], 'integer'],
             [['address_type', 'address', 'address_info'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
+            [['business_id', 'city_id', 'district_id', 'village_id', 'user_created', 'user_updated'], 'string', 'max' => 32], 
             [['coordinate'], 'string', 'max' => 64],
             [['business_id'], 'unique'],
             [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],

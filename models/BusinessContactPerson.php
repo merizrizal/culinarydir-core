@@ -7,14 +7,14 @@ use Yii;
 /**
  * This is the model class for table "business_contact_person".
  *
- * @property int $id
- * @property int $business_id
- * @property int $person_id
+ * @property string $id
+ * @property string $business_id
+ * @property string $person_id
  * @property bool $is_primary_contact
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  * @property string $note
  * @property string $position
  *
@@ -40,11 +40,11 @@ class BusinessContactPerson extends \sybase\SybaseModel
     {
         return [
             [['business_id', 'person_id', 'position'], 'required'],
-            [['business_id', 'person_id', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['business_id', 'person_id', 'user_created', 'user_updated'], 'integer'],
             [['is_primary_contact'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
             [['note', 'position'], 'string'],
+            [['id', 'business_id', 'person_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
+            [['id'], 'unique'],
             [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],
             [['person_id'], 'exist', 'skipOnError' => true, 'targetClass' => Person::className(), 'targetAttribute' => ['person_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],

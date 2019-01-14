@@ -7,13 +7,13 @@ use Yii;
 /**
  * This is the model class for table "district".
  *
- * @property int $id
- * @property int $region_id
+ * @property string $id
+ * @property string $region_id
  * @property string $name
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  *
  * @property BusinessLocation[] $businessLocations
  * @property Region $region
@@ -39,10 +39,10 @@ class District extends \sybase\SybaseModel
     {
         return [
             [['region_id', 'name'], 'required'],
-            [['region_id', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['region_id', 'user_created', 'user_updated'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
+            [['id', 'region_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['name'], 'string', 'max' => 48],
+            [['id'], 'unique'],
             [['region_id'], 'exist', 'skipOnError' => true, 'targetClass' => Region::className(), 'targetAttribute' => ['region_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],

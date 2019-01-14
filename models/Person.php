@@ -7,18 +7,18 @@ use Yii;
 /**
  * This is the model class for table "person".
  *
- * @property int $id
+ * @property string $id
  * @property string $first_name
  * @property string $last_name
  * @property string $email
  * @property string $phone
- * @property int $city_id
+ * @property string $city_id
  * @property string $address
  * @property string $about_me
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  *
  * @property BusinessContactPerson[] $businessContactPeople
  * @property City $city
@@ -44,13 +44,12 @@ class Person extends \sybase\SybaseModel
     {
         return [
             [['first_name'], 'required'],
-            [['city_id', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['city_id', 'user_created', 'user_updated'], 'integer'],
             [['address', 'about_me'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
+            [['id', 'city_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['first_name', 'last_name', 'phone'], 'string', 'max' => 16],
             [['email'], 'string', 'max' => 64],
-            [['email'], 'email'],
+            [['id'], 'unique'],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['city_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
@@ -77,7 +76,7 @@ class Person extends \sybase\SybaseModel
             'user_updated' => Yii::t('app', 'User Updated'),
         ];
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */

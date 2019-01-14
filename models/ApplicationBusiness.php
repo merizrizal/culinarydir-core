@@ -7,13 +7,13 @@ use Yii;
 /**
  * This is the model class for table "application_business".
  *
- * @property int $id
- * @property int $user_in_charge
+ * @property string $id
+ * @property string $user_in_charge
  * @property int $counter
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  *
  * @property User $userInCharge
  * @property User $userCreated
@@ -39,9 +39,11 @@ class ApplicationBusiness extends \sybase\SybaseModel
     {
         return [
             [['user_in_charge'], 'required'],
-            [['user_in_charge', 'counter', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['user_in_charge', 'counter', 'user_created', 'user_updated'], 'integer'],
+            [['counter'], 'default', 'value' => null],
+            [['counter'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
+            [['id', 'user_in_charge', 'user_created', 'user_updated'], 'string', 'max' => 32],
+            [['id'], 'unique'], 
             [['user_in_charge'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_in_charge' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],

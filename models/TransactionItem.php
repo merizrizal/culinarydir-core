@@ -7,16 +7,16 @@ use Yii;
 /**
  * This is the model class for table "transaction_item".
  *
- * @property int $id
- * @property int $transaction_session_id
- * @property int $business_product_id
+ * @property string $id
+ * @property string $transaction_session_id
+ * @property string $business_product_id
  * @property string $note
  * @property int $price
  * @property int $amount
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  *
  * @property BusinessProduct $businessProduct
  * @property TransactionSession $transactionSession
@@ -40,10 +40,12 @@ class TransactionItem extends \sybase\SybaseModel
     {
         return [
             [['transaction_session_id', 'business_product_id'], 'required'],
-            [['transaction_session_id', 'business_product_id', 'price', 'amount', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['transaction_session_id', 'business_product_id', 'price', 'amount', 'user_created', 'user_updated'], 'integer'],
             [['note'], 'string'],
+            [['price', 'amount'], 'default', 'value' => null],
+            [['price', 'amount'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
+            [['id', 'transaction_session_id', 'business_product_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
+            [['id'], 'unique'],
             [['business_product_id'], 'exist', 'skipOnError' => true, 'targetClass' => BusinessProduct::className(), 'targetAttribute' => ['business_product_id' => 'id']],
             [['transaction_session_id'], 'exist', 'skipOnError' => true, 'targetClass' => TransactionSession::className(), 'targetAttribute' => ['transaction_session_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],

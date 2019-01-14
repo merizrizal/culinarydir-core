@@ -7,16 +7,16 @@ use Yii;
 /**
  * This is the model class for table "business_detail".
  *
- * @property int $business_id
+ * @property string $business_id
  * @property int $price_min
  * @property int $price_max
  * @property int $voters
  * @property double $vote_value
  * @property double $vote_points
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  * @property int $love_value
  * @property int $visit_value
  * @property int $total_vote_points
@@ -43,11 +43,12 @@ class BusinessDetail extends \sybase\SybaseModel
     {
         return [
             [['business_id'], 'required'],
-            [['business_id', 'price_min', 'price_max', 'voters', 'user_created', 'user_updated', 'love_value', 'visit_value', 'total_vote_points'], 'default', 'value' => null],
-            [['business_id', 'price_min', 'price_max', 'voters', 'user_created', 'user_updated', 'love_value', 'visit_value', 'total_vote_points'], 'integer'],
+            [['price_min', 'price_max', 'voters', 'love_value', 'visit_value', 'total_vote_points'], 'default', 'value' => null],
+            [['price_min', 'price_max', 'voters', 'love_value', 'visit_value', 'total_vote_points'], 'integer'],
             [['vote_value', 'vote_points'], 'number'],
             [['created_at', 'updated_at'], 'safe'],
             [['note_business_hour'], 'string'],
+            [['business_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['business_id'], 'unique'],
             [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],

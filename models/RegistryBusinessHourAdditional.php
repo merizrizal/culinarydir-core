@@ -7,17 +7,17 @@ use Yii;
 /**
  * This is the model class for table "registry_business_hour_additional".
  *
- * @property int $id
+ * @property string $id
  * @property string $unique_id
- * @property int $registry_business_hour_id
+ * @property string $registry_business_hour_id
  * @property string $day
  * @property bool $is_open
  * @property string $open_at
  * @property string $close_at
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  *
  * @property RegistryBusinessHour $registryBusinessHour
  * @property User $userCreated
@@ -40,13 +40,13 @@ class RegistryBusinessHourAdditional extends \sybase\SybaseModel
     {
         return [
             [['unique_id', 'registry_business_hour_id', 'day'], 'required'],
-            [['registry_business_hour_id', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['registry_business_hour_id', 'user_created', 'user_updated'], 'integer'],
             [['day'], 'string'],
             [['is_open'], 'boolean'],
             [['open_at', 'close_at', 'created_at', 'updated_at'], 'safe'],
-            [['unique_id'], 'string', 'max' => 14],
+            [['id', 'registry_business_hour_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
+            [['unique_id'], 'string', 'max' => 36],
             [['unique_id'], 'unique'],
+            [['id'], 'unique'],
             [['registry_business_hour_id'], 'exist', 'skipOnError' => true, 'targetClass' => RegistryBusinessHour::className(), 'targetAttribute' => ['registry_business_hour_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
