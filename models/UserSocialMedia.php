@@ -9,7 +9,7 @@ use yii\db\ActiveRecord;
 /**
  * This is the model class for table "user_social_media".
  *
- * @property int $user_id
+ * @property string $user_id
  * @property string $facebook_id
  * @property string $google_id
  * @property string $created_at
@@ -49,9 +49,8 @@ class UserSocialMedia extends \sybase\SybaseModel
     {
         return [
             [['user_id'], 'required'],
-            [['user_id'], 'default', 'value' => null],
-            [['user_id'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
+            [['user_id'], 'string', 'max' => 32], 
             [['facebook_id', 'google_id'], 'string', 'max' => 64],
             [['user_id'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],

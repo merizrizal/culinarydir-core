@@ -7,14 +7,14 @@ use Yii;
 /**
  * This is the model class for table "user_level".
  *
- * @property int $id
+ * @property string $id
  * @property string $nama_level
  * @property bool $is_super_admin
  * @property string $keterangan
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  *
  * @property User[] $users
  * @property UserAkses[] $userAkses
@@ -41,9 +41,8 @@ class UserLevel extends \sybase\SybaseModel
             [['is_super_admin'], 'boolean'],
             [['keterangan'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
-            [['user_created', 'user_updated'], 'default', 'value' => null],
-            [['user_created', 'user_updated'], 'integer'],
-            [['nama_level'], 'string', 'max' => 32],
+            [['id', 'nama_level', 'user_created', 'user_updated'], 'string', 'max' => 32],
+            [['id'], 'unique'],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
         ];

@@ -7,14 +7,14 @@ use Yii;
 /**
  * This is the model class for table "user_post_love".
  *
- * @property int $id
- * @property int $user_post_main_id
- * @property int $user_id
+ * @property string $id
+ * @property string $user_post_main_id
+ * @property string $user_id
  * @property bool $is_active
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  * @property string $unique_id
  *
  * @property User $user
@@ -39,12 +39,12 @@ class UserPostLove extends \sybase\SybaseModel
     {
         return [
             [['user_post_main_id', 'user_id', 'unique_id'], 'required'],
-            [['user_post_main_id', 'user_id', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['user_post_main_id', 'user_id', 'user_created', 'user_updated'], 'integer'],
             [['is_active'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
-            [['unique_id'], 'string', 'max' => 39],
+            [['id', 'user_post_main_id', 'user_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
+            [['unique_id'], 'string', 'max' => 65],
             [['unique_id'], 'unique'],
+            [['id'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],

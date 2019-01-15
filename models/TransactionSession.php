@@ -7,15 +7,15 @@ use Yii;
 /**
  * This is the model class for table "transaction_session".
  *
- * @property int $id
- * @property int $user_ordered
- * @property int $business_id
+ * @property string $id
+ * @property string $user_ordered
+ * @property string $business_id
  * @property string $note
  * @property int $total_price
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  * @property bool $is_closed
  * @property int $total_amount
  *
@@ -24,7 +24,6 @@ use Yii;
  * @property User $userOrdered
  * @property User $userCreated
  * @property User $userUpdated
- * @property TransactionSessionOrder $transactionSessionOrder
  */
 class TransactionSession extends \sybase\SybaseModel
 {
@@ -43,11 +42,13 @@ class TransactionSession extends \sybase\SybaseModel
     {
         return [
             [['user_ordered', 'business_id'], 'required'],
-            [['user_ordered', 'business_id', 'total_price', 'user_created', 'user_updated', 'total_amount'], 'default', 'value' => null],
-            [['user_ordered', 'business_id', 'total_price', 'user_created', 'user_updated', 'total_amount'], 'integer'],
             [['note'], 'string'],
+            [['total_price', 'total_amount'], 'default', 'value' => null],
+            [['total_price', 'total_amount'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['is_closed'], 'boolean'],
+            [['id', 'user_ordered', 'business_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
+            [['id'], 'unique'],
             [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],
             [['user_ordered'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_ordered' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
@@ -113,13 +114,5 @@ class TransactionSession extends \sybase\SybaseModel
     public function getUserUpdated()
     {
         return $this->hasOne(User::className(), ['id' => 'user_updated']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTransactionSessionOrder()
-    {
-        return $this->hasOne(TransactionSessionOrder::className(), ['transaction_session_id' => 'id']);
     }
 }

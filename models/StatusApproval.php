@@ -19,9 +19,9 @@ use Yii;
  * @property bool $not_active
  * @property string $execute_action
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  *
  * @property LogStatusApproval[] $logStatusApprovals
  * @property User $userCreated
@@ -49,12 +49,13 @@ class StatusApproval extends \sybase\SybaseModel
         return [
             [['id', 'name', 'status', 'order', 'branch', 'group'], 'required'],
             [['note', 'instruction', 'status', 'execute_action'], 'string'],
-            [['order', 'branch', 'group', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['order', 'branch', 'group', 'user_created', 'user_updated'], 'integer'],
+            [['order', 'branch', 'group'], 'default', 'value' => null],
+            [['order', 'branch', 'group'], 'integer'],
             [['condition', 'not_active'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
             [['id'], 'string', 'max' => 7],
             [['name'], 'string', 'max' => 64],
+            [['user_created', 'user_updated'], 'string', 'max' => 32],
             [['id'], 'unique'],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
