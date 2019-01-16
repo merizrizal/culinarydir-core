@@ -7,14 +7,14 @@ use Yii;
 /**
  * This is the model class for table "user_post_comment".
  *
- * @property int $id
- * @property int $user_post_main_id
- * @property int $user_id
+ * @property string $id
+ * @property string $user_post_main_id
+ * @property string $user_id
  * @property string $text
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  *
  * @property User $user
  * @property User $userCreated
@@ -38,10 +38,10 @@ class UserPostComment extends \sybase\SybaseModel
     {
         return [
             [['user_post_main_id', 'user_id', 'text'], 'required'],
-            [['user_post_main_id', 'user_id', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['user_post_main_id', 'user_id', 'user_created', 'user_updated'], 'integer'],
             [['text'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
+            [['id', 'user_post_main_id', 'user_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
+            [['id'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],

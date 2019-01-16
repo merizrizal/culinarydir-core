@@ -7,14 +7,14 @@ use Yii;
 /**
  * This is the model class for table "user_vote".
  *
- * @property int $id
+ * @property string $id
  * @property int $vote_value
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
- * @property int $rating_component_id
- * @property int $user_post_main_id
+ * @property string $user_updated
+ * @property string $rating_component_id
+ * @property string $user_post_main_id
  *
  * @property RatingComponent $ratingComponent
  * @property User $userCreated
@@ -38,9 +38,11 @@ class UserVote extends \sybase\SybaseModel
     {
         return [
             [['vote_value', 'rating_component_id', 'user_post_main_id'], 'required'],
-            [['vote_value', 'user_created', 'user_updated', 'rating_component_id', 'user_post_main_id'], 'default', 'value' => null],
-            [['vote_value', 'user_created', 'user_updated', 'rating_component_id', 'user_post_main_id'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['vote_value'], 'default', 'value' => null],
+            [['vote_value'], 'integer'],
+            [['rating_component_id', 'created_at', 'updated_at'], 'safe'],
+            [['id', 'user_created', 'user_updated', 'user_post_main_id'], 'string', 'max' => 32],
+            [['id'], 'unique'],
             [['rating_component_id'], 'exist', 'skipOnError' => true, 'targetClass' => RatingComponent::className(), 'targetAttribute' => ['rating_component_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],

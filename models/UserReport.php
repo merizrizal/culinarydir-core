@@ -7,15 +7,15 @@ use Yii;
 /**
  * This is the model class for table "user_report".
  *
- * @property int $id
- * @property int $business_id
- * @property int $user_id
+ * @property string $id
+ * @property string $business_id
+ * @property string $user_id
  * @property string $report_status
  * @property string $text
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  *
  * @property Business $business
  * @property User $user
@@ -39,10 +39,10 @@ class UserReport extends \sybase\SybaseModel
     {
         return [
             [['business_id', 'user_id', 'report_status'], 'required'],
-            [['business_id', 'user_id', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['business_id', 'user_id', 'user_created', 'user_updated'], 'integer'],
             [['report_status', 'text'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
+            [['id', 'business_id', 'user_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
+            [['id'], 'unique'],
             [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],

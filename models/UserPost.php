@@ -7,20 +7,20 @@ use Yii;
 /**
  * This is the model class for table "user_post".
  *
- * @property int $id
- * @property int $parent_id
- * @property int $business_id
+ * @property string $id
+ * @property string $parent_id
+ * @property string $business_id
  * @property string $type
- * @property int $user_id
+ * @property string $user_id
  * @property string $text
  * @property bool $is_publish
  * @property string $image
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  * @property int $love_value
- * @property int $user_post_main_id
+ * @property string $user_post_main_id
  *
  * @property Business $business
  * @property User $user
@@ -46,12 +46,14 @@ class UserPost extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['parent_id', 'business_id', 'user_id', 'user_created', 'user_updated', 'love_value', 'user_post_main_id'], 'default', 'value' => null],
-            [['parent_id', 'business_id', 'user_id', 'user_created', 'user_updated', 'love_value', 'user_post_main_id'], 'integer'],
             [['business_id', 'type', 'user_id'], 'required'],
             [['type', 'text', 'image'], 'string'],
             [['is_publish'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
+            [['love_value'], 'default', 'value' => null],
+            [['love_value'], 'integer'],
+            [['id', 'parent_id', 'business_id', 'user_id', 'user_created', 'user_updated', 'user_post_main_id'], 'string', 'max' => 32],
+            [['id'], 'unique'],
             [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
