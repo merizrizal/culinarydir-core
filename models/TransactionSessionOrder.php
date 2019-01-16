@@ -7,13 +7,13 @@ use Yii;
 /**
  * This is the model class for table "transaction_session_order".
  *
- * @property int $transaction_session_id
- * @property int $business_payment_id
- * @property int $business_delivery_id
+ * @property string $transaction_session_id
+ * @property string $business_payment_id
+ * @property string $business_delivery_id
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  *
  * @property BusinessDelivery $businessDelivery
  * @property BusinessPayment $businessPayment
@@ -38,9 +38,8 @@ class TransactionSessionOrder extends \sybase\SybaseModel
     {
         return [
             [['transaction_session_id', 'business_payment_id', 'business_delivery_id'], 'required'],
-            [['transaction_session_id', 'business_payment_id', 'business_delivery_id', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['transaction_session_id', 'business_payment_id', 'business_delivery_id', 'user_created', 'user_updated'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
+            [['transaction_session_id', 'business_payment_id', 'business_delivery_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['transaction_session_id'], 'unique'],
             [['business_delivery_id'], 'exist', 'skipOnError' => true, 'targetClass' => BusinessDelivery::className(), 'targetAttribute' => ['business_delivery_id' => 'id']],
             [['business_payment_id'], 'exist', 'skipOnError' => true, 'targetClass' => BusinessPayment::className(), 'targetAttribute' => ['business_payment_id' => 'id']],
