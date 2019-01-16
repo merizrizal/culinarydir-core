@@ -46,7 +46,7 @@ class BusinessLocation extends \sybase\SybaseModel
             [['business_id', 'address_type', 'address', 'city_id', 'district_id', 'village_id', 'coordinate'], 'required'],
             [['address_type', 'address', 'address_info'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
-            [['business_id', 'city_id', 'district_id', 'village_id', 'user_created', 'user_updated'], 'string', 'max' => 32], 
+            [['business_id', 'city_id', 'district_id', 'village_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['coordinate'], 'string', 'max' => 64],
             [['business_id'], 'unique'],
             [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],

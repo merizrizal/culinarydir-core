@@ -7,13 +7,13 @@ use Yii;
 /**
  * This is the model class for table "status_approval_require_action".
  *
- * @property int $id
+ * @property string $id
  * @property string $status_approval_id
- * @property int $status_approval_action_id
+ * @property string $status_approval_action_id
  * @property string $created_at
- * @property int $user_created
+ * @property string $user_created
  * @property string $updated_at
- * @property int $user_updated
+ * @property string $user_updated
  *
  * @property StatusApproval $statusApproval
  * @property StatusApprovalAction $statusApprovalAction
@@ -37,10 +37,10 @@ class StatusApprovalRequireAction extends \sybase\SybaseModel
     {
         return [
             [['status_approval_id', 'status_approval_action_id'], 'required'],
-            [['status_approval_action_id', 'user_created', 'user_updated'], 'default', 'value' => null],
-            [['status_approval_action_id', 'user_created', 'user_updated'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
+            [['id', 'status_approval_action_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['status_approval_id'], 'string', 'max' => 7],
+            [['id'], 'unique'],
             [['status_approval_id'], 'exist', 'skipOnError' => true, 'targetClass' => StatusApproval::className(), 'targetAttribute' => ['status_approval_id' => 'id']],
             [['status_approval_action_id'], 'exist', 'skipOnError' => true, 'targetClass' => StatusApprovalAction::className(), 'targetAttribute' => ['status_approval_action_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],

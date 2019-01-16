@@ -40,7 +40,7 @@ class UserVote extends \sybase\SybaseModel
             [['vote_value', 'rating_component_id', 'user_post_main_id'], 'required'],
             [['vote_value'], 'default', 'value' => null],
             [['vote_value'], 'integer'],
-            [['rating_component_id', 'created_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at', 'rating_component_id'], 'safe'],
             [['id', 'user_created', 'user_updated', 'user_post_main_id'], 'string', 'max' => 32],
             [['id'], 'unique'],
             [['rating_component_id'], 'exist', 'skipOnError' => true, 'targetClass' => RatingComponent::className(), 'targetAttribute' => ['rating_component_id' => 'id']],

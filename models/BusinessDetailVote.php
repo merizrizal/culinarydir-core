@@ -40,7 +40,7 @@ class BusinessDetailVote extends \sybase\SybaseModel
         return [
             [['business_id', 'rating_component_id'], 'required'],
             [['vote_value'], 'number'],
-            [['rating_component_id', 'created_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at', 'rating_component_id'], 'safe'],
             [['total_vote_points'], 'default', 'value' => null],
             [['total_vote_points'], 'integer'],
             [['id', 'business_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
