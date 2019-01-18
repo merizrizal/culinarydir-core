@@ -51,7 +51,7 @@ class BusinessSearch extends Business
     public function search($params)
     {
         $query = Business::find()
-                ->select('business.*, membership_type.name as membership_type_name')
+                ->select('business.id, membership_type.name, business.*')
                 ->joinWith([
                     'membershipType',
                     'userInCharge',
@@ -68,8 +68,8 @@ class BusinessSearch extends Business
         ]);
 
         $dataProvider->sort->attributes['membershipType.name'] = [
-            'asc' => ['membership_type_name' => SORT_ASC],
-            'desc' => ['membership_type_name' => SORT_DESC],
+            'asc' => ['membership_type.name' => SORT_ASC],
+            'desc' => ['membership_type.name' => SORT_DESC],
         ];
 
         $this->load($params);
