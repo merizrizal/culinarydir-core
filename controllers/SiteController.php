@@ -1,11 +1,11 @@
 <?php
+
 namespace core\controllers;
 
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use core\models\Business;
 
 /**
  * Site controller
@@ -62,7 +62,16 @@ class SiteController extends Controller
     {
         $db = Yii::$app->db;
         $transaction = $db->beginTransaction();
-        $flag = false;
+        
+        $addForeignKey = $db->createCommand('
+            SELECT DISTINCT \'ALTER TABLE "public"."\' || tc.table_name || \'" ADD constraint "\' || tc.constraint_name || \'" foreign key ("\' || kcu.column_name || \'") references "public"."\' || ccu.table_name || \'" (\' || ccu.column_name || \');\'
+            FROM information_schema.table_constraints AS tc
+                JOIN information_schema.key_column_usage AS kcu
+                  ON tc.constraint_name = kcu.constraint_name
+                JOIN information_schema.constraint_column_usage AS ccu
+                  ON ccu.constraint_name = tc.constraint_name
+            WHERE constraint_type = \'FOREIGN KEY\' AND kcu.column_name NOT IN(\'status_approval_id\', \'require_status_approval_id\');
+        ')->queryColumn();
         
         $alterForeignKey = $db->createCommand('
             SELECT \'ALTER TABLE "public"."\' || tc.table_name || \'" drop constraint "\' || tc.constraint_name || \'";
@@ -75,16 +84,29 @@ class SiteController extends Controller
                   ON tc.constraint_name = kcu.constraint_name
                 JOIN information_schema.constraint_column_usage AS ccu
                   ON ccu.constraint_name = tc.constraint_name
-            WHERE constraint_type = \'FOREIGN KEY\';
+            WHERE constraint_type = \'FOREIGN KEY\' AND kcu.column_name NOT IN(\'status_approval_id\', \'require_status_approval_id\');
         ')->queryAll();
+        
+        foreach ($alterForeignKey as $alterFK) {
+            
+            $alterFKTemp = explode(';', $alterFK['query']);
+            
+            $db->createCommand($alterFKTemp[0])->execute();
+            $db->createCommand($alterFKTemp[1])->execute();
+        }
         
         $alterPrimaryKey = $db->createCommand('
             SELECT DISTINCT \'ALTER TABLE "public"."\' || tc.table_name || \'" ALTER COLUMN "\' || c.column_name || \'" DROP DEFAULT,ALTER COLUMN "\' || c.column_name || \'" TYPE character varying(32);\'
             FROM information_schema.table_constraints tc 
             JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_name) 
             JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name
-            WHERE constraint_type = \'PRIMARY KEY\';
+            WHERE constraint_type = \'PRIMARY KEY\' AND tc.table_name NOT IN(\'status_approval\');
         ')->queryColumn();
+        
+        foreach ($alterPrimaryKey as $alterPK) {
+            
+            $db->createCommand($alterPK)->execute();
+        }
         
         //BEGIN:change value primary key and foreign key
         
@@ -93,7 +115,7 @@ class SiteController extends Controller
             FROM information_schema.table_constraints tc 
             JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_name) 
             JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name
-            WHERE constraint_type = \'PRIMARY KEY\' AND ccu.column_name NOT IN(\'business_id\', \'registry_business_id\', \'user_id\');
+            WHERE constraint_type = \'PRIMARY KEY\' AND ccu.column_name NOT IN(\'business_id\', \'registry_business_id\', \'user_id\') AND tc.table_name NOT IN(\'status_approval\');
         ')->queryAll();
             
         $selectTable = [];
@@ -105,20 +127,21 @@ class SiteController extends Controller
             ')->queryAll();
         }
         
-        $updateIdPrimaryTable = [];
-        $updateIdForeignTable = [];
-        
         foreach ($selectTable as $tableName => $tables) {
+            
+            $function = 'get_' . $tableName . '_id()';
+            
+            $db->createCommand('ALTER TABLE "public"."' . $tableName . '" ALTER COLUMN "id" SET DEFAULT ' . $function . ';')->execute();
             
             foreach ($tables as $table) {
                 
-                $updateIdPrimaryTable[$tableName][] = 'UPDATE "' . $tableName . '" SET "id"=\'123456\' WHERE "id"=\'' . $table['id'] . '\';';
+                $newID = $db->createCommand('UPDATE "' . $tableName . '" SET "id"=' . $function . ' WHERE "id"=\'' . $table['id'] . '\' RETURNING "id";')->queryColumn();
                 
                 foreach ($alterForeignKey as $data) {
                     
                     if ($data['reference_table'] == $tableName) {
                         
-                        $updateIdForeignTable[$tableName][] = 'UPDATE "' . $data['table'] . '" SET "' . $data['column_name'] . '"=\'123456\' WHERE id=\'' . $table['id'] . '\';';
+                        $db->createCommand('UPDATE "' . $data['table'] . '" SET "' . $data['column_name'] . '"=\'' . $newID[0] . '\' WHERE "' . $data['column_name'] . '"=\'' . $table['id'] . '\';')->execute();
                     }
                 }
             }
@@ -126,20 +149,11 @@ class SiteController extends Controller
         
         //END
         
-        $addForeignKey = $db->createCommand('
-            SELECT DISTINCT \'ALTER TABLE "public"."\' || tc.table_name || \'" ADD constraint "\' || tc.constraint_name || \'" foreign key ("\' || kcu.column_name || \'") references "public"."\' || ccu.table_name || \'" (\' || ccu.column_name || \');\'
-            FROM information_schema.table_constraints AS tc 
-                JOIN information_schema.key_column_usage AS kcu
-                  ON tc.constraint_name = kcu.constraint_name
-                JOIN information_schema.constraint_column_usage AS ccu
-                  ON ccu.constraint_name = tc.constraint_name
-            WHERE constraint_type = \'FOREIGN KEY\';
-        ')->queryColumn();
-        
-        //$db->createCommand()->update('business', ['id' => '11asd'], 'id=\'11aa\'')->execute();
+        foreach ($addForeignKey as $addFK) {
+            
+            $db->createCommand($addFK)->execute();
+        }
         
         $transaction->commit();
-        
-        echo'<pre>';print_r($updateIdForeignTable);exit;
     }
 }
