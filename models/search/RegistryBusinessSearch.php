@@ -51,7 +51,7 @@ class RegistryBusinessSearch extends RegistryBusiness
     public function search($params)
     {
         $query = RegistryBusiness::find()
-            ->select('registry_business.*, membership_type.name as membership_type_name')
+            ->select('registry_business.id, membership_type.name, registry_business.*')
             ->joinWith([
                 'membershipType',
                 'userInCharge',
@@ -69,8 +69,8 @@ class RegistryBusinessSearch extends RegistryBusiness
         ]);
 
         $dataProvider->sort->attributes['membershipType.name'] = [
-            'asc' => ['membership_type_name' => SORT_ASC],
-            'desc' => ['membership_type_name' => SORT_DESC],
+            'asc' => ['membership_type.name' => SORT_ASC],
+            'desc' => ['membership_type.name' => SORT_DESC],
         ];
 
         $dataProvider->sort->attributes['userInCharge.full_name'] = [
