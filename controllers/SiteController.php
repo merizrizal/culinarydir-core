@@ -87,13 +87,13 @@ class SiteController extends Controller
             WHERE constraint_type = \'FOREIGN KEY\' AND kcu.column_name NOT IN(\'status_approval_id\', \'require_status_approval_id\');
         ')->queryAll();
         
-        foreach ($alterForeignKey as $alterFK) {
+//         foreach ($alterForeignKey as $alterFK) {
             
-            $alterFKTemp = explode(';', $alterFK['query']);
+//             $alterFKTemp = explode(';', $alterFK['query']);
             
-            $db->createCommand($alterFKTemp[0])->execute();
-            $db->createCommand($alterFKTemp[1])->execute();
-        }
+//             $db->createCommand($alterFKTemp[0])->execute();
+//             $db->createCommand($alterFKTemp[1])->execute();
+//         }
         
         $alterPrimaryKey = $db->createCommand('
             SELECT DISTINCT \'ALTER TABLE "public"."\' || tc.table_name || \'" ALTER COLUMN "\' || c.column_name || \'" DROP DEFAULT,ALTER COLUMN "\' || c.column_name || \'" TYPE character varying(32);\'
@@ -103,10 +103,10 @@ class SiteController extends Controller
             WHERE constraint_type = \'PRIMARY KEY\' AND tc.table_name NOT IN(\'status_approval\');
         ')->queryColumn();
         
-        foreach ($alterPrimaryKey as $alterPK) {
+//         foreach ($alterPrimaryKey as $alterPK) {
             
-            $db->createCommand($alterPK)->execute();
-        }
+//             $db->createCommand($alterPK)->execute();
+//         }
         
         //BEGIN:change value primary key and foreign key
         
@@ -115,7 +115,7 @@ class SiteController extends Controller
             FROM information_schema.table_constraints tc 
             JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_name) 
             JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema AND tc.table_name = c.table_name AND ccu.column_name = c.column_name
-            WHERE constraint_type = \'PRIMARY KEY\' AND ccu.column_name NOT IN(\'business_id\', \'registry_business_id\', \'user_id\') AND tc.table_name NOT IN(\'status_approval\');
+            WHERE constraint_type = \'PRIMARY KEY\' AND ccu.column_name NOT IN(\'business_id\', \'registry_business_id\', \'user_id\', \'transaction_session_order_id\') AND tc.table_name NOT IN(\'status_approval\');
         ')->queryAll();
             
         $selectTable = [];
