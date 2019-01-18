@@ -87,13 +87,13 @@ class SiteController extends Controller
             WHERE constraint_type = \'FOREIGN KEY\' AND kcu.column_name NOT IN(\'status_approval_id\', \'require_status_approval_id\');
         ')->queryAll();
         
-//         foreach ($alterForeignKey as $alterFK) {
+        foreach ($alterForeignKey as $alterFK) {
             
-//             $alterFKTemp = explode(';', $alterFK['query']);
+            $alterFKTemp = explode(';', $alterFK['query']);
             
-//             $db->createCommand($alterFKTemp[0])->execute();
-//             $db->createCommand($alterFKTemp[1])->execute();
-//         }
+            $db->createCommand($alterFKTemp[0])->execute();
+            $db->createCommand($alterFKTemp[1])->execute();
+        }
         
         $alterPrimaryKey = $db->createCommand('
             SELECT DISTINCT \'ALTER TABLE "public"."\' || tc.table_name || \'" ALTER COLUMN "\' || c.column_name || \'" DROP DEFAULT,ALTER COLUMN "\' || c.column_name || \'" TYPE character varying(32);\'
@@ -103,10 +103,10 @@ class SiteController extends Controller
             WHERE constraint_type = \'PRIMARY KEY\' AND tc.table_name NOT IN(\'status_approval\');
         ')->queryColumn();
         
-//         foreach ($alterPrimaryKey as $alterPK) {
+        foreach ($alterPrimaryKey as $alterPK) {
             
-//             $db->createCommand($alterPK)->execute();
-//         }
+            $db->createCommand($alterPK)->execute();
+        }
         
         //BEGIN:change value primary key and foreign key
         
