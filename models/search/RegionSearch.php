@@ -51,7 +51,7 @@ class RegionSearch extends Region
     public function search($params)
     {
         $query = Region::find()
-                ->joinWith(['city']);
+            ->joinWith(['city']);
 
         // add conditions that should always apply here
 
@@ -86,7 +86,7 @@ class RegionSearch extends Region
         ]);
 
         $query->andFilterWhere(['ilike', 'region.name', $this->name])
-                ->andFilterWhere(['ilike', 'city.name', $this->getAttribute('city.name')]);
+            ->andFilterWhere(['ilike', 'city.name', $this->getAttribute('city.name')]);
 
         return $dataProvider;
     }

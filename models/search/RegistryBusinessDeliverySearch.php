@@ -58,7 +58,6 @@ class RegistryBusinessDeliverySearch extends RegistryBusinessDelivery
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => ['defaultOrder' => ['id' => SORT_ASC]],
             'pagination' => array(
                 'pageSize' => Yii::$app->params['pageSize'],
             ),

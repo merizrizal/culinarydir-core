@@ -51,7 +51,7 @@ class CitySearch extends City
     public function search($params)
     {
         $query = City::find()
-                ->joinWith(['province']);
+            ->joinWith(['province']);
 
         // add conditions that should always apply here
 
@@ -86,7 +86,7 @@ class CitySearch extends City
         ]);
 
         $query->andFilterWhere(['ilike', 'city.name', $this->name])
-                ->andFilterWhere(['ilike', 'province.name', $this->getAttribute('province.name')]);
+            ->andFilterWhere(['ilike', 'province.name', $this->getAttribute('province.name')]);
 
         return $dataProvider;
     }

@@ -51,7 +51,7 @@ class PersonSearch extends Person
     public function search($params)
     {
         $query = Person::find()
-                ->joinWith(['city']);
+            ->joinWith(['city']);
 
         // add conditions that should always apply here
 
@@ -91,7 +91,7 @@ class PersonSearch extends Person
             ->andFilterWhere(['ilike', 'phone', $this->phone])
             ->andFilterWhere(['ilike', 'address', $this->address])
             ->andFilterWhere(['ilike', 'about_me', $this->about_me])
-                ->andFilterWhere(['ilike', 'city.name', $this->getAttribute('city.name')]);
+            ->andFilterWhere(['ilike', 'city.name', $this->getAttribute('city.name')]);
 
         return $dataProvider;
     }
