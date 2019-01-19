@@ -51,11 +51,11 @@ class VillageSearch extends Village
     public function search($params)
     {
         $query = Village::find()
-                ->joinWith([
-                    'district',
-                    'district.region',
-                    'district.region.city'
-                ]);
+            ->joinWith([
+                'district',
+                'district.region',
+                'district.region.city'
+            ]);
 
         // add conditions that should always apply here
 
@@ -100,9 +100,9 @@ class VillageSearch extends Village
         ]);
 
         $query->andFilterWhere(['ilike', 'name', $this->name])
-                ->andFilterWhere(['ilike', 'district.name', $this->getAttribute('district.name')])
-                ->andFilterWhere(['ilike', 'region.name', $this->getAttribute('district.region.name')])
-                ->andFilterWhere(['ilike', 'city.name', $this->getAttribute('district.region.city.name')]);
+            ->andFilterWhere(['ilike', 'district.name', $this->getAttribute('district.name')])
+            ->andFilterWhere(['ilike', 'region.name', $this->getAttribute('district.region.name')])
+            ->andFilterWhere(['ilike', 'city.name', $this->getAttribute('district.region.city.name')]);
 
         return $dataProvider;
     }

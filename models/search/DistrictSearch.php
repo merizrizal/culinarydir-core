@@ -51,10 +51,10 @@ class DistrictSearch extends District
     public function search($params)
     {
         $query = District::find()
-                ->joinWith([
-                    'region',
-                    'region.city'
-                ]);
+            ->joinWith([
+                'region',
+                'region.city'
+            ]);
 
         // add conditions that should always apply here
 
@@ -94,8 +94,8 @@ class DistrictSearch extends District
         ]);
 
         $query->andFilterWhere(['ilike', 'district.name', $this->name])
-                ->andFilterWhere(['ilike', 'region.name', $this->getAttribute('region.name')])
-                ->andFilterWhere(['ilike', 'city.name', $this->getAttribute('region.city.name')]);
+            ->andFilterWhere(['ilike', 'region.name', $this->getAttribute('region.name')])
+            ->andFilterWhere(['ilike', 'city.name', $this->getAttribute('region.city.name')]);
 
         return $dataProvider;
     }

@@ -42,13 +42,15 @@ class StatusApprovalSearch extends StatusApproval
      */
     public function search($params)
     {
-        $query = StatusApproval::find()
-                ->orderBy('order');
+        $query = StatusApproval::find();
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'=> [
+                'defaultOrder' => ['order' => SORT_ASC]
+            ],
             'pagination' => array(
                 'pageSize' => Yii::$app->params['pageSize'],
             ),

@@ -51,7 +51,7 @@ class RegistryBusinessSearch extends RegistryBusiness
     public function search($params)
     {
         $query = RegistryBusiness::find()
-            ->select('registry_business.id, membership_type.name, registry_business.*')
+            ->select('registry_business.id, membership_type.name, user.full_name, registry_business.*')
             ->joinWith([
                 'membershipType',
                 'userInCharge',
@@ -63,6 +63,9 @@ class RegistryBusinessSearch extends RegistryBusiness
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'=> [
+                'defaultOrder' => ['created_at' => SORT_ASC]
+            ],
             'pagination' => array(
                 'pageSize' => Yii::$app->params['pageSize'],
             ),
@@ -104,17 +107,17 @@ class RegistryBusinessSearch extends RegistryBusiness
         ]);
 
         $query->andFilterWhere(['ilike', 'registry_business.name', $this->name])
-                ->andFilterWhere(['ilike', 'registry_business.unique_name', $this->unique_name])
-                ->andFilterWhere(['ilike', 'registry_business.email', $this->email])
-                ->andFilterWhere(['ilike', 'registry_business.phone1', $this->phone1])
-                ->andFilterWhere(['ilike', 'registry_business.phone2', $this->phone2])
-                ->andFilterWhere(['ilike', 'registry_business.phone3', $this->phone3])
-                ->andFilterWhere(['ilike', 'registry_business.address_type', $this->address_type])
-                ->andFilterWhere(['ilike', 'registry_business.address', $this->address])
-                ->andFilterWhere(['ilike', 'registry_business.address_info', $this->address_info])
-                ->andFilterWhere(['ilike', 'registry_business.coordinate', $this->coordinate])
-                ->andFilterWhere(['membership_type.name' => $this->getAttribute('membershipType.name')])
-                ->andFilterWhere(['ilike', 'user.full_name', $this->getAttribute('userInCharge.full_name')]);
+            ->andFilterWhere(['ilike', 'registry_business.unique_name', $this->unique_name])
+            ->andFilterWhere(['ilike', 'registry_business.email', $this->email])
+            ->andFilterWhere(['ilike', 'registry_business.phone1', $this->phone1])
+            ->andFilterWhere(['ilike', 'registry_business.phone2', $this->phone2])
+            ->andFilterWhere(['ilike', 'registry_business.phone3', $this->phone3])
+            ->andFilterWhere(['ilike', 'registry_business.address_type', $this->address_type])
+            ->andFilterWhere(['ilike', 'registry_business.address', $this->address])
+            ->andFilterWhere(['ilike', 'registry_business.address_info', $this->address_info])
+            ->andFilterWhere(['ilike', 'registry_business.coordinate', $this->coordinate])
+            ->andFilterWhere(['membership_type.name' => $this->getAttribute('membershipType.name')])
+            ->andFilterWhere(['ilike', 'user.full_name', $this->getAttribute('userInCharge.full_name')]);
 
         return $dataProvider;
     }

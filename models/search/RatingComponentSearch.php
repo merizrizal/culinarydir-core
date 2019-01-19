@@ -42,12 +42,15 @@ class RatingComponentSearch extends RatingComponent
     public function search($params)
     {
         $query = RatingComponent::find()
-                ->orderBy('order ASC');;
+            ->orderBy('order ASC');;
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'=> [
+                'defaultOrder' => ['order' => SORT_ASC]
+            ],
             'pagination' => array(
                 'pageSize' => Yii::$app->params['pageSize'],
             ),

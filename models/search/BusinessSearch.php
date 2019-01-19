@@ -51,17 +51,19 @@ class BusinessSearch extends Business
     public function search($params)
     {
         $query = Business::find()
-                ->select('business.id, membership_type.name, business.*')
-                ->joinWith([
-                    'membershipType',
-                    'userInCharge',
-                    'businessLocation',
-                ])->distinct();
+            ->joinWith([
+                'membershipType',
+                'userInCharge',
+                'businessLocation',
+            ]);
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'=> [
+                'defaultOrder' => ['created_at' => SORT_ASC]
+            ],
             'pagination' => array(
                 'pageSize' => Yii::$app->params['pageSize'],
             ),
