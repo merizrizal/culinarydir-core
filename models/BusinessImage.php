@@ -51,7 +51,7 @@ class BusinessImage extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['business_id', 'image', 'type'], 'required'],
+            [['business_id', 'type'], 'required'],
             [['image', 'caption', 'type', 'category'], 'string'],
             [['is_primary'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
