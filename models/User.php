@@ -23,6 +23,7 @@ use yii\web\IdentityInterface;
  * @property string $updated_at
  * @property string $password_reset_token
  * @property string $account_activation_token
+ * @property string $login_token
  *
  * @property ApplicationBusiness[] $applicationBusinesses
  * @property Business[] $businesses
@@ -76,16 +77,16 @@ class User extends \sybase\SybaseModel implements IdentityInterface
             [['image'], 'string'],
             [['not_active'], 'boolean'],
             [['created_at', 'updated_at', 'user_level_id'], 'safe'],
-            [['id', 'full_name'], 'string', 'max' => 32], 
+            [['id', 'full_name'], 'string', 'max' => 32],
             [['email', 'username', 'password'], 'string', 'max' => 64],
-            [['account_activation_token'], 'string', 'max' => 75],
+            [['account_activation_token', 'login_token'], 'string', 'max' => 75],
             [['password_reset_token'], 'string', 'max' => 80],
             [['email'], 'unique'],
             [['username'], 'unique'],
+            [['id'], 'unique'],
             [['email'], 'email'],
             [['username'], 'match', 'pattern' => '/^[a-zA-Z0-9_-]+$/', 'message' => 'Hanya boleh angka, huruf, garis bawah dan strip.'],
             [['image'], 'file', 'maxSize' => 1024*1024*2],
-            [['id'], 'unique'],
             [['user_level_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserLevel::className(), 'targetAttribute' => ['user_level_id' => 'id']],
         ];
     }
@@ -108,6 +109,7 @@ class User extends \sybase\SybaseModel implements IdentityInterface
             'updated_at' => Yii::t('app', 'Updated At'),
             'password_reset_token' => Yii::t('app', 'Password Reset Token'),
             'account_activation_token' => Yii::t('app', 'Account Activation Token'),
+            'login_token' => Yii::t('app', 'Login Token'),
         ];
     }
 
@@ -232,7 +234,7 @@ class User extends \sybase\SybaseModel implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
+        return static::findOne(['login_token' => $token]);
     }
 
     /**
