@@ -234,7 +234,7 @@ class User extends \sybase\SybaseModel implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        return static::findOne(['username' => $token]);
+        return static::findOne(['login_token' => $token]);
     }
 
     /**
