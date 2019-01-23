@@ -23,6 +23,7 @@ use yii\web\IdentityInterface;
  * @property string $updated_at
  * @property string $password_reset_token
  * @property string $account_activation_token
+ * @property string $login_token
  *
  * @property ApplicationBusiness[] $applicationBusinesses
  * @property Business[] $businesses
@@ -80,6 +81,7 @@ class User extends \sybase\SybaseModel implements IdentityInterface
             [['created_at', 'updated_at'], 'safe'],
             [['email', 'username', 'password', 'password_reset_token', 'account_activation_token'], 'string', 'max' => 64],
             [['full_name'], 'string', 'max' => 32],
+            [['login_token'], 'string', 'max' => 75],
             [['email'], 'unique'],
             [['username'], 'unique'],
             [['email'], 'email'],
@@ -107,6 +109,7 @@ class User extends \sybase\SybaseModel implements IdentityInterface
             'updated_at' => Yii::t('app', 'Updated At'),
             'password_reset_token' => Yii::t('app', 'Password Reset Token'),
             'account_activation_token' => Yii::t('app', 'Account Activation Token'),
+            'login_token' => Yii::t('app', 'Login Token'),
         ];
     }
 
