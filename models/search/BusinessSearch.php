@@ -18,9 +18,9 @@ class BusinessSearch extends Business
     public function rules()
     {
         return [
-            [['id', 'parent_id', 'user_in_charge', 'user_created', 'user_updated','businessLocation.district_id','businessLocation.village_id'], 'integer'],
+            [['id', 'parent_id', 'user_in_charge', 'user_created', 'user_updated'], 'integer'],
             [['name', 'unique_name', 'about', 'email', 'phone1', 'phone2', 'phone3', 'is_active', 'created_at', 'updated_at',
-                'membershipType.name'], 'safe'],
+                'membershipType.name', 'district.name','village.name'], 'safe'],
         ];
     }
 
@@ -29,7 +29,7 @@ class BusinessSearch extends Business
      */
     public function attributes() {
         // add related fields to searchable attributes
-        return array_merge(parent::attributes(), ['membershipType.name','businessLocation.district_id','businessLocation.village_id']);
+        return array_merge(parent::attributes(), ['membershipType.name','district.name','village.name']);
     }
 
     /**
@@ -54,7 +54,8 @@ class BusinessSearch extends Business
             ->joinWith([
                 'membershipType',
                 'userInCharge',
-                'businessLocation',
+                'businessLocation.district',
+                'businessLocation.village'
             ]);
 
         // add conditions that should always apply here
@@ -91,8 +92,8 @@ class BusinessSearch extends Business
             'business.user_created' => $this->user_created,
             '(business.updated_at + interval \'7 hour\')::date' => $this->updated_at,
             'business.user_updated' => $this->user_updated,
-            'business_location.district_id' => $this->getAttribute('businessLocation.district_id'),
-            'business_location.village_id' => $this->getAttribute('businessLocation.village_id'),
+            'district.name' => $this->getAttribute('district.name'),
+            'village.name' => $this->getAttribute('village.name'),
         ]);
 
         $query->andFilterWhere(['ilike', 'business.name', $this->name])

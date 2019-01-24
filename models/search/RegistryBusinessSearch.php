@@ -18,9 +18,9 @@ class RegistryBusinessSearch extends RegistryBusiness
     public function rules()
     {
         return [
-            [['id', 'membership_type_id', 'city_id', 'district_id', 'village_id', 'application_business_id', 'user_in_charge', 'user_created', 'user_updated', 'price_min', 'price_max'], 'integer'],
+            [['id', 'membership_type_id', 'city_id', 'application_business_id', 'user_in_charge', 'user_created', 'user_updated', 'price_min', 'price_max'], 'integer'],
             [['name', 'unique_name', 'email', 'phone1', 'phone2', 'phone3', 'address_type', 'address', 'address_info', 'coordinate', 'created_at', 'updated_at',
-                'membershipType.name', 'userInCharge.full_name'], 'safe'],
+                'membershipType.name', 'userInCharge.full_name', 'district.name', 'village.name'], 'safe'],
         ];
     }
 
@@ -29,7 +29,7 @@ class RegistryBusinessSearch extends RegistryBusiness
      */
     public function attributes() {
         // add related fields to searchable attributes
-        return array_merge(parent::attributes(), ['membershipType.name', 'userInCharge.full_name']);
+        return array_merge(parent::attributes(), ['membershipType.name', 'userInCharge.full_name', 'district.name', 'village.name']);
     }
 
     /**
@@ -57,6 +57,8 @@ class RegistryBusinessSearch extends RegistryBusiness
                 'userInCharge',
                 'applicationBusiness',
                 'applicationBusiness.logStatusApprovals',
+                'district',
+                'village'
             ]);
 
         // add conditions that should always apply here
@@ -94,8 +96,8 @@ class RegistryBusinessSearch extends RegistryBusiness
             'registry_business.id' => $this->id,
             'registry_business.membership_type_id' => $this->membership_type_id,
             'registry_business.city_id' => $this->city_id,
-            'registry_business.district_id' => $this->district_id,
-            'registry_business.village_id' => $this->village_id,
+            'district.name' => $this->getAttribute('district.name'),
+            'village.name' => $this->getAttribute('village.name'),
             'registry_business.application_business_id' => $this->application_business_id,
             'registry_business.user_in_charge' => $this->user_in_charge,
             '(registry_business.created_at + interval \'7 hour\')::date' => $this->created_at,
