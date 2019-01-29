@@ -69,7 +69,7 @@ class RegistryBusiness extends \sybase\SybaseModel
         $scenarios[self::SCENARIO_CREATE] = [
             'membership_type_id', 'name', 'unique_name', 'email', 'phone1', 'phone2', 'phone3', 'address_type', 'address', 'address_info',
             'city_id', 'district_id', 'village_id', 'coordinate', 'status', 'user_in_charge', 'created_at', 'user_created', 'updated_at', 'user_updated',
-            'price_min', 'price_max', 'application_business_id', 'note', 'note_business_hour', 'about'
+            'price_min', 'price_max', 'application_business_id', 'note', 'note_business_hour', 'about', 'menu'
         ];
 
         return $scenarios;
@@ -82,7 +82,7 @@ class RegistryBusiness extends \sybase\SybaseModel
     {
         return [
             [['membership_type_id', 'name', 'unique_name', 'address_type', 'address', 'city_id', 'district_id', 'village_id', 'coordinate', 'application_business_id'], 'required'],
-            [['address_type', 'address', 'address_info', 'note', 'note_business_hour', 'about'], 'string'],
+            [['address_type', 'address', 'address_info', 'note', 'note_business_hour', 'about', 'menu'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['price_min', 'price_max', 'application_business_counter'], 'default', 'value' => null],
             [['price_min', 'price_max', 'application_business_counter'], 'integer'],
@@ -139,6 +139,7 @@ class RegistryBusiness extends \sybase\SybaseModel
             'about' => Yii::t('app', 'About'),
             'membershipType.name' => Yii::t('app', 'Membership Type'),
             'userInCharge.full_name' => Yii::t('app', 'Marketing'),
+            'menu' => Yii::t('app', 'Menu'),
         ];
     }
 
