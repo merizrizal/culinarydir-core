@@ -16,8 +16,8 @@ use Yii;
  * @property string $user_created
  * @property string $updated_at
  * @property string $user_updated
+ * @property int $order
  *
- * @property BusinessProduct[] $businessProducts
  * @property Business $business
  * @property ProductCategory $productCategory
  * @property User $userCreated
@@ -41,10 +41,10 @@ class BusinessProductCategory extends \sybase\SybaseModel
         return [
             [['unique_id', 'business_id', 'product_category_id'], 'required'],
             [['is_active'], 'boolean'],
-            [['created_at', 'updated_at', 'product_category_id'], 'safe'],
+            [['created_at', 'updated_at'], 'safe'],
             [['order'], 'default', 'value' => null],
             [['order'], 'integer'],
-            [['id', 'business_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
+            [['id', 'business_id', 'product_category_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['unique_id'], 'string', 'max' => 65],
             [['unique_id'], 'unique'],
             [['id'], 'unique'],
@@ -70,15 +70,8 @@ class BusinessProductCategory extends \sybase\SybaseModel
             'user_created' => Yii::t('app', 'User Created'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'user_updated' => Yii::t('app', 'User Updated'),
+            'order' => Yii::t('app', 'Order'),
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getBusinessProducts()
-    {
-        return $this->hasMany(BusinessProduct::className(), ['business_product_category_id' => 'id']);
     }
 
     /**
