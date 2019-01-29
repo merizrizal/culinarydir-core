@@ -34,6 +34,7 @@ use Yii;
  * @property string $note
  * @property string $note_business_hour
  * @property string $about
+ * @property string $menu 
  *
  * @property ContractMembership $contractMembership
  * @property ApplicationBusiness $applicationBusiness
