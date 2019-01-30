@@ -85,7 +85,7 @@ class User extends \sybase\SybaseModel implements IdentityInterface
             [['username'], 'unique'],
             [['id'], 'unique'],
             [['email'], 'email'],
-            [['username'], 'match', 'pattern' => '/^[a-zA-Z0-9_-]+$/', 'message' => 'Hanya boleh angka, huruf, garis bawah dan strip.'],
+            [['username'], 'match', 'pattern' => '/^[a-zA-Z0-9_-]+$/', 'message' => 'Username hanya boleh angka, huruf, garis bawah dan strip.'],
             [['image'], 'file', 'maxSize' => 1024*1024*2],
             [['user_level_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserLevel::className(), 'targetAttribute' => ['user_level_id' => 'id']],
         ];
