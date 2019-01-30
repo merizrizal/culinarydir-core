@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "product_category".
  *
  * @property string $id
- * @property bool $is_parent
+ * @property string $type
  * @property string $name
  * @property bool $is_active
  * @property string $created_at
@@ -16,6 +16,7 @@ use Yii;
  * @property string $updated_at
  * @property string $user_updated
  *
+ * @property BusinessProduct[] $businessProducts
  * @property BusinessProductCategory[] $businessProductCategories
  * @property User $userCreated
  * @property User $userUpdated
@@ -38,7 +39,8 @@ class ProductCategory extends \sybase\SybaseModel
     {
         return [
             [['name'], 'required'],
-            [['is_parent', 'is_active'], 'boolean'],
+            [['type'], 'string'],
+            [['is_active'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
             [['id', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['name'], 'string', 'max' => 48],
@@ -55,7 +57,7 @@ class ProductCategory extends \sybase\SybaseModel
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'is_parent' => Yii::t('app', 'Is Parent'),
+            'type' => Yii::t('app', 'Type'),
             'name' => Yii::t('app', 'Product Category'),
             'is_active' => Yii::t('app', 'Is Active'),
             'created_at' => Yii::t('app', 'Created At'),
@@ -63,6 +65,14 @@ class ProductCategory extends \sybase\SybaseModel
             'updated_at' => Yii::t('app', 'Updated At'),
             'user_updated' => Yii::t('app', 'User Updated'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBusinessProducts()
+    {
+        return $this->hasMany(BusinessProduct::className(), ['product_category_id' => 'id']);
     }
 
     /**
