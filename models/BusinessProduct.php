@@ -19,10 +19,10 @@ use Yii;
  * @property string $updated_at
  * @property string $user_updated
  * @property int $order
- * @property string $product_category_id
+ * @property string $business_product_category_id
  *
  * @property Business $business
- * @property ProductCategory $productCategory
+ * @property BusinessProductCategory $businessProductCategory
  * @property User $userCreated
  * @property User $userUpdated
  * @property TransactionItem[] $transactionItems
@@ -43,18 +43,18 @@ class BusinessProduct extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['business_id', 'name', 'price', 'product_category_id'], 'required'],
+            [['business_id', 'name', 'price', 'business_product_category_id'], 'required'],
             [['description'], 'string'],
             [['price', 'order'], 'default', 'value' => null],
             [['price', 'order'], 'integer'],
             [['not_active'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
-            [['id', 'business_id', 'user_created', 'user_updated', 'product_category_id'], 'string', 'max' => 32],
+            [['id', 'business_id', 'user_created', 'user_updated', 'business_product_category_id'], 'string', 'max' => 32],
             [['name'], 'string', 'max' => 64],
             [['image'], 'string', 'max' => 128],
             [['id'], 'unique'],
             [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],
-            [['product_category_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProductCategory::className(), 'targetAttribute' => ['product_category_id' => 'id']],
+            [['business_product_category_id'], 'exist', 'skipOnError' => true, 'targetClass' => BusinessProductCategory::className(), 'targetAttribute' => ['business_product_category_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
         ];
@@ -78,7 +78,7 @@ class BusinessProduct extends \sybase\SybaseModel
             'updated_at' => Yii::t('app', 'Updated At'),
             'user_updated' => Yii::t('app', 'User Updated'),
             'order' => Yii::t('app', 'Order'),
-            'product_category_id' => Yii::t('app', 'Product Category ID'),
+            'business_product_category_id' => Yii::t('app', 'Business Product Category ID'),
         ];
     }
 
@@ -93,9 +93,9 @@ class BusinessProduct extends \sybase\SybaseModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProductCategory()
+    public function getBusinessProductCategory()
     {
-        return $this->hasOne(ProductCategory::className(), ['id' => 'product_category_id']);
+        return $this->hasOne(BusinessProductCategory::className(), ['id' => 'business_product_category_id']);
     }
 
     /**
