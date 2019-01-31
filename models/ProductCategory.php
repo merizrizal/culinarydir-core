@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "product_category".
  *
  * @property string $id
- * @property string $type
+ * @property bool $is_parent
  * @property string $name
  * @property bool $is_active
  * @property string $created_at
@@ -38,8 +38,7 @@ class ProductCategory extends \sybase\SybaseModel
     {
         return [
             [['name'], 'required'],
-            [['type'], 'string'],
-            [['is_active'], 'boolean'],
+            [['is_parent', 'is_active'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
             [['id', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['name'], 'string', 'max' => 48],
@@ -56,7 +55,7 @@ class ProductCategory extends \sybase\SybaseModel
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'type' => Yii::t('app', 'Type'),
+            'is_parent' => Yii::t('app', 'Is Parent'),
             'name' => Yii::t('app', 'Product Category'),
             'is_active' => Yii::t('app', 'Is Active'),
             'created_at' => Yii::t('app', 'Created At'),
