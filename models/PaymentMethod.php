@@ -15,6 +15,8 @@ use Yii;
  * @property string $user_created
  * @property string $updated_at
  * @property string $user_updated
+ * @property string $note
+ * @property string $description
  *
  * @property BusinessPayment[] $businessPayments
  * @property User $userCreated
@@ -38,7 +40,7 @@ class PaymentMethod extends \sybase\SybaseModel
     {
         return [
             [['payment_name', 'method'], 'required'],
-            [['method'], 'string'],
+            [['method', 'note', 'description'], 'string'],
             [['not_active'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
             [['id', 'payment_name', 'user_created', 'user_updated'], 'string', 'max' => 32],
@@ -62,6 +64,8 @@ class PaymentMethod extends \sybase\SybaseModel
             'user_created' => Yii::t('app', 'User Created'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'user_updated' => Yii::t('app', 'User Updated'),
+            'note' => Yii::t('app', 'Note'),
+            'description' => Yii::t('app', 'Description'),
         ];
     }
 
