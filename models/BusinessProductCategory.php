@@ -41,10 +41,10 @@ class BusinessProductCategory extends \sybase\SybaseModel
         return [
             [['unique_id', 'business_id', 'product_category_id'], 'required'],
             [['is_active'], 'boolean'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at', 'product_category_id'], 'safe'],
             [['order'], 'default', 'value' => null],
             [['order'], 'integer'],
-            [['id', 'business_id', 'product_category_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
+            [['id', 'business_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['unique_id'], 'string', 'max' => 65],
             [['unique_id'], 'unique'],
             [['id'], 'unique'],
