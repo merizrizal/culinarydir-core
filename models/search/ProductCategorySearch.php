@@ -18,8 +18,8 @@ class ProductCategorySearch extends ProductCategory
     public function rules()
     {
         return [
-            [['id', 'is_parent', 'user_created', 'user_updated'], 'integer'],
-            [['name', 'is_active', 'created_at', 'updated_at'], 'safe'],
+            [['id', 'user_created', 'user_updated'], 'integer'],
+            [['name', 'type', 'is_active', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -63,7 +63,7 @@ class ProductCategorySearch extends ProductCategory
         // grid filtering conditions
         $query->andFilterWhere([
             'product_category.id' => $this->id,
-            'product_category.is_parent' => $this->is_parent,
+            'product_category.type' => $this->type,
             'product_category.is_active' => $this->is_active,
             'product_category.created_at' => $this->created_at,
             'product_category.user_created' => $this->user_created,

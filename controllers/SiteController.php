@@ -58,6 +58,8 @@ class SiteController extends Controller
         return $this->render('index');
     }
     
+    /*
+     * 
     public function actionMigrateId()
     {
         $db = Yii::$app->db;
@@ -156,4 +158,5 @@ class SiteController extends Controller
         
         $transaction->commit();
     }
+    */
 }
