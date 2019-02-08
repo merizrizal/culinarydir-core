@@ -268,6 +268,7 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     public static function findByPasswordResetToken($token)
     {
         if (!static::isPasswordResetTokenValid($token)) {
+            
             return null;
         }
 
@@ -275,6 +276,22 @@ class User extends \sybase\SybaseModel implements IdentityInterface
             'password_reset_token' => $token,
             'not_active' => false,
         ]);
+    }
+    
+    public static function findByEmailAndPasswordResetToken($email, $token)
+    {
+        if (!static::isPasswordResetTokenValid($token)) {
+            
+            return null;
+        }
+        
+        $tokenParts = explode('_', $token);
+        
+        return static::find()
+            ->andWhere(['email' => $email])
+            ->andWhere(['ilike', 'password_reset_token', $tokenParts[0] . '_'])
+            ->andWhere(['not_active' => false])
+            ->one();
     }
 
     /**
@@ -286,12 +303,14 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     public static function isPasswordResetTokenValid($token)
     {
         if (empty($token)) {
+            
             return false;
         }
+        
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
-        $parts = substr($token, 32);
-        $timeToken = explode('askrst', $parts);
+        $timeToken = explode('_', $token);
         $timestamp = (int) end($timeToken);
+        
         return $timestamp + $expire >= time();
     }
 
@@ -353,7 +372,7 @@ class User extends \sybase\SybaseModel implements IdentityInterface
      */
     public function generatePasswordResetToken()
     {
-        $this->password_reset_token = Yii::$app->security->generateRandomString() . $this->id . 'askrst' . time();
+        $this->password_reset_token = substr(str_shuffle("0123456789"), 0, 6) . '_' . time();
     }
 
     /**
