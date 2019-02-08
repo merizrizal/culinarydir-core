@@ -65,8 +65,8 @@ class BusinessProductSearch extends BusinessProduct
         ]);
         
         $dataProvider->sort->attributes['productCategory.name'] = [
-            'asc' => ['name' => SORT_ASC],
-            'desc' => ['name' => SORT_DESC],
+            'asc' => ['product_category.name' => SORT_ASC],
+            'desc' => ['product_category.name' => SORT_DESC],
         ];
 
         $this->load($params);
