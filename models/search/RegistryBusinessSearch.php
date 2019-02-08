@@ -82,6 +82,11 @@ class RegistryBusinessSearch extends RegistryBusiness
             'asc' => ['user.full_name' => SORT_ASC],
             'desc' => ['user.full_name' => SORT_DESC],
         ];
+        
+        $dataProvider->sort->attributes['name'] = [
+            'asc' => ['registry_business.name' => SORT_ASC],
+            'desc' => ['registry_business.name' => SORT_DESC],
+        ];
 
         $this->load($params);
 
