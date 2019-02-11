@@ -18,6 +18,7 @@ use Yii;
  * @property string $user_updated
  * @property int $order
  *
+ * @property BusinessProduct[] $businessProducts
  * @property Business $business
  * @property ProductCategory $productCategory
  * @property User $userCreated
@@ -72,6 +73,14 @@ class BusinessProductCategory extends \sybase\SybaseModel
             'user_updated' => Yii::t('app', 'User Updated'),
             'order' => Yii::t('app', 'Order'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBusinessProducts()
+    {
+        return $this->hasMany(BusinessProduct::className(), ['business_product_category_id' => 'id']);
     }
 
     /**

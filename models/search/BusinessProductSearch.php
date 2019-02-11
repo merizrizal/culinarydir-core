@@ -20,7 +20,7 @@ class BusinessProductSearch extends BusinessProduct
         return [
             [['id', 'business_id', 'price', 'user_created', 'user_updated', 'order'], 'integer'],
             [['name', 'description', 'image', 'created_at', 'updated_at',
-                'productCategory.name'], 'safe'],
+                'businessProductCategory.productCategory.name'], 'safe'],
             [['not_active'], 'boolean'],
         ];
     }
@@ -30,7 +30,7 @@ class BusinessProductSearch extends BusinessProduct
      */
     public function attributes() {
         // add related fields to searchable attributes
-        return array_merge(parent::attributes(), ['productCategory.name']);
+        return array_merge(parent::attributes(), ['businessProductCategory.productCategory.name']);
     }
 
     /**
@@ -52,7 +52,7 @@ class BusinessProductSearch extends BusinessProduct
     public function search($params)
     {
         $query = BusinessProduct::find()
-            ->joinWith(['productCategory']);
+            ->joinWith(['businessProductCategory.productCategory']);
 
         // add conditions that should always apply here
 
@@ -64,7 +64,7 @@ class BusinessProductSearch extends BusinessProduct
             ),
         ]);
         
-        $dataProvider->sort->attributes['productCategory.name'] = [
+        $dataProvider->sort->attributes['businessProductCategory.productCategory.name'] = [
             'asc' => ['product_category.name' => SORT_ASC],
             'desc' => ['product_category.name' => SORT_DESC],
         ];
@@ -93,7 +93,7 @@ class BusinessProductSearch extends BusinessProduct
         $query->andFilterWhere(['ilike', 'business_product.name', $this->name])
             ->andFilterWhere(['ilike', 'business_product.description', $this->description])
             ->andFilterWhere(['ilike', 'business_product.image', $this->image])
-            ->andFilterWhere(['ilike', 'product_category.name', $this->getAttribute('productCategory.name')]);
+            ->andFilterWhere(['ilike', 'product_category.name', $this->getAttribute('businessProductCategory.productCategory.name')]);
 
         return $dataProvider;
     }

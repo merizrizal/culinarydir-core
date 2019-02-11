@@ -18,8 +18,7 @@ class DeliveryMethodSearch extends DeliveryMethod
     public function rules()
     {
         return [
-            [['id', 'user_created', 'user_updated'], 'integer'],
-            [['delivery_name', 'created_at', 'updated_at'], 'safe'],
+            [['id', 'delivery_name', 'created_at', 'user_created', 'updated_at', 'user_updated', 'note', 'description'], 'safe'],
             [['not_active'], 'boolean'],
         ];
     }
