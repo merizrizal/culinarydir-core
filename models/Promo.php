@@ -61,7 +61,7 @@ class Promo extends \sybase\SybaseModel
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'title' => Yii::t('app', 'Title'),
+            'title' => Yii::t('app', 'Name'),
             'type' => Yii::t('app', 'Type'),
             'amount' => Yii::t('app', 'Amount'),
             'item_amount' => Yii::t('app', 'Item Amount'),
