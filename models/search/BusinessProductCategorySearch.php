@@ -79,7 +79,7 @@ class BusinessProductCategorySearch extends BusinessProductCategory
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'is_active' => $this->is_active,
+            'business_product_category.is_active' => $this->is_active,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'order' => $this->order,
