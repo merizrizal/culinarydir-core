@@ -27,6 +27,7 @@ use yii\web\IdentityInterface;
  *
  * @property ApplicationBusiness[] $applicationBusinesses
  * @property Business[] $businesses
+ * @property PromoItem[] $promoItems
  * @property RegistryBusiness[] $registryBusinesses
  * @property TransactionSession[] $transactionSessions
  * @property UserLevel $userLevel
@@ -127,6 +128,14 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     public function getBusinesses()
     {
         return $this->hasMany(Business::className(), ['user_in_charge' => 'id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPromoItems()
+    {
+        return $this->hasMany(PromoItem::className(), ['user_claimed' => 'id']);
     }
 
     /**

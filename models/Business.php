@@ -47,6 +47,7 @@ use Yii;
  * @property BusinessProductCategory[] $businessProductCategories
  * @property BusinessPromo[] $businessPromos
  * @property ContractMembership[] $contractMemberships
+ * @property PromoItem[] $promoItems 
  * @property TransactionSession[] $transactionSessions
  * @property UserLove[] $userLoves
  * @property UserPost[] $userPosts
@@ -285,6 +286,14 @@ class Business extends \sybase\SybaseModel
     public function getContractMemberships()
     {
         return $this->hasMany(ContractMembership::className(), ['business_id' => 'id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPromoItems()
+    {
+        return $this->hasMany(PromoItem::className(), ['business_claimed' => 'id']);
     }
     
     /**
