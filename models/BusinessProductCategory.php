@@ -65,7 +65,7 @@ class BusinessProductCategory extends \sybase\SybaseModel
             'id' => Yii::t('app', 'ID'),
             'unique_id' => Yii::t('app', 'Unique ID'),
             'business_id' => Yii::t('app', 'Business ID'),
-            'product_category_id' => Yii::t('app', 'Product Category ID'),
+            'product_category_id' => Yii::t('app', 'Product Category'),
             'is_active' => Yii::t('app', 'Is Active'),
             'created_at' => Yii::t('app', 'Created At'),
             'user_created' => Yii::t('app', 'User Created'),
