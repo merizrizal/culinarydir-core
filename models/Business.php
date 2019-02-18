@@ -77,7 +77,7 @@ class Business extends \sybase\SybaseModel
             [['created_at', 'updated_at'], 'safe'],
             [['id', 'parent_id', 'user_in_charge', 'user_created', 'user_updated', 'membership_type_id', 'application_business_id'], 'string', 'max' => 32], 
             [['name', 'email'], 'string', 'max' => 48],
-            [['unique_name'], 'string', 'max' => 45],
+            [['unique_name'], 'string', 'max' => 64],
             [['phone1', 'phone2', 'phone3'], 'string', 'max' => 16],
             [['application_business_id'], 'unique'],
             [['unique_name'], 'unique'],
