@@ -23,6 +23,7 @@ use Yii;
  * @property User $userClaimed
  * @property User $userCreated
  * @property User $userUpdated
+ * @property TransactionSession[] $transactionSessions
  */
 class PromoItem extends \sybase\SybaseModel
 {
@@ -40,7 +41,7 @@ class PromoItem extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['promo_id', 'amount'], 'required'],
+            [['id', 'promo_id', 'amount'], 'required'],
             [['amount'], 'default', 'value' => null],
             [['amount'], 'integer'],
             [['not_active'], 'boolean'],
@@ -113,5 +114,13 @@ class PromoItem extends \sybase\SybaseModel
     public function getUserUpdated()
     {
         return $this->hasOne(User::className(), ['id' => 'user_updated']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTransactionSessions()
+    {
+        return $this->hasMany(TransactionSession::className(), ['promo_item_id' => 'id']);
     }
 }

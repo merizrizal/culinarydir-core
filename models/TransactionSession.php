@@ -18,13 +18,15 @@ use Yii;
  * @property string $user_updated
  * @property bool $is_closed
  * @property int $total_amount
+ * @property string $promo_item_id
  *
  * @property TransactionItem[] $transactionItems
  * @property Business $business
+ * @property PromoItem $promoItem
  * @property User $userOrdered
  * @property User $userCreated
  * @property User $userUpdated
- * @property TransactionSessionOrder $transactionSessionOrder 
+ * @property TransactionSessionOrder $transactionSessionOrder
  */
 class TransactionSession extends \sybase\SybaseModel
 {
@@ -49,8 +51,10 @@ class TransactionSession extends \sybase\SybaseModel
             [['created_at', 'updated_at'], 'safe'],
             [['is_closed'], 'boolean'],
             [['id', 'user_ordered', 'business_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
+            [['promo_item_id'], 'string', 'max' => 14],
             [['id'], 'unique'],
             [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],
+            [['promo_item_id'], 'exist', 'skipOnError' => true, 'targetClass' => PromoItem::className(), 'targetAttribute' => ['promo_item_id' => 'id']],
             [['user_ordered'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_ordered' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
@@ -74,6 +78,7 @@ class TransactionSession extends \sybase\SybaseModel
             'user_updated' => Yii::t('app', 'User Updated'),
             'is_closed' => Yii::t('app', 'Is Closed'),
             'total_amount' => Yii::t('app', 'Total Amount'),
+            'promo_item_id' => Yii::t('app', 'Promo Item ID'),
         ];
     }
 
@@ -91,6 +96,14 @@ class TransactionSession extends \sybase\SybaseModel
     public function getBusiness()
     {
         return $this->hasOne(Business::className(), ['id' => 'business_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPromoItem()
+    {
+        return $this->hasOne(PromoItem::className(), ['id' => 'promo_item_id']);
     }
 
     /**
@@ -116,7 +129,7 @@ class TransactionSession extends \sybase\SybaseModel
     {
         return $this->hasOne(User::className(), ['id' => 'user_updated']);
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */
