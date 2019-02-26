@@ -92,6 +92,7 @@ class RegistryBusiness extends \sybase\SybaseModel
             [['unique_name', 'coordinate'], 'string', 'max' => 64],
             [['phone1', 'phone2', 'phone3'], 'string', 'max' => 16],
             [['unique_name'], 'unique', 'on' => self::SCENARIO_CREATE],
+            [['unique_name'], 'match', 'pattern' => '/^[a-z0-9-]+$/', 'message' => Yii::t('app', 'Unique Name') . ' hanya boleh angka, huruf kecil dan strip.'],
             [['email'], 'email'],
             [['id'], 'unique'],
             [['application_business_id'], 'exist', 'skipOnError' => true, 'targetClass' => ApplicationBusiness::className(), 'targetAttribute' => ['application_business_id' => 'id']],
