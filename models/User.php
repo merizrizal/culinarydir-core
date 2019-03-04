@@ -3,7 +3,6 @@
 namespace core\models;
 
 use Yii;
-use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
@@ -36,6 +35,7 @@ use yii\web\IdentityInterface;
  * @property UserPost[] $userPosts
  * @property UserPostComment[] $userPostComments
  * @property UserPostLove[] $userPostLoves
+ * @property UserPromoItem[] $userPromoItems
  * @property UserReport[] $userReports
  * @property UserSocialMedia $userSocialMedia
  * @property UserVisit[] $userVisits
@@ -200,6 +200,14 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     public function getUserPostLoves()
     {
         return $this->hasMany(UserPostLove::className(), ['user_id' => 'id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserPromoItems()
+    {
+        return $this->hasMany(UserPromoItem::className(), ['user_id' => 'id']);
     }
 
     /**
