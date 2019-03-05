@@ -23,6 +23,7 @@ use Yii;
  * @property User $userCreated
  * @property User $userUpdated
  * @property PromoItem[] $promoItems
+ * @property UserPromoItem[] $userPromoItems 
  */
 class Promo extends \sybase\SybaseModel
 {
@@ -97,5 +98,13 @@ class Promo extends \sybase\SybaseModel
     public function getPromoItems()
     {
         return $this->hasMany(PromoItem::className(), ['promo_id' => 'id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserPromoItems()
+    {
+        return $this->hasMany(UserPromoItem::className(), ['promo_id' => 'id']);
     }
 }
