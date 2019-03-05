@@ -18,7 +18,7 @@ class PromoItemSearch extends PromoItem
     public function rules()
     {
         return [
-            [['id', 'promo_id', 'user_claimed', 'business_claimed', 'created_at', 'user_created', 'updated_at', 'user_updated'], 'safe'],
+            [['id', 'promo_id', 'business_claimed', 'created_at', 'user_created', 'updated_at', 'user_updated'], 'safe'],
             [['amount'], 'integer'],
             [['not_active'], 'boolean'],
         ];
@@ -71,7 +71,6 @@ class PromoItemSearch extends PromoItem
 
         $query->andFilterWhere(['ilike', 'id', $this->id])
             ->andFilterWhere(['ilike', 'promo_id', $this->promo_id])
-            ->andFilterWhere(['ilike', 'user_claimed', $this->user_claimed])
             ->andFilterWhere(['ilike', 'business_claimed', $this->business_claimed])
             ->andFilterWhere(['ilike', 'user_created', $this->user_created])
             ->andFilterWhere(['ilike', 'user_updated', $this->user_updated]);
