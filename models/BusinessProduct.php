@@ -78,7 +78,7 @@ class BusinessProduct extends \sybase\SybaseModel
             'updated_at' => Yii::t('app', 'Updated At'),
             'user_updated' => Yii::t('app', 'User Updated'),
             'order' => Yii::t('app', 'Order'),
-            'business_product_category_id' => Yii::t('app', 'Business Product Category ID'),
+            'business_product_category_id' => Yii::t('app', 'Product Category'),
         ];
     }
 

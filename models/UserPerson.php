@@ -7,7 +7,6 @@ use Yii;
 /**
  * This is the model class for table "user_person".
  *
- * @property string $id
  * @property string $user_id
  * @property string $person_id
  * @property string $created_at
@@ -38,10 +37,9 @@ class UserPerson extends \sybase\SybaseModel
         return [
             [['user_id', 'person_id'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
-            [['id', 'user_id', 'person_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
+            [['user_id', 'person_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['person_id'], 'unique'],
             [['user_id'], 'unique'],
-            [['id'], 'unique'],
             [['person_id'], 'exist', 'skipOnError' => true, 'targetClass' => Person::className(), 'targetAttribute' => ['person_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
@@ -55,7 +53,6 @@ class UserPerson extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
             'user_id' => Yii::t('app', 'User ID'),
             'person_id' => Yii::t('app', 'Person ID'),
             'created_at' => Yii::t('app', 'Created At'),
