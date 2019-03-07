@@ -19,6 +19,8 @@ use Yii;
  * @property bool $is_closed
  * @property int $total_amount
  * @property string $promo_item_id
+ * @property string $discount_type
+ * @property int $discount_value
  *
  * @property TransactionItem[] $transactionItems
  * @property Business $business
@@ -45,9 +47,9 @@ class TransactionSession extends \sybase\SybaseModel
     {
         return [
             [['user_ordered', 'business_id'], 'required'],
-            [['note'], 'string'],
-            [['total_price', 'total_amount'], 'default', 'value' => null],
-            [['total_price', 'total_amount'], 'integer'],
+            [['note', 'discount_type'], 'string'],
+            [['total_price', 'total_amount', 'discount_value'], 'default', 'value' => null],
+            [['total_price', 'total_amount', 'discount_value'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['is_closed'], 'boolean'],
             [['id', 'user_ordered', 'business_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
@@ -79,6 +81,8 @@ class TransactionSession extends \sybase\SybaseModel
             'is_closed' => Yii::t('app', 'Is Closed'),
             'total_amount' => Yii::t('app', 'Total Amount'),
             'promo_item_id' => Yii::t('app', 'Promo Item ID'),
+            'discount_type' => Yii::t('app', 'Discount Type'),
+            'discount_value' => Yii::t('app', 'Discount Value'),
         ];
     }
 
