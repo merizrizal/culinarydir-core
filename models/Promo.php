@@ -19,11 +19,12 @@ use Yii;
  * @property string $user_created
  * @property string $updated_at
  * @property string $user_updated
+ * @property string $image
  *
  * @property User $userCreated
  * @property User $userUpdated
  * @property PromoItem[] $promoItems
- * @property UserPromoItem[] $userPromoItems 
+ * @property UserPromoItem[] $userPromoItems
  */
 class Promo extends \sybase\SybaseModel
 {
@@ -42,7 +43,7 @@ class Promo extends \sybase\SybaseModel
     {
         return [
             [['title', 'type', 'amount', 'item_amount'], 'required'],
-            [['type'], 'string'],
+            [['type', 'image'], 'string'],
             [['amount', 'item_amount'], 'default', 'value' => null],
             [['amount', 'item_amount'], 'integer'],
             [['date_start', 'date_end', 'created_at', 'updated_at'], 'safe'],
@@ -73,6 +74,7 @@ class Promo extends \sybase\SybaseModel
             'user_created' => Yii::t('app', 'User Created'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'user_updated' => Yii::t('app', 'User Updated'),
+            'image' => Yii::t('app', 'Image'),
         ];
     }
 
@@ -99,7 +101,7 @@ class Promo extends \sybase\SybaseModel
     {
         return $this->hasMany(PromoItem::className(), ['promo_id' => 'id']);
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */
