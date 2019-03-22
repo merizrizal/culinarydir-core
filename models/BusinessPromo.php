@@ -42,12 +42,11 @@ class BusinessPromo extends \sybase\SybaseModel
     {
         return [
             [['business_id', 'title', 'short_description', 'description'], 'required'],
-            [['short_description', 'description'], 'string'],
+            [['short_description', 'description', 'image'], 'string'],
             [['date_start', 'date_end', 'created_at', 'updated_at'], 'safe'],
             [['not_active'], 'boolean'],
             [['id', 'business_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['title'], 'string', 'max' => 64],
-            [['image'], 'string', 'max' => 128],
             [['id'], 'unique'],
             [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
