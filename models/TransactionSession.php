@@ -21,7 +21,12 @@ use Yii;
  * @property string $promo_item_id
  * @property string $discount_type
  * @property int $discount_value
+ * @property double $total_distance
+ * @property int $total_delivery_fee
+ * @property string $order_id
+ * @property string $order_status
  *
+ * @property TransactionCanceled[] $transactionCanceleds
  * @property TransactionItem[] $transactionItems
  * @property Business $business
  * @property PromoItem $promoItem
@@ -46,14 +51,17 @@ class TransactionSession extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['user_ordered', 'business_id'], 'required'],
-            [['note', 'discount_type'], 'string'],
-            [['total_price', 'total_amount', 'discount_value'], 'default', 'value' => null],
-            [['total_price', 'total_amount', 'discount_value'], 'integer'],
+            [['user_ordered', 'business_id', 'order_id'], 'required'],
+            [['note', 'discount_type', 'order_status'], 'string'],
+            [['total_price', 'total_amount', 'discount_value', 'total_delivery_fee'], 'default', 'value' => null],
+            [['total_price', 'total_amount', 'discount_value', 'total_delivery_fee'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['is_closed'], 'boolean'],
+            [['total_distance'], 'number'],
             [['id', 'user_ordered', 'business_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['promo_item_id'], 'string', 'max' => 14],
+            [['order_id'], 'string', 'max' => 17],
+            [['order_id'], 'unique'],
             [['id'], 'unique'],
             [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],
             [['promo_item_id'], 'exist', 'skipOnError' => true, 'targetClass' => PromoItem::className(), 'targetAttribute' => ['promo_item_id' => 'id']],
@@ -83,7 +91,19 @@ class TransactionSession extends \sybase\SybaseModel
             'promo_item_id' => Yii::t('app', 'Promo Item ID'),
             'discount_type' => Yii::t('app', 'Discount Type'),
             'discount_value' => Yii::t('app', 'Discount Value'),
+            'total_distance' => Yii::t('app', 'Total Distance'),
+            'total_delivery_fee' => Yii::t('app', 'Total Delivery Fee'),
+            'order_id' => Yii::t('app', 'Order ID'),
+            'order_status' => Yii::t('app', 'Order Status'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTransactionCanceleds()
+    {
+        return $this->hasMany(TransactionCanceled::className(), ['transaction_session_order_id' => 'order_id']);
     }
 
     /**

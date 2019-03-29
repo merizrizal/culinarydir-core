@@ -29,6 +29,7 @@ use yii\web\IdentityInterface;
  * @property PromoItem[] $promoItems
  * @property RegistryBusiness[] $registryBusinesses
  * @property TransactionSession[] $transactionSessions
+ * @property UserDriver $userDriver
  * @property UserLevel $userLevel
  * @property UserLove[] $userLoves
  * @property UserPerson $userPerson
@@ -152,6 +153,14 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     public function getTransactionSessions()
     {
         return $this->hasMany(TransactionSession::className(), ['user_ordered' => 'id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserDriver()
+    {
+        return $this->hasOne(UserDriver::className(), ['user_id' => 'id']);
     }
 
     /**
