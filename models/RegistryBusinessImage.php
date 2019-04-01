@@ -60,7 +60,7 @@ class RegistryBusinessImage extends \sybase\SybaseModel
             [['id', 'registry_business_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['title'], 'string', 'max' => 128],
             [['image'], 'required', 'on' => self::SCENARIO_CREATE],
-            [['image'], 'file', 'maxSize' => 1024*1024*2, 'maxFiles' => 10],
+            [['image'], 'file', 'maxSize' => 1024 * 1024 * 7, 'maxFiles' => 10],
             [['id'], 'unique'],
             [['registry_business_id'], 'exist', 'skipOnError' => true, 'targetClass' => RegistryBusiness::className(), 'targetAttribute' => ['registry_business_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],

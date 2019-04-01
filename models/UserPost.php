@@ -54,6 +54,7 @@ class UserPost extends \sybase\SybaseModel
             [['love_value'], 'integer'],
             [['id', 'parent_id', 'business_id', 'user_id', 'user_created', 'user_updated', 'user_post_main_id'], 'string', 'max' => 32],
             [['id'], 'unique'],
+            [['image'], 'file', 'maxSize' => 1024 * 1024 * 7],
             [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
