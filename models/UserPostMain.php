@@ -59,6 +59,7 @@ class UserPostMain extends \sybase\SybaseModel
             [['unique_id'], 'string', 'max' => 65],
             [['unique_id'], 'unique'],
             [['id'], 'unique'],
+            [['image'], 'file', 'maxSize' => 1024 * 1024 * 7],
             [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
