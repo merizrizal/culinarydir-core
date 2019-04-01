@@ -25,6 +25,7 @@ use Yii;
  * @property int $total_delivery_fee
  * @property string $order_id
  * @property string $order_status
+ * @property string $driver_username
  *
  * @property TransactionCanceled[] $transactionCanceleds
  * @property TransactionItem[] $transactionItems
@@ -33,6 +34,7 @@ use Yii;
  * @property User $userOrdered
  * @property User $userCreated
  * @property User $userUpdated
+ * @property User $driverUsername
  * @property TransactionSessionOrder $transactionSessionOrder
  */
 class TransactionSession extends \sybase\SybaseModel
@@ -61,6 +63,7 @@ class TransactionSession extends \sybase\SybaseModel
             [['id', 'user_ordered', 'business_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['promo_item_id'], 'string', 'max' => 14],
             [['order_id'], 'string', 'max' => 17],
+            [['driver_username'], 'string', 'max' => 64],
             [['order_id'], 'unique'],
             [['id'], 'unique'],
             [['business_id'], 'exist', 'skipOnError' => true, 'targetClass' => Business::className(), 'targetAttribute' => ['business_id' => 'id']],
@@ -68,6 +71,7 @@ class TransactionSession extends \sybase\SybaseModel
             [['user_ordered'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_ordered' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
+            [['driver_username'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['driver_username' => 'username']],
         ];
     }
 
@@ -95,6 +99,7 @@ class TransactionSession extends \sybase\SybaseModel
             'total_delivery_fee' => Yii::t('app', 'Total Delivery Fee'),
             'order_id' => Yii::t('app', 'Order ID'),
             'order_status' => Yii::t('app', 'Order Status'),
+            'driver_username' => Yii::t('app', 'Driver Username'),
         ];
     }
 
@@ -152,6 +157,14 @@ class TransactionSession extends \sybase\SybaseModel
     public function getUserUpdated()
     {
         return $this->hasOne(User::className(), ['id' => 'user_updated']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDriverUsername()
+    {
+        return $this->hasOne(User::className(), ['username' => 'driver_username']);
     }
 
     /**
