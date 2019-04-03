@@ -26,6 +26,7 @@ use Yii;
  * @property string $order_id
  * @property string $order_status
  * @property string $driver_username
+ * @property string $image
  *
  * @property TransactionCanceled[] $transactionCanceleds
  * @property TransactionItem[] $transactionItems
@@ -54,7 +55,7 @@ class TransactionSession extends \sybase\SybaseModel
     {
         return [
             [['user_ordered', 'business_id', 'order_id'], 'required'],
-            [['note', 'discount_type', 'order_status'], 'string'],
+            [['note', 'discount_type', 'order_status', 'image'], 'string'],
             [['total_price', 'total_amount', 'discount_value', 'total_delivery_fee'], 'default', 'value' => null],
             [['total_price', 'total_amount', 'discount_value', 'total_delivery_fee'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
@@ -100,6 +101,7 @@ class TransactionSession extends \sybase\SybaseModel
             'order_id' => Yii::t('app', 'Order ID'),
             'order_status' => Yii::t('app', 'Order Status'),
             'driver_username' => Yii::t('app', 'Driver Username'),
+            'image' => Yii::t('app', 'Image'),
         ];
     }
 
