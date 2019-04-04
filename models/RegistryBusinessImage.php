@@ -38,9 +38,7 @@ class RegistryBusinessImage extends \sybase\SybaseModel
     public function scenarios() {
 
         $scenarios = parent::scenarios();
-        $scenarios[self::SCENARIO_CREATE] = [
-            'registry_business_id', 'image', 'title', 'caption', 'type', 'is_primary', 'created_at', 'user_created', 'updated_at', 'user_updated'
-        ];
+        $scenarios[self::SCENARIO_CREATE] = $this->attributes();
 
         return $scenarios;
     }
@@ -51,7 +49,7 @@ class RegistryBusinessImage extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['registry_business_id', 'image', 'type'], 'required'],
+            [['registry_business_id', 'type'], 'required'],
             [['image', 'caption', 'type', 'category'], 'string'],
             [['is_primary'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
