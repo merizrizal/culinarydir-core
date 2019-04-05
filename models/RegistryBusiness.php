@@ -65,13 +65,9 @@ class RegistryBusiness extends \sybase\SybaseModel
     }
 
     public function scenarios() {
-
+        
         $scenarios = parent::scenarios();
-        $scenarios[self::SCENARIO_CREATE] = [
-            'membership_type_id', 'name', 'unique_name', 'email', 'phone1', 'phone2', 'phone3', 'address_type', 'address', 'address_info',
-            'city_id', 'district_id', 'village_id', 'coordinate', 'status', 'user_in_charge', 'created_at', 'user_created', 'updated_at', 'user_updated',
-            'price_min', 'price_max', 'application_business_id', 'note', 'note_business_hour', 'about', 'menu'
-        ];
+        $scenarios[self::SCENARIO_CREATE] = $this->attributes();
 
         return $scenarios;
     }

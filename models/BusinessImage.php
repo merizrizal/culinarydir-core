@@ -27,8 +27,6 @@ use Yii;
  */
 class BusinessImage extends \sybase\SybaseModel
 {
-    const SCENARIO_CREATE = 'create';
-
     /**
      * @inheritdoc
      */
@@ -40,7 +38,7 @@ class BusinessImage extends \sybase\SybaseModel
     public function scenarios() {
 
         $scenarios = parent::scenarios();
-        $scenarios[self::SCENARIO_CREATE] = ['image'];
+        $scenarios[self::SCENARIO_CREATE] = $this->attributes();
 
         return $scenarios;
     }
