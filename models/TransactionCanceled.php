@@ -40,6 +40,7 @@ class TransactionCanceled extends \sybase\SybaseModel
             [['transaction_session_order_id'], 'string', 'max' => 17],
             [['driver_username'], 'string', 'max' => 64],
             [['user_created', 'user_updated'], 'string', 'max' => 32],
+            [['transaction_session_order_id'], 'unique'],
             [['transaction_session_order_id'], 'exist', 'skipOnError' => true, 'targetClass' => TransactionSession::className(), 'targetAttribute' => ['transaction_session_order_id' => 'order_id']],
             [['driver_username'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['driver_username' => 'username']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],

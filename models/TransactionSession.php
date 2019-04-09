@@ -28,7 +28,7 @@ use Yii;
  * @property string $driver_username
  * @property string $image
  *
- * @property TransactionCanceled[] $transactionCanceleds
+ * @property TransactionCanceled $transactionCanceled
  * @property TransactionItem[] $transactionItems
  * @property Business $business
  * @property PromoItem $promoItem
@@ -108,9 +108,9 @@ class TransactionSession extends \sybase\SybaseModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTransactionCanceleds()
+    public function getTransactionCanceled()
     {
-        return $this->hasMany(TransactionCanceled::className(), ['transaction_session_order_id' => 'order_id']);
+        return $this->hasOne(TransactionCanceled::className(), ['transaction_session_order_id' => 'order_id']);
     }
 
     /**
