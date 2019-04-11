@@ -28,6 +28,7 @@ use yii\web\IdentityInterface;
  * @property Business[] $businesses
  * @property PromoItem[] $promoItems
  * @property RegistryBusiness[] $registryBusinesses
+ * @property TransactionCanceled[] $transactionCanceleds
  * @property TransactionSession[] $transactionSessions
  * @property UserDriver $userDriver
  * @property UserLevel $userLevel

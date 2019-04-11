@@ -8,14 +8,14 @@ use Yii;
  * This is the model class for table "transaction_canceled".
  *
  * @property string $transaction_session_order_id
- * @property string $driver_username
+ * @property string $driver_user_id
  * @property string $created_at
  * @property string $user_created
  * @property string $updated_at
  * @property string $user_updated
  *
  * @property TransactionSession $transactionSessionOrder
- * @property User $driverUsername
+ * @property User $driverUser
  * @property User $userCreated
  * @property User $userUpdated
  */
@@ -35,14 +35,13 @@ class TransactionCanceled extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['transaction_session_order_id', 'driver_username'], 'required'],
+            [['transaction_session_order_id', 'driver_user_id'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             [['transaction_session_order_id'], 'string', 'max' => 17],
-            [['driver_username'], 'string', 'max' => 64],
-            [['user_created', 'user_updated'], 'string', 'max' => 32],
+            [['driver_user_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['transaction_session_order_id'], 'unique'],
             [['transaction_session_order_id'], 'exist', 'skipOnError' => true, 'targetClass' => TransactionSession::className(), 'targetAttribute' => ['transaction_session_order_id' => 'order_id']],
-            [['driver_username'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['driver_username' => 'username']],
+            [['driver_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['driver_user_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
         ];
@@ -55,7 +54,7 @@ class TransactionCanceled extends \sybase\SybaseModel
     {
         return [
             'transaction_session_order_id' => Yii::t('app', 'Transaction Session Order ID'),
-            'driver_username' => Yii::t('app', 'Driver Username'),
+            'driver_user_id' => Yii::t('app', 'Driver User ID'),
             'created_at' => Yii::t('app', 'Created At'),
             'user_created' => Yii::t('app', 'User Created'),
             'updated_at' => Yii::t('app', 'Updated At'),
@@ -74,9 +73,9 @@ class TransactionCanceled extends \sybase\SybaseModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDriverUsername()
+    public function getDriverUser()
     {
-        return $this->hasOne(User::className(), ['username' => 'driver_username']);
+        return $this->hasOne(User::className(), ['id' => 'driver_user_id']);
     }
 
     /**
