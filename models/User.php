@@ -28,10 +28,10 @@ use yii\web\IdentityInterface;
  * @property Business[] $businesses
  * @property PromoItem[] $promoItems
  * @property RegistryBusiness[] $registryBusinesses
- * @property TransactionCanceled[] $transactionCanceleds
+ * @property TransactionCanceledByDriver[] $transactionCanceledByDrivers
  * @property TransactionSession[] $transactionSessions
- * @property UserDriver $userDriver
  * @property UserLevel $userLevel
+ * @property UserAsDriver $userAsDriver
  * @property UserLove[] $userLoves
  * @property UserPerson $userPerson
  * @property UserPost[] $userPosts
