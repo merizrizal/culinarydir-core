@@ -5,28 +5,30 @@ namespace core\models;
 use Yii;
 
 /**
- * This is the model class for table "transaction_canceled".
+ * This is the model class for table "user_as_driver".
  *
- * @property string $transaction_session_order_id
- * @property string $driver_user_id
+ * @property string $user_id
+ * @property string $coordinate
+ * @property bool $is_online
+ * @property int $total_cash
+ * @property string $socket_id
  * @property string $created_at
  * @property string $user_created
  * @property string $updated_at
  * @property string $user_updated
  *
- * @property TransactionSession $transactionSessionOrder
- * @property User $driverUser
+ * @property User $user
  * @property User $userCreated
  * @property User $userUpdated
  */
-class TransactionCanceled extends \sybase\SybaseModel
+class UserAsDriver extends \sybase\SybaseModel
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'transaction_canceled';
+        return 'user_as_driver';
     }
 
     /**
@@ -35,13 +37,16 @@ class TransactionCanceled extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['transaction_session_order_id', 'driver_user_id'], 'required'],
+            [['user_id'], 'required'],
+            [['is_online'], 'boolean'],
+            [['total_cash'], 'default', 'value' => null],
+            [['total_cash'], 'integer'],
+            [['socket_id'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
-            [['transaction_session_order_id'], 'string', 'max' => 17],
-            [['driver_user_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
-            [['transaction_session_order_id'], 'unique'],
-            [['transaction_session_order_id'], 'exist', 'skipOnError' => true, 'targetClass' => TransactionSession::className(), 'targetAttribute' => ['transaction_session_order_id' => 'order_id']],
-            [['driver_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['driver_user_id' => 'id']],
+            [['user_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
+            [['coordinate'], 'string', 'max' => 64],
+            [['user_id'], 'unique'],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
         ];
@@ -53,8 +58,11 @@ class TransactionCanceled extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'transaction_session_order_id' => Yii::t('app', 'Transaction Session Order ID'),
-            'driver_user_id' => Yii::t('app', 'Driver User ID'),
+            'user_id' => Yii::t('app', 'User ID'),
+            'coordinate' => Yii::t('app', 'Coordinate'),
+            'is_online' => Yii::t('app', 'Is Online'),
+            'total_cash' => Yii::t('app', 'Total Cash'),
+            'socket_id' => Yii::t('app', 'Socket ID'),
             'created_at' => Yii::t('app', 'Created At'),
             'user_created' => Yii::t('app', 'User Created'),
             'updated_at' => Yii::t('app', 'Updated At'),
@@ -65,17 +73,9 @@ class TransactionCanceled extends \sybase\SybaseModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTransactionSessionOrder()
+    public function getUser()
     {
-        return $this->hasOne(TransactionSession::className(), ['order_id' => 'transaction_session_order_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDriverUser()
-    {
-        return $this->hasOne(User::className(), ['id' => 'driver_user_id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
     /**

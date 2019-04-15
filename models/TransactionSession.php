@@ -16,26 +16,21 @@ use Yii;
  * @property string $user_created
  * @property string $updated_at
  * @property string $user_updated
- * @property bool $is_closed
+ * @property string $status
  * @property int $total_amount
  * @property string $promo_item_id
- * @property string $discount_type
  * @property int $discount_value
- * @property double $total_distance
- * @property int $total_delivery_fee
  * @property string $order_id
- * @property string $order_status
- * @property string $driver_user_id
- * @property string $image
+ * @property string $discount_type
  *
- * @property TransactionCanceled $transactionCanceled
+ * @property TransactionCanceledByDriver[] $transactionCanceledByDrivers
  * @property TransactionItem[] $transactionItems
  * @property Business $business
  * @property PromoItem $promoItem
  * @property User $userOrdered
  * @property User $userCreated
  * @property User $userUpdated
- * @property User $driverUser
+ * @property TransactionSessionDelivery $transactionSessionDelivery
  * @property TransactionSessionOrder $transactionSessionOrder
  */
 class TransactionSession extends \sybase\SybaseModel
@@ -55,13 +50,11 @@ class TransactionSession extends \sybase\SybaseModel
     {
         return [
             [['user_ordered', 'business_id', 'order_id'], 'required'],
-            [['note', 'discount_type', 'order_status', 'image'], 'string'],
-            [['total_price', 'total_amount', 'discount_value', 'total_delivery_fee'], 'default', 'value' => null],
-            [['total_price', 'total_amount', 'discount_value', 'total_delivery_fee'], 'integer'],
+            [['note', 'status', 'discount_type'], 'string'],
+            [['total_price', 'total_amount', 'discount_value'], 'default', 'value' => null],
+            [['total_price', 'total_amount', 'discount_value'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['is_closed'], 'boolean'],
-            [['total_distance'], 'number'],
-            [['id', 'user_ordered', 'business_id', 'user_created', 'user_updated', 'driver_user_id'], 'string', 'max' => 32],
+            [['id', 'user_ordered', 'business_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['promo_item_id'], 'string', 'max' => 14],
             [['order_id'], 'string', 'max' => 17],
             [['order_id'], 'unique'],
@@ -71,7 +64,6 @@ class TransactionSession extends \sybase\SybaseModel
             [['user_ordered'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_ordered' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
-            [['driver_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['driver_user_id' => 'id']],
         ];
     }
 
@@ -90,26 +82,21 @@ class TransactionSession extends \sybase\SybaseModel
             'user_created' => Yii::t('app', 'User Created'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'user_updated' => Yii::t('app', 'User Updated'),
-            'is_closed' => Yii::t('app', 'Is Closed'),
+            'status' => Yii::t('app', 'Status'),
             'total_amount' => Yii::t('app', 'Total Amount'),
             'promo_item_id' => Yii::t('app', 'Promo Item ID'),
-            'discount_type' => Yii::t('app', 'Discount Type'),
             'discount_value' => Yii::t('app', 'Discount Value'),
-            'total_distance' => Yii::t('app', 'Total Distance'),
-            'total_delivery_fee' => Yii::t('app', 'Total Delivery Fee'),
             'order_id' => Yii::t('app', 'Order ID'),
-            'order_status' => Yii::t('app', 'Order Status'),
-            'driver_user_id' => Yii::t('app', 'Driver User ID'),
-            'image' => Yii::t('app', 'Image'),
+            'discount_type' => Yii::t('app', 'Discount Type'),
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTransactionCanceled()
+    public function getTransactionCanceledByDrivers()
     {
-        return $this->hasOne(TransactionCanceled::className(), ['transaction_session_order_id' => 'order_id']);
+        return $this->hasMany(TransactionCanceledByDriver::className(), ['transaction_session_id' => 'id']);
     }
 
     /**
@@ -163,9 +150,9 @@ class TransactionSession extends \sybase\SybaseModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDriverUser()
+    public function getTransactionSessionDelivery()
     {
-        return $this->hasOne(User::className(), ['id' => 'driver_user_id']);
+        return $this->hasOne(TransactionSessionDelivery::className(), ['transaction_session_id' => 'id']);
     }
 
     /**
