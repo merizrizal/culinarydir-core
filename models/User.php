@@ -161,7 +161,7 @@ class User extends \sybase\SybaseModel implements IdentityInterface
      */
     public function getUserDriver()
     {
-        return $this->hasOne(UserDriver::className(), ['user_id' => 'id']);
+        return $this->hasOne(UserAsDriver::className(), ['user_id' => 'id']);
     }
 
     /**
