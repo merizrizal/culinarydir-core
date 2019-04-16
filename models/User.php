@@ -159,6 +159,14 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getTransactionCanceledByDrivers()
+    {
+        return $this->hasMany(TransactionCanceledByDriver::className(), ['driver_id' => 'id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getUserDriver()
     {
         return $this->hasOne(UserAsDriver::className(), ['user_id' => 'id']);
