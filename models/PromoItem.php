@@ -70,6 +70,8 @@ class PromoItem extends \sybase\SybaseModel
             'user_created' => Yii::t('app', 'User Created'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'user_updated' => Yii::t('app', 'User Updated'),
+            'businessClaimed.name' => Yii::t('app', 'Business Claimed'),
+            'userPromoItem.user.username' => Yii::t('app', 'User Claimed')
         ];
     }
 
