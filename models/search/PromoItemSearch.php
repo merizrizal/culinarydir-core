@@ -18,10 +18,19 @@ class PromoItemSearch extends PromoItem
     public function rules()
     {
         return [
-            [['id', 'promo_id', 'business_claimed', 'created_at', 'user_created', 'updated_at', 'user_updated'], 'safe'],
+            [['id', 'promo_id', 'business_claimed', 'created_at', 'user_created', 'updated_at', 'user_updated',
+                'businessClaimed.name', 'userPromoItem.user.username'], 'safe'],
             [['amount'], 'integer'],
             [['not_active'], 'boolean'],
         ];
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function attributes() {
+        // add related fields to searchable attributes
+        return array_merge(parent::attributes(), ['businessClaimed.name', 'userPromoItem.user.username']);
     }
 
     /**
@@ -42,7 +51,11 @@ class PromoItemSearch extends PromoItem
      */
     public function search($params)
     {
-        $query = PromoItem::find();
+        $query = PromoItem::find()
+            ->joinWith([
+                'businessClaimed',
+                'userPromoItem.user'
+            ]);
 
         // add conditions that should always apply here
 
@@ -52,6 +65,16 @@ class PromoItemSearch extends PromoItem
                 'pageSize' => Yii::$app->params['pageSize'],
             ),
         ]);
+        
+        $dataProvider->sort->attributes['businessClaimed.name'] = [
+            'asc' => ['business.name' => SORT_ASC],
+            'desc' => ['business.name' => SORT_DESC],
+        ];
+        
+        $dataProvider->sort->attributes['userPromoItem.user.username'] = [
+            'asc' => ['user.username' => SORT_ASC],
+            'desc' => ['user.username' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -64,16 +87,18 @@ class PromoItemSearch extends PromoItem
         // grid filtering conditions
         $query->andFilterWhere([
             'amount' => $this->amount,
-            'not_active' => $this->not_active,
+            'promo_item.not_active' => $this->not_active,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['ilike', 'id', $this->id])
+        $query->andFilterWhere(['ilike', 'promo_item.id', $this->id])
             ->andFilterWhere(['ilike', 'promo_id', $this->promo_id])
             ->andFilterWhere(['ilike', 'business_claimed', $this->business_claimed])
             ->andFilterWhere(['ilike', 'user_created', $this->user_created])
-            ->andFilterWhere(['ilike', 'user_updated', $this->user_updated]);
+            ->andFilterWhere(['ilike', 'user_updated', $this->user_updated])
+            ->andFilterWhere(['ilike', 'business.name', $this->getAttribute('businessClaimed.name')])
+            ->andFilterWhere(['ilike', 'user.username', $this->getAttribute('userPromoItem.user.username')]);
 
         return $dataProvider;
     }
