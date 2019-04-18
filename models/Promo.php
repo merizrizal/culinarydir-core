@@ -20,6 +20,8 @@ use Yii;
  * @property string $updated_at
  * @property string $user_updated
  * @property string $image
+ * @property string $description
+ * @property int $minimum_amount_order
  *
  * @property User $userCreated
  * @property User $userUpdated
@@ -43,9 +45,9 @@ class Promo extends \sybase\SybaseModel
     {
         return [
             [['title', 'type', 'amount', 'item_amount'], 'required'],
-            [['type', 'image'], 'string'],
-            [['amount', 'item_amount'], 'default', 'value' => null],
-            [['amount', 'item_amount'], 'integer'],
+            [['type', 'image', 'description'], 'string'],
+            [['amount', 'item_amount', 'minimum_amount_order'], 'default', 'value' => null],
+            [['amount', 'item_amount', 'minimum_amount_order'], 'integer'],
             [['date_start', 'date_end', 'created_at', 'updated_at'], 'safe'],
             [['not_active'], 'boolean'],
             [['id', 'user_created', 'user_updated'], 'string', 'max' => 32],
@@ -75,6 +77,8 @@ class Promo extends \sybase\SybaseModel
             'updated_at' => Yii::t('app', 'Updated At'),
             'user_updated' => Yii::t('app', 'User Updated'),
             'image' => Yii::t('app', 'Image'),
+            'description' => Yii::t('app', 'Description'),
+            'minimum_amount_order' => Yii::t('app', 'Minimum Amount Order'),
         ];
     }
 
