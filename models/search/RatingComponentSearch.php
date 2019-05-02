@@ -2,10 +2,9 @@
 
 namespace core\models\search;
 
-use Yii;
+use core\models\RatingComponent;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use core\models\RatingComponent;
 
 /**
  * RatingComponentSearch represents the model behind the search form of `core\models\RatingComponent`.
@@ -52,7 +51,7 @@ class RatingComponentSearch extends RatingComponent
                 'defaultOrder' => ['order' => SORT_ASC]
             ],
             'pagination' => array(
-                'pageSize' => Yii::$app->params['pageSize'],
+                'pageSize' => \Yii::$app->params['pageSize'],
             ),
         ]);
 

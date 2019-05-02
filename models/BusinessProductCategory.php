@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "business_product_category".
@@ -62,16 +61,16 @@ class BusinessProductCategory extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'unique_id' => Yii::t('app', 'Unique ID'),
-            'business_id' => Yii::t('app', 'Business ID'),
-            'product_category_id' => Yii::t('app', 'Product Category'),
-            'is_active' => Yii::t('app', 'Is Active'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
-            'order' => Yii::t('app', 'Order'),
+            'id' => \Yii::t('app', 'ID'),
+            'unique_id' => \Yii::t('app', 'Unique ID'),
+            'business_id' => \Yii::t('app', 'Business ID'),
+            'product_category_id' => \Yii::t('app', 'Product Category'),
+            'is_active' => \Yii::t('app', 'Is Active'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
+            'order' => \Yii::t('app', 'Order'),
         ];
     }
 

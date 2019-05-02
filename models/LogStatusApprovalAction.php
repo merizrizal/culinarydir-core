@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "log_status_approval_action".
@@ -55,14 +54,14 @@ class LogStatusApprovalAction extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'log_status_approval_id' => Yii::t('app', 'Log Status Approval ID'),
-            'status_approval_action_id' => Yii::t('app', 'Status Approval Action ID'),
-            'note' => Yii::t('app', 'Note'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
+            'id' => \Yii::t('app', 'ID'),
+            'log_status_approval_id' => \Yii::t('app', 'Log Status Approval ID'),
+            'status_approval_action_id' => \Yii::t('app', 'Status Approval Action ID'),
+            'note' => \Yii::t('app', 'Note'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
         ];
     }
 

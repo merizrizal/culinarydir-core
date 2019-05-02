@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "registry_business_payment".
@@ -58,16 +57,16 @@ class RegistryBusinessPayment extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'registry_business_id' => Yii::t('app', 'Registry Business ID'),
-            'payment_method_id' => Yii::t('app', 'Payment Method ID'),
-            'is_active' => Yii::t('app', 'Is Active'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
-            'note' => Yii::t('app', 'Note'),
-            'description' => Yii::t('app', 'Description'),
+            'id' => \Yii::t('app', 'ID'),
+            'registry_business_id' => \Yii::t('app', 'Registry Business ID'),
+            'payment_method_id' => \Yii::t('app', 'Payment Method ID'),
+            'is_active' => \Yii::t('app', 'Is Active'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
+            'note' => \Yii::t('app', 'Note'),
+            'description' => \Yii::t('app', 'Description'),
         ];
     }
 

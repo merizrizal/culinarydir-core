@@ -2,10 +2,9 @@
 
 namespace core\models\search;
 
-use Yii;
+use core\models\Region;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use core\models\Region;
 
 /**
  * RegionSearch represents the model behind the search form of `core\models\Region`.
@@ -58,7 +57,7 @@ class RegionSearch extends Region
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => array(
-                'pageSize' => Yii::$app->params['pageSize'],
+                'pageSize' => \Yii::$app->params['pageSize'],
             ),
         ]);
 

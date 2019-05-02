@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "business_promo".
@@ -60,19 +59,19 @@ class BusinessPromo extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'business_id' => Yii::t('app', 'Business ID'),
-            'title' => Yii::t('app', 'Title'),
-            'short_description' => Yii::t('app', 'Short Description'),
-            'description' => Yii::t('app', 'Description'),
-            'image' => Yii::t('app', 'Image'),
-            'date_start' => Yii::t('app', 'Date Start'),
-            'date_end' => Yii::t('app', 'Date End'),
-            'not_active' => Yii::t('app', 'Not Active'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
+            'id' => \Yii::t('app', 'ID'),
+            'business_id' => \Yii::t('app', 'Business ID'),
+            'title' => \Yii::t('app', 'Title'),
+            'short_description' => \Yii::t('app', 'Short Description'),
+            'description' => \Yii::t('app', 'Description'),
+            'image' => \Yii::t('app', 'Image'),
+            'date_start' => \Yii::t('app', 'Date Start'),
+            'date_end' => \Yii::t('app', 'Date End'),
+            'not_active' => \Yii::t('app', 'Not Active'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
         ];
     }
 

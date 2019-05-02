@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "promo_item".
@@ -61,17 +60,17 @@ class PromoItem extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'promo_id' => Yii::t('app', 'Promo ID'),
-            'business_claimed' => Yii::t('app', 'Business Claimed'),
-            'amount' => Yii::t('app', 'Amount'),
-            'not_active' => Yii::t('app', 'Not Active'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
-            'businessClaimed.name' => Yii::t('app', 'Business Claimed'),
-            'userPromoItem.user.username' => Yii::t('app', 'User Claimed')
+            'id' => \Yii::t('app', 'ID'),
+            'promo_id' => \Yii::t('app', 'Promo ID'),
+            'business_claimed' => \Yii::t('app', 'Business Claimed'),
+            'amount' => \Yii::t('app', 'Amount'),
+            'not_active' => \Yii::t('app', 'Not Active'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
+            'businessClaimed.name' => \Yii::t('app', 'Business Claimed'),
+            'userPromoItem.user.username' => \Yii::t('app', 'User Claimed')
         ];
     }
 

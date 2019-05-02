@@ -2,10 +2,9 @@
 
 namespace core\models\search;
 
-use Yii;
+use core\models\StatusApproval;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use core\models\StatusApproval;
 
 /**
  * StatusApprovalSearch represents the model behind the search form of `core\models\StatusApproval`.
@@ -52,7 +51,7 @@ class StatusApprovalSearch extends StatusApproval
                 'defaultOrder' => ['order' => SORT_ASC]
             ],
             'pagination' => array(
-                'pageSize' => Yii::$app->params['pageSize'],
+                'pageSize' => \Yii::$app->params['pageSize'],
             ),
         ]);
 

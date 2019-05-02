@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
@@ -50,7 +49,7 @@ class UserSocialMedia extends \sybase\SybaseModel
         return [
             [['user_id'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
-            [['user_id'], 'string', 'max' => 32], 
+            [['user_id'], 'string', 'max' => 32],
             [['facebook_id', 'google_id'], 'string', 'max' => 64],
             [['user_id'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
@@ -63,11 +62,11 @@ class UserSocialMedia extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'user_id' => Yii::t('app', 'User ID'),
-            'facebook_id' => Yii::t('app', 'Facebook ID'),
-            'google_id' => Yii::t('app', 'Google ID'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
+            'user_id' => \Yii::t('app', 'User ID'),
+            'facebook_id' => \Yii::t('app', 'Facebook ID'),
+            'google_id' => \Yii::t('app', 'Google ID'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
         ];
     }
 

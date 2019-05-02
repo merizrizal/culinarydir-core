@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "status_approval".
@@ -68,21 +67,21 @@ class StatusApproval extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
-            'note' => Yii::t('app', 'Note'),
-            'instruction' => Yii::t('app', 'Instruction'),
-            'status' => Yii::t('app', 'Status'),
-            'order' => Yii::t('app', 'Order'),
-            'condition' => Yii::t('app', 'Condition'),
-            'branch' => Yii::t('app', 'Branch'),
-            'group' => Yii::t('app', 'Group'),
-            'not_active' => Yii::t('app', 'Not Active'),
-            'execute_action' => Yii::t('app', 'Execute Action'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
+            'id' => \Yii::t('app', 'ID'),
+            'name' => \Yii::t('app', 'Name'),
+            'note' => \Yii::t('app', 'Note'),
+            'instruction' => \Yii::t('app', 'Instruction'),
+            'status' => \Yii::t('app', 'Status'),
+            'order' => \Yii::t('app', 'Order'),
+            'condition' => \Yii::t('app', 'Condition'),
+            'branch' => \Yii::t('app', 'Branch'),
+            'group' => \Yii::t('app', 'Group'),
+            'not_active' => \Yii::t('app', 'Not Active'),
+            'execute_action' => \Yii::t('app', 'Execute Action'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
         ];
     }
 

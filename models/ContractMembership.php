@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "contract_membership".
@@ -62,17 +61,17 @@ class ContractMembership extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'registry_business_id' => Yii::t('app', 'Registry Business ID'),
-            'business_id' => Yii::t('app', 'Business ID'),
-            'membership_type_id' => Yii::t('app', 'Membership Type ID'),
-            'price' => Yii::t('app', 'Price'),
-            'started_at' => Yii::t('app', 'Started At'),
-            'due_at' => Yii::t('app', 'Due At'),
-            'is_current' => Yii::t('app', 'Is Current'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
+            'registry_business_id' => \Yii::t('app', 'Registry Business ID'),
+            'business_id' => \Yii::t('app', 'Business ID'),
+            'membership_type_id' => \Yii::t('app', 'Membership Type ID'),
+            'price' => \Yii::t('app', 'Price'),
+            'started_at' => \Yii::t('app', 'Started At'),
+            'due_at' => \Yii::t('app', 'Due At'),
+            'is_current' => \Yii::t('app', 'Is Current'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
         ];
     }
 

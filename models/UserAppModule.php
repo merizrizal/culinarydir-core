@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "user_app_module".
@@ -54,15 +53,15 @@ class UserAppModule extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'sub_program' => Yii::t('app', 'Sub Program'),
-            'nama_module' => Yii::t('app', 'Nama Module'),
-            'module_action' => Yii::t('app', 'Module Action'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
-            'guest_can_access' => Yii::t('app', 'Guest Can Access'),
+            'id' => \Yii::t('app', 'ID'),
+            'sub_program' => \Yii::t('app', 'Sub Program'),
+            'nama_module' => \Yii::t('app', 'Nama Module'),
+            'module_action' => \Yii::t('app', 'Module Action'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
+            'guest_can_access' => \Yii::t('app', 'Guest Can Access'),
         ];
     }
 

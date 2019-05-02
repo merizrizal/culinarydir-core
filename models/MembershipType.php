@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "membership_type".
@@ -64,19 +63,19 @@ class MembershipType extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
-            'is_premium' => Yii::t('app', 'Is Premium'),
-            'time_limit' => Yii::t('app', 'Time Limit'),
-            'price' => Yii::t('app', 'Price'),
-            'note' => Yii::t('app', 'Note'),
-            'is_active' => Yii::t('app', 'Is Active'),
-            'order' => Yii::t('app', 'Order'),
-            'as_archive' => Yii::t('app', 'As Archive'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
+            'id' => \Yii::t('app', 'ID'),
+            'name' => \Yii::t('app', 'Name'),
+            'is_premium' => \Yii::t('app', 'Is Premium'),
+            'time_limit' => \Yii::t('app', 'Time Limit'),
+            'price' => \Yii::t('app', 'Price'),
+            'note' => \Yii::t('app', 'Note'),
+            'is_active' => \Yii::t('app', 'Is Active'),
+            'order' => \Yii::t('app', 'Order'),
+            'as_archive' => \Yii::t('app', 'As Archive'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
         ];
     }
 

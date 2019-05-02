@@ -2,10 +2,9 @@
 
 namespace core\models\search;
 
-use Yii;
+use core\models\Province;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use core\models\Province;
 
 /**
  * ProvinceSearch represents the model behind the search form of `core\models\Province`.
@@ -48,7 +47,7 @@ class ProvinceSearch extends Province
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => array(
-                'pageSize' => Yii::$app->params['pageSize'],
+                'pageSize' => \Yii::$app->params['pageSize'],
             ),
         ]);
 

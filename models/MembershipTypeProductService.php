@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "membership_type_product_service".
@@ -57,15 +56,15 @@ class MembershipTypeProductService extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'product_service_id' => Yii::t('app', 'Product Service ID'),
-            'note' => Yii::t('app', 'Note'),
-            'not_active' => Yii::t('app', 'Not Active'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
-            'membership_type_id' => Yii::t('app', 'Membership Type ID'),
+            'id' => \Yii::t('app', 'ID'),
+            'product_service_id' => \Yii::t('app', 'Product Service ID'),
+            'note' => \Yii::t('app', 'Note'),
+            'not_active' => \Yii::t('app', 'Not Active'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
+            'membership_type_id' => \Yii::t('app', 'Membership Type ID'),
         ];
     }
 

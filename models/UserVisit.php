@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "user_visit".
@@ -58,15 +57,15 @@ class UserVisit extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'user_id' => Yii::t('app', 'User ID'),
-            'business_id' => Yii::t('app', 'Business ID'),
-            'is_active' => Yii::t('app', 'Is Active'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
-            'unique_id' => Yii::t('app', 'Unique ID'),
+            'id' => \Yii::t('app', 'ID'),
+            'user_id' => \Yii::t('app', 'User ID'),
+            'business_id' => \Yii::t('app', 'Business ID'),
+            'is_active' => \Yii::t('app', 'Is Active'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
+            'unique_id' => \Yii::t('app', 'Unique ID'),
         ];
     }
 

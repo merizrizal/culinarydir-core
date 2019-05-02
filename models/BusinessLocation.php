@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "business_location".
@@ -64,18 +63,18 @@ class BusinessLocation extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'business_id' => Yii::t('app', 'Business ID'),
-            'address_type' => Yii::t('app', 'Address Type'),
-            'address' => Yii::t('app', 'Address'),
-            'address_info' => Yii::t('app', 'Address Info'),
-            'city_id' => Yii::t('app', 'City ID'),
-            'district_id' => Yii::t('app', 'District ID'),
-            'village_id' => Yii::t('app', 'Village ID'),
-            'coordinate' => Yii::t('app', 'Coordinate'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
+            'business_id' => \Yii::t('app', 'Business ID'),
+            'address_type' => \Yii::t('app', 'Address Type'),
+            'address' => \Yii::t('app', 'Address'),
+            'address_info' => \Yii::t('app', 'Address Info'),
+            'city_id' => \Yii::t('app', 'City ID'),
+            'district_id' => \Yii::t('app', 'District ID'),
+            'village_id' => \Yii::t('app', 'Village ID'),
+            'coordinate' => \Yii::t('app', 'Coordinate'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
         ];
     }
 

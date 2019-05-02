@@ -12,8 +12,8 @@ echo "<?php\n";
 /* @var $this yii\web\View */
 /* @var $model <?= ltrim($generator->modelClass, '\\') ?> */
 
-$this->title = <?= '\'Create \' . Yii::t(\'app\', ' . $generator->generateString(Inflector::camel2words(StringHelper::basename($generator->modelClass))) . ')' ?>;
-$this->params['breadcrumbs'][] = ['label' => <?= 'Yii::t(\'app\', ' . $generator->generateString(Inflector::camel2words(StringHelper::basename($generator->modelClass))) . ')' ?>, 'url' => ['index']];
+$this->title = <?= '\'Create \' . \Yii::t(\'app\', ' . $generator->generateString(Inflector::camel2words(StringHelper::basename($generator->modelClass))) . ')' ?>;
+$this->params['breadcrumbs'][] = ['label' => <?= '\Yii::t(\'app\', ' . $generator->generateString(Inflector::camel2words(StringHelper::basename($generator->modelClass))) . ')' ?>, 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>-create">

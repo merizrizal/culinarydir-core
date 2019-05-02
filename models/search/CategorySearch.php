@@ -2,10 +2,9 @@
 
 namespace core\models\search;
 
-use Yii;
+use core\models\Category;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use core\models\Category;
 
 /**
  * CategorySearch represents the model behind the search form of `core\models\Category`.
@@ -48,7 +47,7 @@ class CategorySearch extends Category
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => array(
-                'pageSize' => Yii::$app->params['pageSize'],
+                'pageSize' => \Yii::$app->params['pageSize'],
             ),
         ]);
 

@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "promo".
@@ -64,21 +63,21 @@ class Promo extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'title' => Yii::t('app', 'Name'),
-            'type' => Yii::t('app', 'Type'),
-            'amount' => Yii::t('app', 'Amount'),
-            'item_amount' => Yii::t('app', 'Item Amount'),
-            'date_start' => Yii::t('app', 'Date Start'),
-            'date_end' => Yii::t('app', 'Date End'),
-            'not_active' => Yii::t('app', 'Not Active'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
-            'image' => Yii::t('app', 'Image'),
-            'description' => Yii::t('app', 'Description'),
-            'minimum_amount_order' => Yii::t('app', 'Minimum Amount Order'),
+            'id' => \Yii::t('app', 'ID'),
+            'title' => \Yii::t('app', 'Name'),
+            'type' => \Yii::t('app', 'Type'),
+            'amount' => \Yii::t('app', 'Amount'),
+            'item_amount' => \Yii::t('app', 'Item Amount'),
+            'date_start' => \Yii::t('app', 'Date Start'),
+            'date_end' => \Yii::t('app', 'Date End'),
+            'not_active' => \Yii::t('app', 'Not Active'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
+            'image' => \Yii::t('app', 'Image'),
+            'description' => \Yii::t('app', 'Description'),
+            'minimum_amount_order' => \Yii::t('app', 'Minimum Amount Order'),
         ];
     }
 

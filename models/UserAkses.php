@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "user_akses".
@@ -55,14 +54,14 @@ class UserAkses extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'user_level_id' => Yii::t('app', 'User Level ID'),
-            'user_app_module_id' => Yii::t('app', 'User App Module ID'),
-            'is_active' => Yii::t('app', 'Is Active'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
+            'id' => \Yii::t('app', 'ID'),
+            'user_level_id' => \Yii::t('app', 'User Level ID'),
+            'user_app_module_id' => \Yii::t('app', 'User App Module ID'),
+            'is_active' => \Yii::t('app', 'Is Active'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
         ];
     }
 

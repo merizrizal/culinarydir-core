@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "business_detail".
@@ -62,20 +61,20 @@ class BusinessDetail extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'business_id' => Yii::t('app', 'Business ID'),
-            'price_min' => Yii::t('app', 'Price Min'),
-            'price_max' => Yii::t('app', 'Price Max'),
-            'voters' => Yii::t('app', 'Voters'),
-            'vote_value' => Yii::t('app', 'Vote Value'),
-            'vote_points' => Yii::t('app', 'Vote Points'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
-            'love_value' => Yii::t('app', 'Love Value'),
-            'visit_value' => Yii::t('app', 'Visit Value'),
-            'total_vote_points' => Yii::t('app', 'Total Vote Points'),
-            'note_business_hour' => Yii::t('app', 'Note Business Hour'),
+            'business_id' => \Yii::t('app', 'Business ID'),
+            'price_min' => \Yii::t('app', 'Price Min'),
+            'price_max' => \Yii::t('app', 'Price Max'),
+            'voters' => \Yii::t('app', 'Voters'),
+            'vote_value' => \Yii::t('app', 'Vote Value'),
+            'vote_points' => \Yii::t('app', 'Vote Points'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
+            'love_value' => \Yii::t('app', 'Love Value'),
+            'visit_value' => \Yii::t('app', 'Visit Value'),
+            'total_vote_points' => \Yii::t('app', 'Total Vote Points'),
+            'note_business_hour' => \Yii::t('app', 'Note Business Hour'),
         ];
     }
 

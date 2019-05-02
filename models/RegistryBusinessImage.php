@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "registry_business_image".
@@ -72,19 +71,19 @@ class RegistryBusinessImage extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'registry_business_id' => Yii::t('app', 'Registry Business ID'),
-            'image' => Yii::t('app', 'Image'),
-            'title' => Yii::t('app', 'Title'),
-            'caption' => Yii::t('app', 'Caption'),
-            'type' => Yii::t('app', 'Type'),
-            'is_primary' => Yii::t('app', 'Is Primary'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
-            'category' => Yii::t('app', 'Category'),
-            'order' => Yii::t('app', 'Order'),
+            'id' => \Yii::t('app', 'ID'),
+            'registry_business_id' => \Yii::t('app', 'Registry Business ID'),
+            'image' => \Yii::t('app', 'Image'),
+            'title' => \Yii::t('app', 'Title'),
+            'caption' => \Yii::t('app', 'Caption'),
+            'type' => \Yii::t('app', 'Type'),
+            'is_primary' => \Yii::t('app', 'Is Primary'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
+            'category' => \Yii::t('app', 'Category'),
+            'order' => \Yii::t('app', 'Order'),
         ];
     }
 

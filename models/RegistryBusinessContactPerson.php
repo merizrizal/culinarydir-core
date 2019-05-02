@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "registry_business_contact_person".
@@ -58,16 +57,16 @@ class RegistryBusinessContactPerson extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'registry_business_id' => Yii::t('app', 'Registry Business ID'),
-            'person_id' => Yii::t('app', 'Person ID'),
-            'is_primary_contact' => Yii::t('app', 'Is Primary Contact'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
-            'note' => Yii::t('app', 'Note'),
-            'position' => Yii::t('app', 'Position'),
+            'id' => \Yii::t('app', 'ID'),
+            'registry_business_id' => \Yii::t('app', 'Registry Business ID'),
+            'person_id' => \Yii::t('app', 'Person ID'),
+            'is_primary_contact' => \Yii::t('app', 'Is Primary Contact'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
+            'note' => \Yii::t('app', 'Note'),
+            'position' => \Yii::t('app', 'Position'),
         ];
     }
 

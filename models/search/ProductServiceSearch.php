@@ -2,10 +2,9 @@
 
 namespace core\models\search;
 
-use Yii;
+use core\models\ProductService;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use core\models\ProductService;
 
 /**
  * ProductServiceSearch represents the model behind the search form of `core\models\ProductService`.
@@ -49,7 +48,7 @@ class ProductServiceSearch extends ProductService
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => array(
-                'pageSize' => Yii::$app->params['pageSize'],
+                'pageSize' => \Yii::$app->params['pageSize'],
             ),
         ]);
 

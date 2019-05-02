@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "registry_business_facility".
@@ -58,15 +57,15 @@ class RegistryBusinessFacility extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'unique_id' => Yii::t('app', 'Unique ID'),
-            'registry_business_id' => Yii::t('app', 'Registry Business ID'),
-            'facility_id' => Yii::t('app', 'Facility ID'),
-            'is_active' => Yii::t('app', 'Is Active'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
+            'id' => \\Yii::t('app', 'ID'),
+            'unique_id' => \\Yii::t('app', 'Unique ID'),
+            'registry_business_id' => \\Yii::t('app', 'Registry Business ID'),
+            'facility_id' => \\Yii::t('app', 'Facility ID'),
+            'is_active' => \\Yii::t('app', 'Is Active'),
+            'created_at' => \\Yii::t('app', 'Created At'),
+            'user_created' => \\Yii::t('app', 'User Created'),
+            'updated_at' => \\Yii::t('app', 'Updated At'),
+            'user_updated' => \\Yii::t('app', 'User Updated'),
         ];
     }
 

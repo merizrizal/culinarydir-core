@@ -2,10 +2,9 @@
 
 namespace core\models\search;
 
-use Yii;
+use core\models\BusinessPayment;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use core\models\BusinessPayment;
 
 /**
  * BusinessPaymentSearch represents the model behind the search form of `core\models\BusinessPayment`.
@@ -24,7 +23,7 @@ class BusinessPaymentSearch extends BusinessPayment
             [['is_active'], 'boolean'],
         ];
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -60,10 +59,10 @@ class BusinessPaymentSearch extends BusinessPayment
             'query' => $query,
             'sort' => ['defaultOrder' => ['id' => SORT_ASC]],
             'pagination' => array(
-                'pageSize' => Yii::$app->params['pageSize'],
+                'pageSize' => \Yii::$app->params['pageSize'],
             ),
         ]);
-        
+
         $dataProvider->sort->attributes['paymentMethod.payment_name'] = [
             'asc' => ['payment_method.payment_name' => SORT_ASC],
             'desc' => ['payment_method.payment_name' => SORT_DESC]

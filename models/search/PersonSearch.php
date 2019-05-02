@@ -2,10 +2,9 @@
 
 namespace core\models\search;
 
-use Yii;
+use core\models\Person;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use core\models\Person;
 
 /**
  * PersonSearch represents the model behind the search form of `core\models\Person`.
@@ -58,7 +57,7 @@ class PersonSearch extends Person
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => array(
-                'pageSize' => Yii::$app->params['pageSize'],
+                'pageSize' => \Yii::$app->params['pageSize'],
             ),
         ]);
 

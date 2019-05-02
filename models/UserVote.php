@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "user_vote".
@@ -56,14 +55,14 @@ class UserVote extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'vote_value' => Yii::t('app', 'Vote Value'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
-            'rating_component_id' => Yii::t('app', 'Rating Component ID'),
-            'user_post_main_id' => Yii::t('app', 'User Post Main ID'),
+            'id' => \Yii::t('app', 'ID'),
+            'vote_value' => \Yii::t('app', 'Vote Value'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
+            'rating_component_id' => \Yii::t('app', 'Rating Component ID'),
+            'user_post_main_id' => \Yii::t('app', 'User Post Main ID'),
         ];
     }
 

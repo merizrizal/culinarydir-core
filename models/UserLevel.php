@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "user_level".
@@ -54,14 +53,14 @@ class UserLevel extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'nama_level' => Yii::t('app', 'Nama Level'),
-            'is_super_admin' => Yii::t('app', 'Is Super Admin'),
-            'keterangan' => Yii::t('app', 'Keterangan'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
+            'id' => \Yii::t('app', 'ID'),
+            'nama_level' => \Yii::t('app', 'Nama Level'),
+            'is_super_admin' => \Yii::t('app', 'Is Super Admin'),
+            'keterangan' => \Yii::t('app', 'Keterangan'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
         ];
     }
 

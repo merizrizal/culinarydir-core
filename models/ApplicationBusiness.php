@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "application_business".
@@ -43,7 +42,7 @@ class ApplicationBusiness extends \sybase\SybaseModel
             [['counter'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['id', 'user_in_charge', 'user_created', 'user_updated'], 'string', 'max' => 32],
-            [['id'], 'unique'], 
+            [['id'], 'unique'],
             [['user_in_charge'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_in_charge' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
@@ -56,16 +55,16 @@ class ApplicationBusiness extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'user_in_charge' => Yii::t('app', 'User In Charge'),
-            'counter' => Yii::t('app', 'Counter'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
+            'id' => \Yii::t('app', 'ID'),
+            'user_in_charge' => \Yii::t('app', 'User In Charge'),
+            'counter' => \Yii::t('app', 'Counter'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
 
-            'registryBusinesses.membershipType.name' => Yii::t('app', 'Membership Type'),
-            'registryBusinesses.userInCharge.full_name' => Yii::t('app', 'Marketing'),
+            'registryBusinesses.membershipType.name' => \Yii::t('app', 'Membership Type'),
+            'registryBusinesses.userInCharge.full_name' => \Yii::t('app', 'Marketing'),
         ];
     }
 

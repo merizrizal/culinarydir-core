@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "business_image".
@@ -55,7 +54,7 @@ class BusinessImage extends \sybase\SybaseModel
             [['created_at', 'updated_at'], 'safe'],
             [['order'], 'default', 'value' => null],
             [['order'], 'integer'],
-            [['id', 'business_id', 'user_created', 'user_updated'], 'string', 'max' => 32], 
+            [['id', 'business_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['title'], 'string', 'max' => 128],
             [['image'], 'required', 'on' => self::SCENARIO_CREATE],
             [['image'], 'file', 'maxSize' => 1024 * 1024 * 7, 'maxFiles' => 10],
@@ -72,19 +71,19 @@ class BusinessImage extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'business_id' => Yii::t('app', 'Business ID'),
-            'image' => Yii::t('app', 'Image'),
-            'title' => Yii::t('app', 'Title'),
-            'caption' => Yii::t('app', 'Caption'),
-            'type' => Yii::t('app', 'Type'),
-            'is_primary' => Yii::t('app', 'Is Primary'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
-            'category' => Yii::t('app', 'Category'),
-            'order' => Yii::t('app', 'Order'),
+            'id' => \Yii::t('app', 'ID'),
+            'business_id' => \Yii::t('app', 'Business ID'),
+            'image' => \Yii::t('app', 'Image'),
+            'title' => \Yii::t('app', 'Title'),
+            'caption' => \Yii::t('app', 'Caption'),
+            'type' => \Yii::t('app', 'Type'),
+            'is_primary' => \Yii::t('app', 'Is Primary'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
+            'category' => \Yii::t('app', 'Category'),
+            'order' => \Yii::t('app', 'Order'),
         ];
     }
 

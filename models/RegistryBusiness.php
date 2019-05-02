@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "registry_business".
@@ -34,7 +33,7 @@ use Yii;
  * @property string $note
  * @property string $note_business_hour
  * @property string $about
- * @property string $menu 
+ * @property string $menu
  *
  * @property ContractMembership $contractMembership
  * @property ApplicationBusiness $applicationBusiness
@@ -65,7 +64,7 @@ class RegistryBusiness extends \sybase\SybaseModel
     }
 
     public function scenarios() {
-        
+
         $scenarios = parent::scenarios();
         $scenarios[self::SCENARIO_CREATE] = $this->attributes();
 
@@ -83,12 +82,12 @@ class RegistryBusiness extends \sybase\SybaseModel
             [['created_at', 'updated_at'], 'safe'],
             [['price_min', 'price_max', 'application_business_counter'], 'default', 'value' => null],
             [['price_min', 'price_max', 'application_business_counter'], 'integer'],
-            [['id', 'membership_type_id', 'city_id', 'district_id', 'village_id', 'application_business_id', 'user_in_charge', 'user_created', 'user_updated'], 'string', 'max' => 32], 
+            [['id', 'membership_type_id', 'city_id', 'district_id', 'village_id', 'application_business_id', 'user_in_charge', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['name', 'email'], 'string', 'max' => 48],
             [['unique_name', 'coordinate'], 'string', 'max' => 64],
             [['phone1', 'phone2', 'phone3'], 'string', 'max' => 16],
             [['unique_name'], 'unique', 'on' => self::SCENARIO_CREATE],
-            [['unique_name'], 'match', 'pattern' => '/^[a-z0-9-]+$/', 'message' => Yii::t('app', 'Unique Name') . ' hanya boleh angka, huruf kecil dan strip.'],
+            [['unique_name'], 'match', 'pattern' => '/^[a-z0-9-]+$/', 'message' => \Yii::t('app', 'Unique Name') . ' hanya boleh angka, huruf kecil dan strip.'],
             [['email'], 'email'],
             [['id'], 'unique'],
             [['application_business_id'], 'exist', 'skipOnError' => true, 'targetClass' => ApplicationBusiness::className(), 'targetAttribute' => ['application_business_id' => 'id']],
@@ -108,36 +107,36 @@ class RegistryBusiness extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'membership_type_id' => Yii::t('app', 'Membership Type ID'),
-            'name' => Yii::t('app', 'Name'),
-            'unique_name' => Yii::t('app', 'Unique Name'),
-            'email' => Yii::t('app', 'Email'),
-            'phone1' => Yii::t('app', 'Phone1'),
-            'phone2' => Yii::t('app', 'Phone2'),
-            'phone3' => Yii::t('app', 'Phone3'),
-            'address_type' => Yii::t('app', 'Address Type'),
-            'address' => Yii::t('app', 'Address'),
-            'address_info' => Yii::t('app', 'Address Info'),
-            'city_id' => Yii::t('app', 'City ID'),
-            'district_id' => Yii::t('app', 'District ID'),
-            'village_id' => Yii::t('app', 'Village ID'),
-            'coordinate' => Yii::t('app', 'Coordinate'),
-            'application_business_id' => Yii::t('app', 'Application Business ID'),
-            'user_in_charge' => Yii::t('app', 'User In Charge'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
-            'price_min' => Yii::t('app', 'Price Min'),
-            'price_max' => Yii::t('app', 'Price Max'),
-            'application_business_counter' => Yii::t('app', 'Application Business Counter'),
-            'note' => Yii::t('app', 'Note'),
-            'note_business_hour' => Yii::t('app', 'Note Business Hour'),
-            'about' => Yii::t('app', 'About'),
-            'membershipType.name' => Yii::t('app', 'Membership Type'),
-            'userInCharge.full_name' => Yii::t('app', 'Marketing'),
-            'menu' => Yii::t('app', 'Menu'),
+            'id' => \Yii::t('app', 'ID'),
+            'membership_type_id' => \Yii::t('app', 'Membership Type ID'),
+            'name' => \Yii::t('app', 'Name'),
+            'unique_name' => \Yii::t('app', 'Unique Name'),
+            'email' => \Yii::t('app', 'Email'),
+            'phone1' => \Yii::t('app', 'Phone1'),
+            'phone2' => \Yii::t('app', 'Phone2'),
+            'phone3' => \Yii::t('app', 'Phone3'),
+            'address_type' => \Yii::t('app', 'Address Type'),
+            'address' => \Yii::t('app', 'Address'),
+            'address_info' => \Yii::t('app', 'Address Info'),
+            'city_id' => \Yii::t('app', 'City ID'),
+            'district_id' => \Yii::t('app', 'District ID'),
+            'village_id' => \Yii::t('app', 'Village ID'),
+            'coordinate' => \Yii::t('app', 'Coordinate'),
+            'application_business_id' => \Yii::t('app', 'Application Business ID'),
+            'user_in_charge' => \Yii::t('app', 'User In Charge'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
+            'price_min' => \Yii::t('app', 'Price Min'),
+            'price_max' => \Yii::t('app', 'Price Max'),
+            'application_business_counter' => \Yii::t('app', 'Application Business Counter'),
+            'note' => \Yii::t('app', 'Note'),
+            'note_business_hour' => \Yii::t('app', 'Note Business Hour'),
+            'about' => \Yii::t('app', 'About'),
+            'membershipType.name' => \Yii::t('app', 'Membership Type'),
+            'userInCharge.full_name' => \Yii::t('app', 'Marketing'),
+            'menu' => \Yii::t('app', 'Menu'),
         ];
     }
 
@@ -237,7 +236,7 @@ class RegistryBusiness extends \sybase\SybaseModel
     {
         return $this->hasMany(RegistryBusinessContactPerson::className(), ['registry_business_id' => 'id']);
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -269,7 +268,7 @@ class RegistryBusiness extends \sybase\SybaseModel
     {
         return $this->hasMany(RegistryBusinessImage::className(), ['registry_business_id' => 'id']);
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */

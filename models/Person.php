@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "person".
@@ -62,18 +61,18 @@ class Person extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'first_name' => Yii::t('app', 'First Name'),
-            'last_name' => Yii::t('app', 'Last Name'),
-            'email' => Yii::t('app', 'Email'),
-            'phone' => Yii::t('app', 'Phone'),
-            'city_id' => Yii::t('app', 'City ID'),
-            'address' => Yii::t('app', 'Address'),
-            'about_me' => Yii::t('app', 'About Me'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
+            'id' => \Yii::t('app', 'ID'),
+            'first_name' => \Yii::t('app', 'First Name'),
+            'last_name' => \Yii::t('app', 'Last Name'),
+            'email' => \Yii::t('app', 'Email'),
+            'phone' => \Yii::t('app', 'Phone'),
+            'city_id' => \Yii::t('app', 'City ID'),
+            'address' => \Yii::t('app', 'Address'),
+            'about_me' => \Yii::t('app', 'About Me'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
         ];
     }
 

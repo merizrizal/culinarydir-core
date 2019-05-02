@@ -2,10 +2,9 @@
 
 namespace core\models\search;
 
-use Yii;
+use core\models\UserLevel;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use core\models\UserLevel;
 
 /**
  * UserLevelSearch represents the model behind the search form of `core\models\UserLevel`.
@@ -49,7 +48,7 @@ class UserLevelSearch extends UserLevel
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => array(
-                'pageSize' => Yii::$app->params['pageSize'],
+                'pageSize' => \Yii::$app->params['pageSize'],
             ),
         ]);
 

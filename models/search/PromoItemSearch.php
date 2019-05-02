@@ -2,10 +2,9 @@
 
 namespace core\models\search;
 
-use Yii;
+use core\models\PromoItem;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use core\models\PromoItem;
 
 /**
  * PromoItemSearch represents the model behind the search form of `core\models\PromoItem`.
@@ -24,7 +23,7 @@ class PromoItemSearch extends PromoItem
             [['not_active'], 'boolean'],
         ];
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -62,15 +61,15 @@ class PromoItemSearch extends PromoItem
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => array(
-                'pageSize' => Yii::$app->params['pageSize'],
+                'pageSize' => \Yii::$app->params['pageSize'],
             ),
         ]);
-        
+
         $dataProvider->sort->attributes['businessClaimed.name'] = [
             'asc' => ['business.name' => SORT_ASC],
             'desc' => ['business.name' => SORT_DESC],
         ];
-        
+
         $dataProvider->sort->attributes['userPromoItem.user.username'] = [
             'asc' => ['user.username' => SORT_ASC],
             'desc' => ['user.username' => SORT_DESC],

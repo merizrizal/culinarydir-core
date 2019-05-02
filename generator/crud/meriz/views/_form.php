@@ -31,9 +31,9 @@ $ajaxRequest = new AjaxRequest([
 
 $ajaxRequest->form();
 
-$status = Yii::$app->session->getFlash('status');
-$message1 = Yii::$app->session->getFlash('message1');
-$message2 = Yii::$app->session->getFlash('message2');
+$status = \Yii::$app->session->getFlash('status');
+$message1 = \Yii::$app->session->getFlash('message1');
+$message2 = \Yii::$app->session->getFlash('message2');
 
 if ($status !== null) {
 
@@ -85,11 +85,11 @@ if ($status !== null) {
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-lg-6">
-                                
+
                                     <?= "<?php\n" ?>
                                     if (!$model->isNewRecord)
                                         echo Html::a('<i class="fa fa-upload"></i> Create', ['create'], ['class' => 'btn btn-success']); ?>
-                                        
+
                                 </div>
                             </div>
                         </div>
@@ -106,12 +106,12 @@ if ($status !== null) {
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-lg-offset-3 col-lg-6">
-                                
+
                                     <?= "<?php\n" ?>
                                     $icon = '<i class="fa fa-save"></i> ';
                                     echo Html::submitButton($model->isNewRecord ? $icon . <?= $generator->generateString('Save') ?> : $icon . <?= $generator->generateString('Update') ?>, ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']);
                                     echo Html::a('<i class="fa fa-times"></i> Cancel', ['index'], ['class' => 'btn btn-default']); ?>
-                                
+
                                 </div>
                             </div>
                         </div>
