@@ -2,10 +2,9 @@
 
 namespace core\models\search;
 
-use Yii;
+use core\models\PaymentMethod;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use core\models\PaymentMethod;
 
 /**
  * PaymentMethodSearch represents the model behind the search form of `core\models\PaymentMethod`.
@@ -48,7 +47,7 @@ class PaymentMethodSearch extends PaymentMethod
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => array(
-                'pageSize' => Yii::$app->params['pageSize'],
+                'pageSize' => \Yii::$app->params['pageSize'],
             ),
         ]);
 

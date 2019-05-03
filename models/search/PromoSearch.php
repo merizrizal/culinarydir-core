@@ -2,10 +2,9 @@
 
 namespace core\models\search;
 
-use Yii;
+use core\models\Promo;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use core\models\Promo;
 
 /**
  * PromoSearch represents the model behind the search form of `core\models\Promo`.
@@ -49,7 +48,7 @@ class PromoSearch extends Promo
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => array(
-                'pageSize' => Yii::$app->params['pageSize'],
+                'pageSize' => \Yii::$app->params['pageSize'],
             ),
         ]);
 

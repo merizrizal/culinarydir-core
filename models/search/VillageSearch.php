@@ -2,10 +2,9 @@
 
 namespace core\models\search;
 
-use Yii;
+use core\models\Village;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use core\models\Village;
 
 /**
  * VillageSearch represents the model behind the search form of `core\models\Village`.
@@ -62,7 +61,7 @@ class VillageSearch extends Village
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => array(
-                'pageSize' => Yii::$app->params['pageSize'],
+                'pageSize' => \Yii::$app->params['pageSize'],
             ),
         ]);
 

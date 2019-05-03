@@ -24,7 +24,7 @@ class BusinessProductSearch extends BusinessProduct
             [['not_active'], 'boolean'],
         ];
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -60,10 +60,10 @@ class BusinessProductSearch extends BusinessProduct
             'query' => $query,
             'sort' => ['defaultOrder' => ['order' => SORT_ASC]],
             'pagination' => array(
-                'pageSize' => Yii::$app->params['pageSize'],
+                'pageSize' => \Yii::$app->params['pageSize'],
             ),
         ]);
-        
+
         $dataProvider->sort->attributes['businessProductCategory.productCategory.name'] = [
             'asc' => ['product_category.name' => SORT_ASC],
             'desc' => ['product_category.name' => SORT_DESC],

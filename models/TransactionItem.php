@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "transaction_item".
@@ -59,16 +58,16 @@ class TransactionItem extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'transaction_session_id' => Yii::t('app', 'Transaction Session ID'),
-            'business_product_id' => Yii::t('app', 'Business Product ID'),
-            'note' => Yii::t('app', 'Note'),
-            'price' => Yii::t('app', 'Price'),
-            'amount' => Yii::t('app', 'Amount'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
+            'id' => \Yii::t('app', 'ID'),
+            'transaction_session_id' => \Yii::t('app', 'Transaction Session ID'),
+            'business_product_id' => \Yii::t('app', 'Business Product ID'),
+            'note' => \Yii::t('app', 'Note'),
+            'price' => \Yii::t('app', 'Price'),
+            'amount' => \Yii::t('app', 'Amount'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
         ];
     }
 

@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
@@ -100,19 +99,19 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'user_level_id' => Yii::t('app', 'User Level ID'),
-            'email' => Yii::t('app', 'Email'),
-            'username' => Yii::t('app', 'Username'),
-            'full_name' => Yii::t('app', 'Full Name'),
-            'password' => Yii::t('app', 'Password'),
-            'image' => Yii::t('app', 'Image'),
-            'not_active' => Yii::t('app', 'Not Active'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'password_reset_token' => Yii::t('app', 'Password Reset Token'),
-            'account_activation_token' => Yii::t('app', 'Account Activation Token'),
-            'login_token' => Yii::t('app', 'Login Token'),
+            'id' => \Yii::t('app', 'ID'),
+            'user_level_id' => \Yii::t('app', 'User Level ID'),
+            'email' => \Yii::t('app', 'Email'),
+            'username' => \Yii::t('app', 'Username'),
+            'full_name' => \Yii::t('app', 'Full Name'),
+            'password' => \Yii::t('app', 'Password'),
+            'image' => \Yii::t('app', 'Image'),
+            'not_active' => \Yii::t('app', 'Not Active'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'password_reset_token' => \Yii::t('app', 'Password Reset Token'),
+            'account_activation_token' => \Yii::t('app', 'Account Activation Token'),
+            'login_token' => \Yii::t('app', 'Login Token'),
         ];
     }
 
@@ -131,7 +130,7 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     {
         return $this->hasMany(Business::className(), ['user_in_charge' => 'id']);
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -147,7 +146,7 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     {
         return $this->hasMany(RegistryBusiness::className(), ['user_in_charge' => 'id']);
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -219,7 +218,7 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     {
         return $this->hasMany(UserPostLove::className(), ['user_id' => 'id']);
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -303,7 +302,7 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     public static function findByPasswordResetToken($token)
     {
         if (!static::isPasswordResetTokenValid($token)) {
-            
+
             return null;
         }
 
@@ -312,16 +311,16 @@ class User extends \sybase\SybaseModel implements IdentityInterface
             'not_active' => false,
         ]);
     }
-    
+
     public static function findByEmailAndPasswordResetToken($email, $token)
     {
         if (!static::isPasswordResetTokenValid($token)) {
-            
+
             return null;
         }
-        
+
         $tokenParts = explode('_', $token);
-        
+
         return static::find()
             ->andWhere(['email' => $email])
             ->andWhere(['ilike', 'password_reset_token', $tokenParts[0] . '_'])
@@ -338,14 +337,14 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     public static function isPasswordResetTokenValid($token)
     {
         if (empty($token)) {
-            
+
             return false;
         }
-        
-        $expire = Yii::$app->params['user.passwordResetTokenExpire'];
+
+        $expire = \Yii::$app->params['user.passwordResetTokenExpire'];
         $timeToken = explode('_', $token);
         $timestamp = (int) end($timeToken);
-        
+
         return $timestamp + $expire >= time();
     }
 
@@ -381,7 +380,7 @@ class User extends \sybase\SybaseModel implements IdentityInterface
      */
     public function validatePassword($password)
     {
-        return Yii::$app->security->validatePassword($password, $this->password);
+        return \Yii::$app->security->validatePassword($password, $this->password);
     }
 
     /**
@@ -391,7 +390,7 @@ class User extends \sybase\SybaseModel implements IdentityInterface
      */
     public function setPassword($password)
     {
-        $this->password = Yii::$app->security->generatePasswordHash($password);
+        $this->password = \Yii::$app->security->generatePasswordHash($password);
     }
 
     /**
@@ -399,7 +398,7 @@ class User extends \sybase\SybaseModel implements IdentityInterface
      */
     public function generateAuthKey()
     {
-        $this->auth_key = Yii::$app->security->generateRandomString();
+        $this->auth_key = \Yii::$app->security->generateRandomString();
     }
 
     /**

@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "delivery_method".
@@ -14,8 +13,8 @@ use Yii;
  * @property string $user_created
  * @property string $updated_at
  * @property string $user_updated
- * @property string $note 
- * @property string $description 
+ * @property string $note
+ * @property string $description
  *
  * @property BusinessDelivery[] $businessDeliveries
  * @property User $userCreated
@@ -41,7 +40,7 @@ class DeliveryMethod extends \sybase\SybaseModel
             [['delivery_name'], 'required'],
             [['not_active'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
-            [['note', 'description'], 'string'], 
+            [['note', 'description'], 'string'],
             [['id', 'delivery_name', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['id'], 'unique'],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
@@ -55,15 +54,15 @@ class DeliveryMethod extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'delivery_name' => Yii::t('app', 'Delivery Name'),
-            'not_active' => Yii::t('app', 'Not Active'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
-            'note' => Yii::t('app', 'Note'),
-            'description' => Yii::t('app', 'Description'), 
+            'id' => \Yii::t('app', 'ID'),
+            'delivery_name' => \Yii::t('app', 'Delivery Name'),
+            'not_active' => \Yii::t('app', 'Not Active'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
+            'note' => \Yii::t('app', 'Note'),
+            'description' => \Yii::t('app', 'Description'),
         ];
     }
 

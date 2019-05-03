@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "business_product".
@@ -66,19 +65,19 @@ class BusinessProduct extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'business_id' => Yii::t('app', 'Business ID'),
-            'name' => Yii::t('app', 'Name'),
-            'description' => Yii::t('app', 'Description'),
-            'price' => Yii::t('app', 'Price'),
-            'image' => Yii::t('app', 'Image'),
-            'not_active' => Yii::t('app', 'Not Active'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
-            'order' => Yii::t('app', 'Order'),
-            'business_product_category_id' => Yii::t('app', 'Product Category'),
+            'id' => \Yii::t('app', 'ID'),
+            'business_id' => \Yii::t('app', 'Business ID'),
+            'name' => \Yii::t('app', 'Name'),
+            'description' => \Yii::t('app', 'Description'),
+            'price' => \Yii::t('app', 'Price'),
+            'image' => \Yii::t('app', 'Image'),
+            'not_active' => \Yii::t('app', 'Not Active'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
+            'order' => \Yii::t('app', 'Order'),
+            'business_product_category_id' => \Yii::t('app', 'Product Category'),
         ];
     }
 

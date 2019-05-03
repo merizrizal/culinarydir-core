@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "business".
@@ -47,7 +46,7 @@ use Yii;
  * @property BusinessProductCategory[] $businessProductCategories
  * @property BusinessPromo[] $businessPromos
  * @property ContractMembership[] $contractMemberships
- * @property PromoItem[] $promoItems 
+ * @property PromoItem[] $promoItems
  * @property TransactionSession[] $transactionSessions
  * @property UserLove[] $userLoves
  * @property UserPost[] $userPosts
@@ -75,13 +74,13 @@ class Business extends \sybase\SybaseModel
             [['about', 'note'], 'string'],
             [['is_active'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
-            [['id', 'parent_id', 'user_in_charge', 'user_created', 'user_updated', 'membership_type_id', 'application_business_id'], 'string', 'max' => 32], 
+            [['id', 'parent_id', 'user_in_charge', 'user_created', 'user_updated', 'membership_type_id', 'application_business_id'], 'string', 'max' => 32],
             [['name', 'email'], 'string', 'max' => 48],
             [['unique_name'], 'string', 'max' => 64],
             [['phone1', 'phone2', 'phone3'], 'string', 'max' => 16],
             [['application_business_id'], 'unique'],
             [['unique_name'], 'unique'],
-            [['unique_name'], 'match', 'pattern' => '/^[a-z0-9-]+$/', 'message' => Yii::t('app', 'Unique Name') . ' hanya boleh angka, huruf kecil dan strip.'],
+            [['unique_name'], 'match', 'pattern' => '/^[a-z0-9-]+$/', 'message' => \Yii::t('app', 'Unique Name') . ' hanya boleh angka, huruf kecil dan strip.'],
             [['email'], 'email'],
             [['id'], 'unique'],
             [['application_business_id'], 'exist', 'skipOnError' => true, 'targetClass' => ApplicationBusiness::className(), 'targetAttribute' => ['application_business_id' => 'id']],
@@ -99,25 +98,25 @@ class Business extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'parent_id' => Yii::t('app', 'Parent ID'),
-            'name' => Yii::t('app', 'Name'),
-            'unique_name' => Yii::t('app', 'Unique Name'),
-            'about' => Yii::t('app', 'About'),
-            'email' => Yii::t('app', 'Email'),
-            'phone1' => Yii::t('app', 'Phone1'),
-            'phone2' => Yii::t('app', 'Phone2'),
-            'phone3' => Yii::t('app', 'Phone3'),
-            'user_in_charge' => Yii::t('app', 'User In Charge'),
-            'is_active' => Yii::t('app', 'Is Active'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
-            'membership_type_id' => Yii::t('app', 'Membership Type ID'),
-            'application_business_id' => Yii::t('app', 'Application Business ID'),
-            'note' => Yii::t('app', 'Note'),
-            'membershipType.name' => Yii::t('app', 'Membership Type'),
+            'id' => \Yii::t('app', 'ID'),
+            'parent_id' => \Yii::t('app', 'Parent ID'),
+            'name' => \Yii::t('app', 'Name'),
+            'unique_name' => \Yii::t('app', 'Unique Name'),
+            'about' => \Yii::t('app', 'About'),
+            'email' => \Yii::t('app', 'Email'),
+            'phone1' => \Yii::t('app', 'Phone1'),
+            'phone2' => \Yii::t('app', 'Phone2'),
+            'phone3' => \Yii::t('app', 'Phone3'),
+            'user_in_charge' => \Yii::t('app', 'User In Charge'),
+            'is_active' => \Yii::t('app', 'Is Active'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
+            'membership_type_id' => \Yii::t('app', 'Membership Type ID'),
+            'application_business_id' => \Yii::t('app', 'Application Business ID'),
+            'note' => \Yii::t('app', 'Note'),
+            'membershipType.name' => \Yii::t('app', 'Membership Type'),
         ];
     }
 
@@ -192,7 +191,7 @@ class Business extends \sybase\SybaseModel
     {
         return $this->hasMany(BusinessContactPerson::className(), ['business_id' => 'id']);
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -248,7 +247,7 @@ class Business extends \sybase\SybaseModel
     {
         return $this->hasOne(BusinessLocation::className(), ['business_id' => 'id']);
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -288,7 +287,7 @@ class Business extends \sybase\SybaseModel
     {
         return $this->hasMany(ContractMembership::className(), ['business_id' => 'id']);
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -296,7 +295,7 @@ class Business extends \sybase\SybaseModel
     {
         return $this->hasMany(PromoItem::className(), ['business_claimed' => 'id']);
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */

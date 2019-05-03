@@ -2,10 +2,9 @@
 
 namespace core\models\search;
 
-use Yii;
+use core\models\Business;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use core\models\Business;
 
 /**
  * BusinessSearch represents the model behind the search form of `core\models\Business`.
@@ -66,7 +65,7 @@ class BusinessSearch extends Business
                 'defaultOrder' => ['created_at' => SORT_ASC]
             ],
             'pagination' => array(
-                'pageSize' => Yii::$app->params['pageSize'],
+                'pageSize' => \Yii::$app->params['pageSize'],
             ),
         ]);
 

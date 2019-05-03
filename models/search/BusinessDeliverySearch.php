@@ -2,10 +2,9 @@
 
 namespace core\models\search;
 
-use Yii;
+use core\models\BusinessDelivery;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use core\models\BusinessDelivery;
 
 /**
  * BusinessDeliverySearch represents the model behind the search form of `core\models\BusinessDelivery`.
@@ -24,7 +23,7 @@ class BusinessDeliverySearch extends BusinessDelivery
                 'deliveryMethod.delivery_name'], 'safe'],
         ];
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -60,10 +59,10 @@ class BusinessDeliverySearch extends BusinessDelivery
             'query' => $query,
             'sort' => ['defaultOrder' => ['id' => SORT_ASC]],
             'pagination' => array(
-                'pageSize' => Yii::$app->params['pageSize'],
+                'pageSize' => \Yii::$app->params['pageSize'],
             ),
         ]);
-        
+
         $dataProvider->sort->attributes['deliveryMethod.delivery_name'] = [
             'asc' => ['delivery_method.delivery_name' => SORT_ASC],
             'desc' => ['delivery_method.delivery_name' => SORT_DESC]

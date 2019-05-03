@@ -26,9 +26,9 @@ $ajaxRequest = new AjaxRequest([
 
 $ajaxRequest->view();
 
-$status = Yii::$app->session->getFlash('status');
-$message1 = Yii::$app->session->getFlash('message1');
-$message2 = Yii::$app->session->getFlash('message2');
+$status = \Yii::$app->session->getFlash('status');
+$message1 = \Yii::$app->session->getFlash('message1');
+$message2 = \Yii::$app->session->getFlash('message2');
 
 if ($status !== null) {
 
@@ -43,7 +43,7 @@ if ($status !== null) {
 }
 
 $this->title = $model-><?= $generator->getNameAttribute() ?>;
-$this->params['breadcrumbs'][] = ['label' => <?= 'Yii::t(\'app\', ' . $generator->generateString(Inflector::camel2words(StringHelper::basename($generator->modelClass))) . ')' ?>, 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => <?= '\Yii::t(\'app\', ' . $generator->generateString(Inflector::camel2words(StringHelper::basename($generator->modelClass))) . ')' ?>, 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title; ?>
 
 <?= '<?=' ?> $ajaxRequest->component() ?>

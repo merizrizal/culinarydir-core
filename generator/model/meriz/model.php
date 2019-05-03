@@ -50,7 +50,7 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
      */
     public static function getDb()
     {
-        return Yii::$app->get('<?= $generator->db ?>');
+        return \Yii::$app->get('<?= $generator->db ?>');
     }
 <?php endif; ?>
 
@@ -69,7 +69,7 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
     {
         return [
 <?php foreach ($labels as $name => $label): ?>
-            <?= "'$name' => Yii::t('app', " . $generator->generateString($label) . "),\n" ?>
+            <?= "'$name' => \Yii::t('app', " . $generator->generateString($label) . "),\n" ?>
 <?php endforeach; ?>
         ];
     }

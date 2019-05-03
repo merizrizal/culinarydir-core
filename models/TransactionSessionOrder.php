@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "transaction_session_order".
@@ -55,13 +54,13 @@ class TransactionSessionOrder extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'transaction_session_id' => Yii::t('app', 'Transaction Session ID'),
-            'business_payment_id' => Yii::t('app', 'Payment Methods'),
-            'business_delivery_id' => Yii::t('app', 'Delivery Methods'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
+            'transaction_session_id' => \Yii::t('app', 'Transaction Session ID'),
+            'business_payment_id' => \Yii::t('app', 'Payment Methods'),
+            'business_delivery_id' => \Yii::t('app', 'Delivery Methods'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
         ];
     }
 

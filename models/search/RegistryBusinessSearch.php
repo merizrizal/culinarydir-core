@@ -2,10 +2,9 @@
 
 namespace core\models\search;
 
-use Yii;
+use core\models\RegistryBusiness;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use core\models\RegistryBusiness;
 
 /**
  * RegistryBusinessSearch represents the model behind the search form of `core\models\RegistryBusiness`.
@@ -69,7 +68,7 @@ class RegistryBusinessSearch extends RegistryBusiness
                 'defaultOrder' => ['created_at' => SORT_ASC]
             ],
             'pagination' => array(
-                'pageSize' => Yii::$app->params['pageSize'],
+                'pageSize' => \Yii::$app->params['pageSize'],
             ),
         ]);
 
@@ -82,7 +81,7 @@ class RegistryBusinessSearch extends RegistryBusiness
             'asc' => ['user.full_name' => SORT_ASC],
             'desc' => ['user.full_name' => SORT_DESC],
         ];
-        
+
         $dataProvider->sort->attributes['name'] = [
             'asc' => ['registry_business.name' => SORT_ASC],
             'desc' => ['registry_business.name' => SORT_DESC],

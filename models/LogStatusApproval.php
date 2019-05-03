@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "log_status_approval".
@@ -61,16 +60,16 @@ class LogStatusApproval extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'application_business_id' => Yii::t('app', 'Application Business ID'),
-            'status_approval_id' => Yii::t('app', 'Status Approval ID'),
-            'is_actual' => Yii::t('app', 'Is Actual'),
-            'note' => Yii::t('app', 'Note'),
-            'application_business_counter' => Yii::t('app', 'Application Business Counter'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
+            'id' => \Yii::t('app', 'ID'),
+            'application_business_id' => \Yii::t('app', 'Application Business ID'),
+            'status_approval_id' => \Yii::t('app', 'Status Approval ID'),
+            'is_actual' => \Yii::t('app', 'Is Actual'),
+            'note' => \Yii::t('app', 'Note'),
+            'application_business_counter' => \Yii::t('app', 'Application Business Counter'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
         ];
     }
 

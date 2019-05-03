@@ -3,7 +3,6 @@
  * This is the template for generating a CRUD controller class file.
  */
 
-use yii\db\ActiveRecordInterface;
 use yii\helpers\Inflector;
 use yii\helpers\StringHelper;
 
@@ -30,7 +29,6 @@ echo "<?php\n";
 
 namespace <?= StringHelper::dirname(ltrim($generator->controllerClass, '\\')) ?>;
 
-use Yii;
 use <?= ltrim($generator->modelClass, '\\') ?>;
 <?php if (!empty($generator->searchModelClass)): ?>
 use <?= ltrim($generator->searchModelClass, '\\') . (isset($searchModelAlias) ? " as $searchModelAlias" : "") ?>;
@@ -73,7 +71,7 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
     {
 <?php if (!empty($generator->searchModelClass)): ?>
         $searchModel = new <?= isset($searchModelAlias) ? $searchModelAlias : $searchModelClass ?>();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -114,28 +112,28 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
 
         $model = new <?= $modelClass ?>();
 
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(\Yii::$app->request->post())) {
 
             if (empty($save)) {
 
-                Yii::$app->response->format = Response::FORMAT_JSON;
+                \Yii::$app->response->format = Response::FORMAT_JSON;
                 return ActiveForm::validate($model);
             } else {
 
                 if ($model->save()) {
 
-                    Yii::$app->session->setFlash('status', 'success');
-                    Yii::$app->session->setFlash('message1', Yii::t('app', 'Create Data Is Success'));
-                    Yii::$app->session->setFlash('message2', Yii::t('app', 'Create data process is success. Data has been saved'));
+                    \Yii::$app->session->setFlash('status', 'success');
+                    \Yii::$app->session->setFlash('message1', \Yii::t('app', 'Create Data Is Success'));
+                    \Yii::$app->session->setFlash('message2', \Yii::t('app', 'Create data process is success. Data has been saved'));
 
                     $render = 'view';
                 } else {
 
                     $model->setIsNewRecord(true);
 
-                    Yii::$app->session->setFlash('status', 'danger');
-                    Yii::$app->session->setFlash('message1', Yii::t('app', 'Create Data Is Fail'));
-                    Yii::$app->session->setFlash('message2', Yii::t('app', 'Create data process is fail. Data fail to save'));
+                    \Yii::$app->session->setFlash('status', 'danger');
+                    \Yii::$app->session->setFlash('message1', \Yii::t('app', 'Create Data Is Fail'));
+                    \Yii::$app->session->setFlash('message2', \Yii::t('app', 'Create data process is fail. Data fail to save'));
                 }
             }
         }
@@ -155,24 +153,24 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
     {
         $model = $this->findModel(<?= $actionParams ?>);
 
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(\Yii::$app->request->post())) {
 
             if (empty($save)) {
 
-                Yii::$app->response->format = Response::FORMAT_JSON;
+                \Yii::$app->response->format = Response::FORMAT_JSON;
                 return ActiveForm::validate($model);
             } else {
 
                 if ($model->save()) {
 
-                    Yii::$app->session->setFlash('status', 'success');
-                    Yii::$app->session->setFlash('message1', Yii::t('app', 'Update Data Is Success'));
-                    Yii::$app->session->setFlash('message2', Yii::t('app', 'Update data process is success. Data has been saved'));
+                    \Yii::$app->session->setFlash('status', 'success');
+                    \Yii::$app->session->setFlash('message1', \Yii::t('app', 'Update Data Is Success'));
+                    \Yii::$app->session->setFlash('message2', \Yii::t('app', 'Update data process is success. Data has been saved'));
                 } else {
 
-                    Yii::$app->session->setFlash('status', 'danger');
-                    Yii::$app->session->setFlash('message1', Yii::t('app', 'Update Data Is Fail'));
-                    Yii::$app->session->setFlash('message2', Yii::t('app', 'Update data process is fail. Data fail to save'));
+                    \Yii::$app->session->setFlash('status', 'danger');
+                    \Yii::$app->session->setFlash('message1', \Yii::t('app', 'Update Data Is Fail'));
+                    \Yii::$app->session->setFlash('message2', \Yii::t('app', 'Update data process is fail. Data fail to save'));
                 }
             }
         }
@@ -199,27 +197,27 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
             try {
                 $flag = $model->delete();
             } catch (yii\db\Exception $exc) {
-                $error = Yii::$app->params['errMysql'][$exc->errorInfo[1]];
+                $error = \Yii::$app->params['errMysql'][$exc->errorInfo[1]];
             }
         }
 
         if ($flag) {
 
-            Yii::$app->session->setFlash('status', 'success');
-            Yii::$app->session->setFlash('message1', Yii::t('app', 'Delete Is Success'));
-            Yii::$app->session->setFlash('message2', Yii::t('app', 'Delete process is success. Data has been deleted'));
+            \Yii::$app->session->setFlash('status', 'success');
+            \Yii::$app->session->setFlash('message1', \Yii::t('app', 'Delete Is Success'));
+            \Yii::$app->session->setFlash('message2', \Yii::t('app', 'Delete process is success. Data has been deleted'));
         } else {
 
-            Yii::$app->session->setFlash('status', 'danger');
-            Yii::$app->session->setFlash('message1', Yii::t('app', 'Delete Is Fail'));
-            Yii::$app->session->setFlash('message2', Yii::t('app', 'Delete process is fail. Data fail to delete' . $error));
+            \Yii::$app->session->setFlash('status', 'danger');
+            \Yii::$app->session->setFlash('message1', \Yii::t('app', 'Delete Is Fail'));
+            \Yii::$app->session->setFlash('message2', \Yii::t('app', 'Delete process is fail. Data fail to delete' . $error));
         }
 
         $return = [];
 
-        $return['url'] = Yii::$app->urlManager->createUrl(['<?= Inflector::camel2id(StringHelper::basename($modelClass)) ?>/index']);
+        $return['url'] = \Yii::$app->urlManager->createUrl(['<?= Inflector::camel2id(StringHelper::basename($modelClass)) ?>/index']);
 
-        Yii::$app->response->format = Response::FORMAT_JSON;
+        \Yii::$app->response->format = Response::FORMAT_JSON;
         return $return;
     }
 

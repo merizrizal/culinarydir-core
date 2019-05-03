@@ -28,9 +28,9 @@ $ajaxRequest = new AjaxRequest([
 
 $ajaxRequest->index();
 
-$status = Yii::$app->session->getFlash('status');
-$message1 = Yii::$app->session->getFlash('message1');
-$message2 = Yii::$app->session->getFlash('message2');
+$status = \Yii::$app->session->getFlash('status');
+$message1 = \Yii::$app->session->getFlash('message1');
+$message2 = \Yii::$app->session->getFlash('message2');
 
 if ($status !== null) {
     $notif = new NotificationDialog([
@@ -44,7 +44,7 @@ if ($status !== null) {
 
 }
 
-$this->title = <?= 'Yii::t(\'app\', ' . $generator->generateString(Inflector::camel2words(StringHelper::basename($generator->modelClass))) . ')' ?>;
+$this->title = <?= '\Yii::t(\'app\', ' . $generator->generateString(Inflector::camel2words(StringHelper::basename($generator->modelClass))) . ')' ?>;
 $this->params['breadcrumbs'][] = $this->title; ?>
 
 <?= '<?=' ?> $ajaxRequest->component(true) ?>

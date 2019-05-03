@@ -4,9 +4,6 @@ namespace core\assets;
 
 use yii\web\AssetBundle;
 
-/**
- * Main core application asset bundle.
- */
 class AppAsset extends AssetBundle
 {
     public $basePath = '@webroot';

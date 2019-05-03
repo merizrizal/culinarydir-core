@@ -2,10 +2,9 @@
 
 namespace core\models\search;
 
-use Yii;
+use core\models\DeliveryMethod;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use core\models\DeliveryMethod;
 
 /**
  * DeliveryMethodSearch represents the model behind the search form of `core\models\DeliveryMethod`.
@@ -49,7 +48,7 @@ class DeliveryMethodSearch extends DeliveryMethod
             'query' => $query,
             'sort' => ['defaultOrder' => ['id' => SORT_ASC]],
             'pagination' => array(
-                'pageSize' => Yii::$app->params['pageSize'],
+                'pageSize' => \Yii::$app->params['pageSize'],
             ),
         ]);
 

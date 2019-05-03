@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "business_hour_additional".
@@ -59,17 +58,17 @@ class BusinessHourAdditional extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'unique_id' => Yii::t('app', 'Unique ID'),
-            'business_hour_id' => Yii::t('app', 'Business Hour ID'),
-            'day' => Yii::t('app', 'Day'),
-            'is_open' => Yii::t('app', 'Is Open'),
-            'open_at' => Yii::t('app', 'Open At'),
-            'close_at' => Yii::t('app', 'Close At'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
+            'id' => \Yii::t('app', 'ID'),
+            'unique_id' => \Yii::t('app', 'Unique ID'),
+            'business_hour_id' => \Yii::t('app', 'Business Hour ID'),
+            'day' => \Yii::t('app', 'Day'),
+            'is_open' => \Yii::t('app', 'Is Open'),
+            'open_at' => \Yii::t('app', 'Open At'),
+            'close_at' => \Yii::t('app', 'Close At'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
         ];
     }
 

@@ -2,10 +2,9 @@
 
 namespace core\models\search;
 
-use Yii;
+use core\models\RegistryBusinessDelivery;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use core\models\RegistryBusinessDelivery;
 
 /**
  * RegistryBusinessDeliverySearch represents the model behind the search form of `core\models\RegistryBusinessDelivery`.
@@ -19,12 +18,12 @@ class RegistryBusinessDeliverySearch extends RegistryBusinessDelivery
     {
         return [
             [['id', 'registry_business_id', 'delivery_method_id', 'user_created', 'user_updated'], 'integer'],
-            [['created_at', 'updated_at', 'note', 
+            [['created_at', 'updated_at', 'note',
                 'deliveryMethod.delivery_name'], 'safe'],
             [['is_active'], 'boolean'],
         ];
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -59,10 +58,10 @@ class RegistryBusinessDeliverySearch extends RegistryBusinessDelivery
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => array(
-                'pageSize' => Yii::$app->params['pageSize'],
+                'pageSize' => \Yii::$app->params['pageSize'],
             ),
         ]);
-        
+
         $dataProvider->sort->attributes['deliveryMethod.delivery_name'] = [
             'asc' => ['delivery_method.delivery_name' => SORT_ASC],
             'desc' => ['delivery_method.delivery_name' => SORT_DESC],

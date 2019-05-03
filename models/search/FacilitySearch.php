@@ -2,10 +2,9 @@
 
 namespace core\models\search;
 
-use Yii;
+use core\models\Facility;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use core\models\Facility;
 
 /**
  * FacilitySearch represents the model behind the search form of `core\models\Facility`.
@@ -48,7 +47,7 @@ class FacilitySearch extends Facility
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => array(
-                'pageSize' => Yii::$app->params['pageSize'],
+                'pageSize' => \Yii::$app->params['pageSize'],
             ),
         ]);
 

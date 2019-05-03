@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "user_post".
@@ -70,20 +69,20 @@ class UserPost extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'parent_id' => Yii::t('app', 'Parent ID'),
-            'business_id' => Yii::t('app', 'Business ID'),
-            'type' => Yii::t('app', 'Type'),
-            'user_id' => Yii::t('app', 'User ID'),
-            'text' => Yii::t('app', 'Text'),
-            'is_publish' => Yii::t('app', 'Is Publish'),
-            'image' => Yii::t('app', 'Image'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
-            'love_value' => Yii::t('app', 'Love Value'),
-            'user_post_main_id' => Yii::t('app', 'User Post Main ID'),
+            'id' => \Yii::t('app', 'ID'),
+            'parent_id' => \Yii::t('app', 'Parent ID'),
+            'business_id' => \Yii::t('app', 'Business ID'),
+            'type' => \Yii::t('app', 'Type'),
+            'user_id' => \Yii::t('app', 'User ID'),
+            'text' => \Yii::t('app', 'Text'),
+            'is_publish' => \Yii::t('app', 'Is Publish'),
+            'image' => \Yii::t('app', 'Image'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
+            'love_value' => \Yii::t('app', 'Love Value'),
+            'user_post_main_id' => \Yii::t('app', 'User Post Main ID'),
         ];
     }
 

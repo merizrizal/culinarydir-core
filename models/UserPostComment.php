@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "user_post_comment".
@@ -55,14 +54,14 @@ class UserPostComment extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'user_post_main_id' => Yii::t('app', 'User Post Main ID'),
-            'user_id' => Yii::t('app', 'User ID'),
-            'text' => Yii::t('app', 'Text'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
+            'id' => \Yii::t('app', 'ID'),
+            'user_post_main_id' => \Yii::t('app', 'User Post Main ID'),
+            'user_id' => \Yii::t('app', 'User ID'),
+            'text' => \Yii::t('app', 'Text'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
         ];
     }
 

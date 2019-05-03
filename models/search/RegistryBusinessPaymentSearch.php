@@ -2,10 +2,9 @@
 
 namespace core\models\search;
 
-use Yii;
+use core\models\RegistryBusinessPayment;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use core\models\RegistryBusinessPayment;
 
 /**
  * RegistryBusinessPaymentSearch represents the model behind the search form of `core\models\RegistryBusinessPayment`.
@@ -24,7 +23,7 @@ class RegistryBusinessPaymentSearch extends RegistryBusinessPayment
             [['is_active'], 'boolean'],
         ];
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -59,10 +58,10 @@ class RegistryBusinessPaymentSearch extends RegistryBusinessPayment
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => array(
-                'pageSize' => Yii::$app->params['pageSize'],
+                'pageSize' => \Yii::$app->params['pageSize'],
             ),
         ]);
-        
+
         $dataProvider->sort->attributes['paymentMethod.payment_name'] = [
             'asc' => ['payment_method.payment_name' => SORT_ASC],
             'desc' => ['payment_method.payment_name' => SORT_DESC],

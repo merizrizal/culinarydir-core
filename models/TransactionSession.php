@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "transaction_session".
@@ -73,21 +72,20 @@ class TransactionSession extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'user_ordered' => Yii::t('app', 'User Ordered'),
-            'business_id' => Yii::t('app', 'Business ID'),
-            'note' => Yii::t('app', 'Note'),
-            'total_price' => Yii::t('app', 'Total Price'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
-            'status' => Yii::t('app', 'Status'),
-            'total_amount' => Yii::t('app', 'Total Amount'),
-            'promo_item_id' => Yii::t('app', 'Promo Item ID'),
-            'discount_value' => Yii::t('app', 'Discount Value'),
-            'order_id' => Yii::t('app', 'Order ID'),
-            'discount_type' => Yii::t('app', 'Discount Type'),
+            'id' => \Yii::t('app', 'ID'),
+            'user_ordered' => \Yii::t('app', 'User Ordered'),
+            'business_id' => \Yii::t('app', 'Business ID'),
+            'note' => \Yii::t('app', 'Note'),
+            'total_price' => \Yii::t('app', 'Total Price'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
+            'is_closed' => \Yii::t('app', 'Is Closed'),
+            'total_amount' => \Yii::t('app', 'Total Amount'),
+            'promo_item_id' => \Yii::t('app', 'Promo Item ID'),
+            'discount_type' => \Yii::t('app', 'Discount Type'),
+            'discount_value' => \Yii::t('app', 'Discount Value'),
         ];
     }
 
