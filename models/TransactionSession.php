@@ -48,7 +48,7 @@ class TransactionSession extends \sybase\SybaseModel
             [['user_ordered', 'business_id'], 'required'],
             [['note', 'discount_type'], 'string'],
             [['total_price', 'total_amount', 'discount_value'], 'default', 'value' => null],
-            [['total_price', 'total_amount', 'discount_value'], 'integer'],
+            [['total_price', 'total_amount', 'discount_value'], 'integer', 'min' => 1],
             [['created_at', 'updated_at'], 'safe'],
             [['is_closed'], 'boolean'],
             [['id', 'user_ordered', 'business_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
