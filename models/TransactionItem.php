@@ -41,7 +41,7 @@ class TransactionItem extends \sybase\SybaseModel
             [['transaction_session_id', 'business_product_id'], 'required'],
             [['note'], 'string'],
             [['price', 'amount'], 'default', 'value' => null],
-            [['price', 'amount'], 'integer'],
+            [['price', 'amount'], 'integer', 'min' => 1],
             [['created_at', 'updated_at'], 'safe'],
             [['id', 'transaction_session_id', 'business_product_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['id'], 'unique'],
