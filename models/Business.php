@@ -24,6 +24,7 @@ namespace core\models;
  * @property string $membership_type_id
  * @property string $application_business_id
  * @property string $note
+ * @property bool $is_open
  *
  * @property ApplicationBusiness $applicationBusiness
  * @property Business $parent
@@ -72,7 +73,7 @@ class Business extends \sybase\SybaseModel
         return [
             [['name', 'unique_name', 'membership_type_id', 'application_business_id'], 'required'],
             [['about', 'note'], 'string'],
-            [['is_active'], 'boolean'],
+            [['is_active', 'is_open'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
             [['id', 'parent_id', 'user_in_charge', 'user_created', 'user_updated', 'membership_type_id', 'application_business_id'], 'string', 'max' => 32],
             [['name', 'email'], 'string', 'max' => 48],
@@ -117,6 +118,7 @@ class Business extends \sybase\SybaseModel
             'application_business_id' => \Yii::t('app', 'Application Business ID'),
             'note' => \Yii::t('app', 'Note'),
             'membershipType.name' => \Yii::t('app', 'Membership Type'),
+            'is_open' => \Yii::t('app', 'Is Open'),
         ];
     }
 
