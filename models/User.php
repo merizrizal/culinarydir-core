@@ -29,6 +29,7 @@ use yii\web\IdentityInterface;
  * @property RegistryBusiness[] $registryBusinesses
  * @property TransactionCanceledByDriver[] $transactionCanceledByDrivers
  * @property TransactionSession[] $transactionSessions
+ * @property TransactionSessionDelivery[] $transactionSessionDeliveries
  * @property UserLevel $userLevel
  * @property UserAsDriver $userAsDriver
  * @property UserLove[] $userLoves
@@ -154,7 +155,15 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     {
         return $this->hasMany(TransactionSession::className(), ['user_ordered' => 'id']);
     }
-    
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTransactionSessionDeliveries()
+    {
+        return $this->hasMany(TransactionSessionDelivery::className(), ['driver_id' => 'id']);
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -162,7 +171,7 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     {
         return $this->hasMany(TransactionCanceledByDriver::className(), ['driver_id' => 'id']);
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */
