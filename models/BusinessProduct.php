@@ -19,6 +19,7 @@ namespace core\models;
  * @property string $user_updated
  * @property int $order
  * @property string $business_product_category_id
+ * @property bool $is_available
  *
  * @property Business $business
  * @property BusinessProductCategory $businessProductCategory
@@ -46,7 +47,7 @@ class BusinessProduct extends \sybase\SybaseModel
             [['description'], 'string'],
             [['price', 'order'], 'default', 'value' => null],
             [['price', 'order'], 'integer'],
-            [['not_active'], 'boolean'],
+            [['not_active', 'is_available'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
             [['id', 'business_id', 'user_created', 'user_updated', 'business_product_category_id'], 'string', 'max' => 32],
             [['name'], 'string', 'max' => 64],
@@ -78,6 +79,7 @@ class BusinessProduct extends \sybase\SybaseModel
             'user_updated' => \Yii::t('app', 'User Updated'),
             'order' => \Yii::t('app', 'Order'),
             'business_product_category_id' => \Yii::t('app', 'Product Category'),
+            'is_available' => \Yii::t('app', 'Is Available'),
         ];
     }
 
