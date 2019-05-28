@@ -15,6 +15,7 @@ namespace core\models;
  * @property string $user_updated
  * @property string $note
  * @property string $description
+ * @property bool $is_special
  *
  * @property BusinessDelivery[] $businessDeliveries
  * @property User $userCreated
@@ -38,7 +39,7 @@ class DeliveryMethod extends \sybase\SybaseModel
     {
         return [
             [['delivery_name'], 'required'],
-            [['not_active'], 'boolean'],
+            [['not_active', 'is_special'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
             [['note', 'description'], 'string'],
             [['id', 'delivery_name', 'user_created', 'user_updated'], 'string', 'max' => 32],
@@ -63,6 +64,7 @@ class DeliveryMethod extends \sybase\SybaseModel
             'user_updated' => \Yii::t('app', 'User Updated'),
             'note' => \Yii::t('app', 'Note'),
             'description' => \Yii::t('app', 'Description'),
+            'is_special' => \Yii::t('app', 'Is Special'),
         ];
     }
 
