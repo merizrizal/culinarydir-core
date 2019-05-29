@@ -13,6 +13,7 @@ namespace core\models;
  * @property string $user_created
  * @property string $updated_at
  * @property string $user_updated
+ * @property string $destination_coordinate
  *
  * @property BusinessDelivery $businessDelivery
  * @property BusinessPayment $businessPayment
@@ -39,6 +40,7 @@ class TransactionSessionOrder extends \sybase\SybaseModel
             [['transaction_session_id', 'business_payment_id', 'business_delivery_id'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             [['transaction_session_id', 'business_payment_id', 'business_delivery_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
+            [['destination_coordinate'], 'string', 'max' => 64],
             [['transaction_session_id'], 'unique'],
             [['business_delivery_id'], 'exist', 'skipOnError' => true, 'targetClass' => BusinessDelivery::className(), 'targetAttribute' => ['business_delivery_id' => 'id']],
             [['business_payment_id'], 'exist', 'skipOnError' => true, 'targetClass' => BusinessPayment::className(), 'targetAttribute' => ['business_payment_id' => 'id']],
@@ -61,6 +63,7 @@ class TransactionSessionOrder extends \sybase\SybaseModel
             'user_created' => \Yii::t('app', 'User Created'),
             'updated_at' => \Yii::t('app', 'Updated At'),
             'user_updated' => \Yii::t('app', 'User Updated'),
+            'destination_coordinate' => \Yii::t('app', 'Destination Coordinate'),
         ];
     }
 
