@@ -41,7 +41,7 @@ class RatingComponentSearch extends RatingComponent
     public function search($params)
     {
         $query = RatingComponent::find()
-            ->orderBy('order ASC');;
+            ->orderBy('order ASC');
 
         // add conditions that should always apply here
 
