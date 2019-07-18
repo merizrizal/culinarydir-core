@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "person".
@@ -44,7 +43,7 @@ class Person extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['id', 'first_name'], 'required'],
+            [['first_name'], 'required'],
             [['address', 'about_me'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['id', 'city_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
