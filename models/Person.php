@@ -2,6 +2,7 @@
 
 namespace core\models;
 
+use Yii;
 
 /**
  * This is the model class for table "person".
@@ -23,6 +24,7 @@ namespace core\models;
  * @property City $city
  * @property User $userCreated
  * @property User $userUpdated
+ * @property PersonAsDriver $personAsDriver
  * @property RegistryBusinessContactPerson[] $registryBusinessContactPeople
  * @property UserPerson $userPerson
  */
@@ -42,7 +44,7 @@ class Person extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['first_name'], 'required'],
+            [['id', 'first_name'], 'required'],
             [['address', 'about_me'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['id', 'city_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
@@ -106,6 +108,14 @@ class Person extends \sybase\SybaseModel
     public function getUserUpdated()
     {
         return $this->hasOne(User::className(), ['id' => 'user_updated']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPersonAsDriver()
+    {
+        return $this->hasOne(PersonAsDriver::className(), ['person_id' => 'id']);
     }
 
     /**
