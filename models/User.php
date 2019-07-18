@@ -31,6 +31,7 @@ use yii\web\IdentityInterface;
  * @property TransactionSession[] $transactionSessions
  * @property TransactionSessionDelivery[] $transactionSessionDeliveries
  * @property UserLevel $userLevel
+ * @property UserAksesAppModule[] $userAksesAppModules
  * @property UserAsDriver $userAsDriver
  * @property UserLove[] $userLoves
  * @property UserPerson $userPerson
@@ -39,6 +40,7 @@ use yii\web\IdentityInterface;
  * @property UserPostLove[] $userPostLoves
  * @property UserPromoItem[] $userPromoItems
  * @property UserReport[] $userReports
+ * @property UserRole[] $userRoles
  * @property UserSocialMedia $userSocialMedia
  * @property UserVisit[] $userVisits
  */
@@ -191,6 +193,14 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getUserAksesAppModules()
+    {
+        return $this->hasMany(UserAksesAppModule::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getUserLoves()
     {
         return $this->hasMany(UserLove::className(), ['user_id' => 'id']);
@@ -242,6 +252,14 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     public function getUserReports()
     {
         return $this->hasMany(UserReport::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserRoles()
+    {
+        return $this->hasMany(UserRole::className(), ['user_id' => 'id']);
     }
 
     /**

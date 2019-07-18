@@ -2,33 +2,31 @@
 
 namespace core\models;
 
-
 /**
- * This is the model class for table "user_level".
+ * This is the model class for table "user_akses_app_module".
  *
  * @property string $id
- * @property string $nama_level
- * @property bool $is_super_admin
- * @property string $keterangan
+ * @property string $unique_id
+ * @property string $user_id
+ * @property string $user_app_module_id
  * @property string $created_at
  * @property string $user_created
  * @property string $updated_at
  * @property string $user_updated
  *
- * @property User[] $users
- * @property UserAkses[] $userAkses
+ * @property User $user
  * @property User $userCreated
  * @property User $userUpdated
- * @property UserRole[] $userRoles
+ * @property UserAppModule $userAppModule
  */
-class UserLevel extends \sybase\SybaseModel
+class UserAksesAppModule extends \sybase\SybaseModel
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'user_level';
+        return 'user_akses_app_module';
     }
 
     /**
@@ -37,14 +35,16 @@ class UserLevel extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['nama_level'], 'required'],
-            [['is_super_admin'], 'boolean'],
-            [['keterangan'], 'string'],
+            [['unique_id', 'user_id', 'user_app_module_id'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
-            [['id', 'nama_level', 'user_created', 'user_updated'], 'string', 'max' => 32],
+            [['id', 'user_id', 'user_app_module_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
+            [['unique_id'], 'string', 'max' => 65],
+            [['unique_id'], 'unique'],
             [['id'], 'unique'],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
+            [['user_app_module_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserAppModule::className(), 'targetAttribute' => ['user_app_module_id' => 'id']],
         ];
     }
 
@@ -55,9 +55,9 @@ class UserLevel extends \sybase\SybaseModel
     {
         return [
             'id' => \Yii::t('app', 'ID'),
-            'nama_level' => \Yii::t('app', 'Nama Level'),
-            'is_super_admin' => \Yii::t('app', 'Is Super Admin'),
-            'keterangan' => \Yii::t('app', 'Keterangan'),
+            'unique_id' => \Yii::t('app', 'Unique ID'),
+            'user_id' => \Yii::t('app', 'User ID'),
+            'user_app_module_id' => \Yii::t('app', 'User App Module ID'),
             'created_at' => \Yii::t('app', 'Created At'),
             'user_created' => \Yii::t('app', 'User Created'),
             'updated_at' => \Yii::t('app', 'Updated At'),
@@ -68,17 +68,9 @@ class UserLevel extends \sybase\SybaseModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUsers()
+    public function getUser()
     {
-        return $this->hasMany(User::className(), ['user_level_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUserAkses()
-    {
-        return $this->hasMany(UserAkses::className(), ['user_level_id' => 'id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
     /**
@@ -100,8 +92,8 @@ class UserLevel extends \sybase\SybaseModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserRoles()
+    public function getUserAppModule()
     {
-        return $this->hasMany(UserRole::className(), ['user_level_id' => 'id']);
+        return $this->hasOne(UserAppModule::className(), ['id' => 'user_app_module_id']);
     }
 }
