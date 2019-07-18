@@ -103,7 +103,7 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     {
         return [
             'id' => \Yii::t('app', 'ID'),
-            'user_level_id' => \Yii::t('app', 'User Level ID'),
+            'user_level_id' => \Yii::t('app', 'User Level'),
             'email' => \Yii::t('app', 'Email'),
             'username' => \Yii::t('app', 'Username'),
             'full_name' => \Yii::t('app', 'Full Name'),
