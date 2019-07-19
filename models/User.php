@@ -78,7 +78,7 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     public function rules()
     {
         return [
-            [['user_level_id', 'email', 'username', 'full_name', 'password'], 'required'],
+            [['email', 'username', 'full_name', 'password'], 'required'],
             [['image'], 'string'],
             [['not_active'], 'boolean'],
             [['created_at', 'updated_at', 'user_level_id'], 'safe'],

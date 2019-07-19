@@ -8,10 +8,12 @@ namespace core\models;
  * @property string $id
  * @property string $user_id
  * @property string $user_level_id
+ * @property string $unique_id
  * @property string $created_at
  * @property string $user_created
  * @property string $updated_at
  * @property string $user_updated
+ * @property bool $is_active
  *
  * @property User $user
  * @property User $userCreated
@@ -34,10 +36,12 @@ class UserRole extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['user_id', 'user_level_id'], 'required'],
+            [['user_id', 'user_level_id', 'unique_id'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
-            [['user_updated'], 'string'],
-            [['id', 'user_id', 'user_level_id', 'user_created'], 'string', 'max' => 32],
+            [['is_active'], 'boolean'],
+            [['id', 'user_id', 'user_level_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
+            [['unique_id'], 'string', 'max' => 65],
+            [['unique_id'], 'unique'],
             [['id'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
@@ -55,10 +59,12 @@ class UserRole extends \sybase\SybaseModel
             'id' => \Yii::t('app', 'ID'),
             'user_id' => \Yii::t('app', 'User ID'),
             'user_level_id' => \Yii::t('app', 'User Level ID'),
+            'unique_id' => \Yii::t('app', 'Unique ID'),
             'created_at' => \Yii::t('app', 'Created At'),
             'user_created' => \Yii::t('app', 'User Created'),
             'updated_at' => \Yii::t('app', 'Updated At'),
             'user_updated' => \Yii::t('app', 'User Updated'),
+            'is_active' => \Yii::t('app', 'Is Active'),
         ];
     }
 

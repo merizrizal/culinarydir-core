@@ -13,6 +13,7 @@ namespace core\models;
  * @property string $user_created
  * @property string $updated_at
  * @property string $user_updated
+ * @property bool $is_active
  *
  * @property User $user
  * @property User $userCreated
@@ -37,6 +38,7 @@ class UserAksesAppModule extends \sybase\SybaseModel
         return [
             [['unique_id', 'user_id', 'user_app_module_id'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
+            [['is_active'], 'boolean'],
             [['id', 'user_id', 'user_app_module_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['unique_id'], 'string', 'max' => 65],
             [['unique_id'], 'unique'],
@@ -62,6 +64,7 @@ class UserAksesAppModule extends \sybase\SybaseModel
             'user_created' => \Yii::t('app', 'User Created'),
             'updated_at' => \Yii::t('app', 'Updated At'),
             'user_updated' => \Yii::t('app', 'User Updated'),
+            'is_active' => \Yii::t('app', 'Is Active'),
         ];
     }
 
