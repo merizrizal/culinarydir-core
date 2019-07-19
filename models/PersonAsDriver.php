@@ -2,8 +2,6 @@
 
 namespace core\models;
 
-use Yii;
-
 /**
  * This is the model class for table "person_as_driver".
  *
@@ -31,6 +29,7 @@ use Yii;
  * @property User $userCreated
  * @property User $userUpdated
  */
+
 class PersonAsDriver extends \sybase\SybaseModel
 {
     /**
@@ -71,9 +70,9 @@ class PersonAsDriver extends \sybase\SybaseModel
     {
         return [
             'person_id' => \Yii::t('app', 'Person ID'),
-            'district_id' => \Yii::t('app', 'District'),
-            'no_ktp' => \Yii::t('app', 'Nomor KTP'),
-            'no_sim' => \Yii::t('app', 'Nomor SIM'),
+            'district_id' => \Yii::t('app', 'District ID'),
+            'no_ktp' => \Yii::t('app', 'No Ktp'),
+            'no_sim' => \Yii::t('app', 'No Sim'),
             'date_birth' => \Yii::t('app', 'Date Birth'),
             'motor_brand' => \Yii::t('app', 'Motor Brand'),
             'motor_type' => \Yii::t('app', 'Motor Type'),
