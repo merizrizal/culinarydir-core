@@ -10,7 +10,6 @@ use yii\web\IdentityInterface;
  * This is the model class for table "user".
  *
  * @property string $id
- * @property string $user_level_id
  * @property string $email
  * @property string $username
  * @property string $full_name
@@ -30,7 +29,6 @@ use yii\web\IdentityInterface;
  * @property TransactionCanceledByDriver[] $transactionCanceledByDrivers
  * @property TransactionSession[] $transactionSessions
  * @property TransactionSessionDelivery[] $transactionSessionDeliveries
- * @property UserLevel $userLevel
  * @property UserAksesAppModule[] $userAksesAppModules
  * @property UserAsDriver $userAsDriver
  * @property UserLove[] $userLoves
@@ -81,7 +79,7 @@ class User extends \sybase\SybaseModel implements IdentityInterface
             [['email', 'username', 'full_name', 'password'], 'required'],
             [['image'], 'string'],
             [['not_active'], 'boolean'],
-            [['created_at', 'updated_at', 'user_level_id'], 'safe'],
+            [['created_at', 'updated_at'], 'safe'],
             [['id', 'full_name'], 'string', 'max' => 32],
             [['email', 'username', 'password'], 'string', 'max' => 64],
             [['account_activation_token', 'login_token'], 'string', 'max' => 75],
@@ -92,7 +90,6 @@ class User extends \sybase\SybaseModel implements IdentityInterface
             [['email'], 'email'],
             [['username'], 'match', 'pattern' => '/^[a-zA-Z0-9_-]+$/', 'message' => 'Username hanya boleh angka, huruf, garis bawah dan strip.'],
             [['image'], 'file', 'maxSize' => 1024*1024*2],
-            [['user_level_id'], 'exist', 'skipOnError' => true, 'targetClass' => UserLevel::className(), 'targetAttribute' => ['user_level_id' => 'id']],
         ];
     }
 
@@ -103,7 +100,6 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     {
         return [
             'id' => \Yii::t('app', 'ID'),
-            'user_level_id' => \Yii::t('app', 'User Level'),
             'email' => \Yii::t('app', 'Email'),
             'username' => \Yii::t('app', 'Username'),
             'full_name' => \Yii::t('app', 'Full Name'),
@@ -180,14 +176,6 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     public function getUserDriver()
     {
         return $this->hasOne(UserAsDriver::className(), ['user_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUserLevel()
-    {
-        return $this->hasOne(UserLevel::className(), ['id' => 'user_level_id']);
     }
 
     /**

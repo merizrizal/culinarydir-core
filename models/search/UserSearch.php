@@ -17,9 +17,8 @@ class UserSearch extends User
     public function rules()
     {
         return [
-            [['id', 'user_level_id'], 'integer'],
-            [['email', 'username', 'full_name', 'password', 'image', 'not_active', 'created_at', 'updated_at',
-                'userLevel.nama_level'], 'safe'],
+            [['id'], 'integer'],
+            [['email', 'username', 'full_name', 'password', 'image', 'not_active', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -28,7 +27,7 @@ class UserSearch extends User
      */
     public function attributes() {
         // add related fields to searchable attributes
-        return array_merge(parent::attributes(), ['kdKaryawan.nama', 'userLevel.nama_level']);
+        return array_merge(parent::attributes(), ['kdKaryawan.nama']);
     }
 
     /**
@@ -61,11 +60,6 @@ class UserSearch extends User
             ),
         ]);
 
-        $dataProvider->sort->attributes['userLevel.nama_level'] = [
-            'asc' => ['user_level.nama_level' => SORT_ASC],
-            'desc' => ['user_level.nama_level' => SORT_DESC],
-        ];
-
         $this->load($params);
 
         if (!$this->validate()) {
@@ -77,7 +71,6 @@ class UserSearch extends User
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'user_level_id' => $this->user_level_id,
             'not_active' => $this->not_active,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
@@ -87,8 +80,7 @@ class UserSearch extends User
             ->andFilterWhere(['ilike', 'username', $this->username])
             ->andFilterWhere(['ilike', 'full_name', $this->full_name])
             ->andFilterWhere(['ilike', 'password', $this->password])
-            ->andFilterWhere(['ilike', 'image', $this->image])
-            ->andFilterWhere(['ilike', 'user_level.nama_level', $this->getAttribute('userLevel.nama_level')]);
+            ->andFilterWhere(['ilike', 'image', $this->image]);
 
         return $dataProvider;
     }
