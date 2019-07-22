@@ -71,8 +71,8 @@ class PersonAsDriver extends \sybase\SybaseModel
         return [
             'person_id' => \Yii::t('app', 'Person ID'),
             'district_id' => \Yii::t('app', 'District ID'),
-            'no_ktp' => \Yii::t('app', 'No Ktp'),
-            'no_sim' => \Yii::t('app', 'No Sim'),
+            'no_ktp' => \Yii::t('app', 'Nomor KTP'),
+            'no_sim' => \Yii::t('app', 'Nomor SIM'),
             'date_birth' => \Yii::t('app', 'Date Birth'),
             'motor_brand' => \Yii::t('app', 'Motor Brand'),
             'motor_type' => \Yii::t('app', 'Motor Type'),
