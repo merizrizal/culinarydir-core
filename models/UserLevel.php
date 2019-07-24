@@ -15,7 +15,6 @@ namespace core\models;
  * @property string $updated_at
  * @property string $user_updated
  *
- * @property User[] $users
  * @property UserAkses[] $userAkses
  * @property User $userCreated
  * @property User $userUpdated
@@ -63,14 +62,6 @@ class UserLevel extends \sybase\SybaseModel
             'updated_at' => \Yii::t('app', 'Updated At'),
             'user_updated' => \Yii::t('app', 'User Updated'),
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUsers()
-    {
-        return $this->hasMany(User::className(), ['user_level_id' => 'id']);
     }
 
     /**
