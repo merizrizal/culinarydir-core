@@ -17,10 +17,19 @@ class PersonAsDriverSearch extends PersonAsDriver
     public function rules()
     {
         return [
-            [['person.first_name', 'district_id', 'no_ktp', 'no_sim', 'date_birth', 'motor_brand', 'motor_type',
+            [['district_id', 'no_ktp', 'no_sim', 'date_birth', 'motor_brand', 'motor_type',
                 'emergency_contact_name', 'emergency_contact_phone', 'emergency_contact_address', 'number_plate',
-                'stnk_expired', 'created_at', 'user_created', 'updated_at', 'user_updated', 'other_driver'], 'safe'],
+                'stnk_expired', 'created_at', 'user_created', 'updated_at', 'user_updated', 'other_driver',
+                'person.first_name', 'person.phone'], 'safe'],
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributes() {
+        // add related fields to searchable attributes
+        return array_merge(parent::attributes(), ['person.first_name', 'person.phone']);
     }
 
     /**
@@ -30,14 +39,6 @@ class PersonAsDriverSearch extends PersonAsDriver
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributes() {
-        // add related fields to searchable attributes
-        return array_merge(parent::attributes(), ['person.first_name']);
     }
 
     /**
@@ -82,19 +83,14 @@ class PersonAsDriverSearch extends PersonAsDriver
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['ilike', 'person.first_name', $this->getAttribute('person.first_name')])
-            ->andFilterWhere(['ilike', 'district_id', $this->district_id])
-            ->andFilterWhere(['ilike', 'no_ktp', $this->no_ktp])
+        $query->andFilterWhere(['ilike', 'no_ktp', $this->no_ktp])
             ->andFilterWhere(['ilike', 'no_sim', $this->no_sim])
-            ->andFilterWhere(['ilike', 'motor_brand', $this->motor_brand])
-            ->andFilterWhere(['ilike', 'motor_type', $this->motor_type])
-            ->andFilterWhere(['ilike', 'emergency_contact_name', $this->emergency_contact_name])
-            ->andFilterWhere(['ilike', 'emergency_contact_phone', $this->emergency_contact_phone])
-            ->andFilterWhere(['ilike', 'emergency_contact_address', $this->emergency_contact_address])
             ->andFilterWhere(['ilike', 'number_plate', $this->number_plate])
             ->andFilterWhere(['ilike', 'user_created', $this->user_created])
             ->andFilterWhere(['ilike', 'user_updated', $this->user_updated])
-            ->andFilterWhere(['ilike', 'other_driver', $this->other_driver]);
+            ->andFilterWhere(['ilike', 'other_driver', $this->other_driver])
+            ->andFilterWhere(['ilike', 'person.first_name', $this->getAttribute('person.first_name')])
+            ->andFilterWhere(['ilike', 'person.phone', $this->getAttribute('person.phone')]);
 
         return $dataProvider;
     }
