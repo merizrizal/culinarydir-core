@@ -48,6 +48,7 @@ class Person extends \sybase\SybaseModel
             [['id', 'city_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['first_name', 'last_name', 'phone'], 'string', 'max' => 16],
             [['email'], 'string', 'max' => 64],
+            [['email'], 'email'],
             [['id'], 'unique'],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['city_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
