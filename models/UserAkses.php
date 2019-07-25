@@ -38,7 +38,7 @@ class UserAkses extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['user_level_id'], 'required'],
+            [['user_level_id', 'unique_id'], 'required'],
             [['is_active'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
             [['id', 'user_level_id', 'user_app_module_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
