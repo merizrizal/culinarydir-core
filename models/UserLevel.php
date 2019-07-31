@@ -14,6 +14,7 @@ namespace core\models;
  * @property string $user_created
  * @property string $updated_at
  * @property string $user_updated
+ * @property array $app_akses
  *
  * @property UserAkses[] $userAkses
  * @property User $userCreated
@@ -39,7 +40,7 @@ class UserLevel extends \sybase\SybaseModel
             [['nama_level'], 'required'],
             [['is_super_admin'], 'boolean'],
             [['keterangan'], 'string'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at', 'app_akses'], 'safe'],
             [['id', 'nama_level', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['id'], 'unique'],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
@@ -61,6 +62,7 @@ class UserLevel extends \sybase\SybaseModel
             'user_created' => \Yii::t('app', 'User Created'),
             'updated_at' => \Yii::t('app', 'Updated At'),
             'user_updated' => \Yii::t('app', 'User Updated'),
+            'app_akses' => \Yii::t('app', 'App Akses'),
         ];
     }
 
