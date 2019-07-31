@@ -2,6 +2,7 @@
 
 namespace core\models;
 
+
 /**
  * This is the model class for table "person_as_driver".
  *
@@ -22,14 +23,14 @@ namespace core\models;
  * @property string $updated_at
  * @property string $user_updated
  * @property string $other_driver
+ * @property bool $is_criteria_passed
  *
- * @property DriverCriteria[] $driverCriterias
+ * @property DriverAttachment[] $driverAttachments
  * @property District $district
  * @property Person $person
  * @property User $userCreated
  * @property User $userUpdated
  */
-
 class PersonAsDriver extends \sybase\SybaseModel
 {
     /**
@@ -49,6 +50,7 @@ class PersonAsDriver extends \sybase\SybaseModel
             [['person_id', 'district_id', 'no_ktp', 'no_sim', 'date_birth', 'motor_brand', 'motor_type', 'emergency_contact_name', 'emergency_contact_phone', 'emergency_contact_address', 'number_plate', 'stnk_expired'], 'required'],
             [['date_birth', 'stnk_expired', 'created_at', 'updated_at'], 'safe'],
             [['emergency_contact_address'], 'string'],
+            [['is_criteria_passed'], 'boolean'],
             [['person_id', 'district_id', 'emergency_contact_name', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['no_ktp', 'no_sim'], 'string', 'max' => 19],
             [['motor_brand', 'motor_type'], 'string', 'max' => 30],
@@ -86,15 +88,16 @@ class PersonAsDriver extends \sybase\SybaseModel
             'updated_at' => \Yii::t('app', 'Updated At'),
             'user_updated' => \Yii::t('app', 'User Updated'),
             'other_driver' => \Yii::t('app', 'Other Driver'),
+            'is_criteria_passed' => \Yii::t('app', 'Is Criteria Passed'),
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDriverCriterias()
+    public function getDriverAttachments()
     {
-        return $this->hasMany(DriverCriteria::className(), ['person_as_driver_id' => 'person_id']);
+        return $this->hasMany(DriverAttachment::className(), ['person_as_driver_id' => 'person_id']);
     }
 
     /**
