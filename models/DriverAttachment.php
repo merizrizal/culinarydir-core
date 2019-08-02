@@ -35,10 +35,10 @@ class DriverAttachment extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['person_as_driver_id'], 'required'],
+            [['person_as_driver_id', 'type'], 'required'],
             [['file_name', 'user_created', 'user_updated'], 'string'],
-            [['created_at', 'updated_at'], 'safe'],
-            [['id', 'person_as_driver_id', 'type'], 'string', 'max' => 32],
+            [['created_at', 'updated_at', 'type'], 'safe'],
+            [['id', 'person_as_driver_id'], 'string', 'max' => 32],
             [['id'], 'unique'],
             [['person_as_driver_id'], 'exist', 'skipOnError' => true, 'targetClass' => PersonAsDriver::className(), 'targetAttribute' => ['person_as_driver_id' => 'person_id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
