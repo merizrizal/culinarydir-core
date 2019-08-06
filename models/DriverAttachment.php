@@ -29,13 +29,22 @@ class DriverAttachment extends \sybase\SybaseModel
         return 'driver_attachment';
     }
 
+    public function scenarios() {
+
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_CREATE] = $this->attributes();
+
+        return $scenarios;
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['person_as_driver_id', 'type'], 'required'],
+            [['person_as_driver_id'], 'required'],
+            [['file_name', 'type'], 'required', 'on' => self::SCENARIO_CREATE],
             [['file_name', 'user_created', 'user_updated'], 'string'],
             [['created_at', 'updated_at', 'type'], 'safe'],
             [['id', 'person_as_driver_id'], 'string', 'max' => 32],
