@@ -3,6 +3,8 @@
 namespace core\models;
 
 
+use yii\validators\RegularExpressionValidator;
+
 /**
  * This is the model class for table "registry_business".
  *
@@ -90,6 +92,7 @@ class RegistryBusiness extends \sybase\SybaseModel
             [['unique_name'], 'match', 'pattern' => '/^[a-z0-9-]+$/', 'message' => \Yii::t('app', 'Unique Name') . ' hanya boleh angka, huruf kecil dan strip.'],
             [['email'], 'email'],
             [['id'], 'unique'],
+            [['menu'], 'validateMenuFormat'],
             [['application_business_id'], 'exist', 'skipOnError' => true, 'targetClass' => ApplicationBusiness::className(), 'targetAttribute' => ['application_business_id' => 'id']],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['city_id' => 'id']],
             [['district_id'], 'exist', 'skipOnError' => true, 'targetClass' => District::className(), 'targetAttribute' => ['district_id' => 'id']],
@@ -99,6 +102,47 @@ class RegistryBusiness extends \sybase\SybaseModel
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
             [['village_id'], 'exist', 'skipOnError' => true, 'targetClass' => Village::className(), 'targetAttribute' => ['village_id' => 'id']],
         ];
+    }
+
+    public function validateMenuFormat($attribute, $params) {
+
+        $isInvalid = false;
+
+        $menuList = explode("\n", $this->menu);
+
+        foreach ($menuList as $menu) {
+
+            if (strpos($menu, ',') === false) {
+
+                $isInvalid = true;
+                break;
+            } else {
+
+                if (!empty($menu)) {
+
+                    $menuPrice = trim(explode(',', $menu)[1]);
+
+                    $regularExpressionValidator = new RegularExpressionValidator([
+                        'pattern' => '/^[0-9]+$/'
+                    ]);
+
+                    if (!$regularExpressionValidator->validate($menuPrice)) {
+
+                        $isInvalid = true;
+                        break;
+                    }
+                } else {
+
+                    $isInvalid = true;
+                    break;
+                }
+            }
+        }
+
+        if ($isInvalid) {
+
+            $this->addError($attribute, 'Format input menu salah.');
+        }
     }
 
     /**
