@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "user_akses".
