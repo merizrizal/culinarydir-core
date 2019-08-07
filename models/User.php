@@ -149,6 +149,14 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getTransactionCanceledByDrivers()
+    {
+        return $this->hasMany(TransactionCanceledByDriver::className(), ['driver_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getTransactionSessions()
     {
         return $this->hasMany(TransactionSession::className(), ['user_ordered' => 'id']);
@@ -165,9 +173,9 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTransactionCanceledByDrivers()
+    public function getUserAksesAppModules()
     {
-        return $this->hasMany(TransactionCanceledByDriver::className(), ['driver_id' => 'id']);
+        return $this->hasMany(UserAksesAppModule::className(), ['user_id' => 'id']);
     }
 
     /**
@@ -176,14 +184,6 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     public function getUserDriver()
     {
         return $this->hasOne(UserAsDriver::className(), ['user_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUserAksesAppModules()
-    {
-        return $this->hasMany(UserAksesAppModule::className(), ['user_id' => 'id']);
     }
 
     /**
