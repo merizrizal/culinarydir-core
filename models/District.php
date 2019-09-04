@@ -18,6 +18,7 @@ namespace core\models;
  * @property Region $region
  * @property User $userCreated
  * @property User $userUpdated
+ * @property PersonAsDriver[] $personAsDrivers
  * @property RegistryBusiness[] $registryBusinesses
  * @property Village[] $villages
  */
@@ -95,6 +96,15 @@ class District extends \sybase\SybaseModel
     {
         return $this->hasOne(User::className(), ['id' => 'user_updated']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPersonAsDrivers()
+    {
+        return $this->hasMany(PersonAsDriver::className(), ['district_id' => 'id']);
+    }
+
 
     /**
      * @return \yii\db\ActiveQuery

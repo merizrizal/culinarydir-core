@@ -23,6 +23,7 @@ namespace core\models;
  * @property City $city
  * @property User $userCreated
  * @property User $userUpdated
+ * @property PersonAsDriver $personAsDriver
  * @property RegistryBusinessContactPerson[] $registryBusinessContactPeople
  * @property UserPerson $userPerson
  */
@@ -107,6 +108,14 @@ class Person extends \sybase\SybaseModel
     public function getUserUpdated()
     {
         return $this->hasOne(User::className(), ['id' => 'user_updated']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPersonAsDriver()
+    {
+        return $this->hasOne(PersonAsDriver::className(), ['person_id' => 'id']);
     }
 
     /**
