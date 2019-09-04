@@ -2,6 +2,11 @@
 
 namespace core\controllers;
 
+use core\models\User;
+use core\models\UserAkses;
+use core\models\UserAksesAppModule;
+use core\models\UserLevel;
+use core\models\UserRole;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -21,7 +26,7 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'migrate-id', 'error'],
+                        'actions' => ['index', 'migrate-user-akses', 'error'],
                         'allow' => true,
                     ],
                 ],
@@ -158,4 +163,194 @@ class SiteController extends Controller
         $transaction->commit();
     }
     */
+
+    public function actionMigrateUserAkses() {
+
+        $transaction = \Yii::$app->db->beginTransaction();
+        $flag = false;
+
+        $modelUserLevel = UserLevel::find()
+            ->andWhere(['nama_level' => 'User'])
+            ->asArray()->one();
+
+        $userLevelId = $modelUserLevel['id'];
+
+        $modelUser = User::find()
+            ->andWhere(['not_active' => false])
+            ->all();
+
+
+        foreach ($modelUser as $model) {
+
+            $id = $model->id;
+
+            $tempUserAkses = [];
+
+            $isExist = false;
+
+            foreach ($model->userRoles as $userRole) {
+
+                if (($isExist = ($userRole->unique_id == $id . '-' . $userLevelId))) {
+
+                    $modelUserRole = $userRole;
+                    break;
+                }
+            }
+
+            if (!$isExist) {
+
+                $modelUserRole = new UserRole();
+                $modelUserRole->user_id = $model->id;
+                $modelUserRole->user_level_id = $userLevelId;
+                $modelUserRole->unique_id = $id . '-' . $userLevelId;
+            }
+
+            $modelUserRole->is_active = true;
+
+            if (!($flag = $modelUserRole->save())) {
+
+                break;
+            } else {
+
+                $modelUserAkses = UserAkses::find()
+                    ->andWhere(['user_level_id' => $userLevelId])
+                    ->asArray()->all();
+
+                foreach ($modelUserAkses as $dataUserAkses) {
+
+                    $isExist = false;
+
+                    foreach ($model->userAksesAppModules as $userAksesAppModule) {
+
+                        if (($isExist = ($userAksesAppModule->unique_id == $id . '-' . $dataUserAkses['user_app_module_id']))) {
+
+                            $modelUserAksesAppModule = $userAksesAppModule;
+                            break;
+                        }
+                    }
+
+                    if (!$isExist) {
+
+                        $modelUserAksesAppModule = new UserAksesAppModule();
+                        $modelUserAksesAppModule->unique_id = $id . '-' . $dataUserAkses['user_app_module_id'];
+                        $modelUserAksesAppModule->user_id = $id;
+                        $modelUserAksesAppModule->user_app_module_id = $dataUserAkses['user_app_module_id'];
+                        $modelUserAksesAppModule->is_active = $dataUserAkses['is_active'];
+                        $modelUserAksesAppModule->used_by_user_role = [$modelUserRole->unique_id];
+                    } else {
+
+                        $jsonData = $modelUserAksesAppModule->used_by_user_role;
+                        $jsonDataExist = false;
+
+                        if (!empty($jsonData)) {
+
+                            foreach ($jsonData as $json) {
+
+                                if ($json == $modelUserRole->unique_id) {
+
+                                    $jsonDataExist = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (!$jsonDataExist) {
+
+                            if (!empty($jsonData)) {
+
+                                array_push($jsonData, $modelUserRole->unique_id);
+                            } else {
+
+                                $jsonData = [$modelUserRole->unique_id];
+                            }
+
+                            $modelUserAksesAppModule->used_by_user_role = $jsonData;
+                        }
+
+                        if (empty($tempUserAkses[$dataUserAkses['user_app_module_id']])) {
+
+                            $tempUserAkses[$dataUserAkses['user_app_module_id']] = $dataUserAkses['is_active'];
+                        } else {
+
+                            $tempUserAkses[$dataUserAkses['user_app_module_id']] = $dataUserAkses['is_active'] ? $dataUserAkses['is_active'] : $tempUserAkses[$dataUserAkses['user_app_module_id']];
+                        }
+
+                        $modelUserAksesAppModule->is_active = $tempUserAkses[$dataUserAkses['user_app_module_id']];
+                    }
+
+                    if (!($flag = $modelUserAksesAppModule->save())) {
+
+                        break 2;
+                    }
+                }
+            }
+
+            if ($flag) {
+
+                foreach ($model->userRoles as $existModelUserRole) {
+
+                    $isExist = false;
+
+                    if ($existModelUserRole->user_level_id == $userLevelId) {
+
+                        $isExist = true;
+                    }
+
+                    if (!$isExist && $existModelUserRole->is_active) {
+
+                        $existModelUserRole->is_active = false;
+
+                        if (!($flag = $existModelUserRole->save())) {
+
+                            break;
+                        } else {
+
+                            $modelUserAkses = UserAkses::find()
+                                ->andWhere(['user_level_id' => $existModelUserRole->user_level_id])
+                                ->asArray()->all();
+
+                            foreach ($modelUserAkses as $dataUserAkses) {
+
+                                foreach ($model->userAksesAppModules as $existModelUserAksesAppModule) {
+
+                                    if ($existModelUserAksesAppModule->unique_id == $id . '-' . $dataUserAkses['user_app_module_id']) {
+
+                                        $jsonData = $existModelUserAksesAppModule->used_by_user_role;
+                                        $indexSearch = array_search($existModelUserRole->unique_id, $jsonData);
+
+                                        if ($indexSearch == 0 || !empty($indexSearch)) {
+
+                                            unset($jsonData[$indexSearch]);
+
+                                            $existModelUserAksesAppModule->used_by_user_role = $jsonData;
+                                        }
+
+                                        if (!($flag = $existModelUserAksesAppModule->save())) {
+
+                                            break 3;
+                                        } else {
+
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($flag) {
+
+            echo "Berhasil";
+
+            $transaction->commit();
+        } else {
+
+            echo "Gagal";
+
+            $transaction->rollBack();
+        }
+    }
 }

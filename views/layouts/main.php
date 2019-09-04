@@ -37,7 +37,7 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Home', 'url' => ['site/index']],
-        ['label' => 'Migrasi ID', 'url' => ['site/migrate-id']],
+        ['label' => 'Migrasi ID', 'url' => ['site/migrate-user-akses']],
     ];
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
