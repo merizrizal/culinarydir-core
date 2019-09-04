@@ -14,6 +14,7 @@ namespace core\models;
  * @property string $user_created
  * @property string $updated_at
  * @property string $user_updated
+ * @property string $unique_id
  *
  * @property User $userCreated
  * @property User $userUpdated
@@ -36,10 +37,12 @@ class UserAkses extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['user_level_id'], 'required'],
+            [['user_level_id', 'unique_id'], 'required'],
             [['is_active'], 'boolean'],
             [['created_at', 'updated_at'], 'safe'],
             [['id', 'user_level_id', 'user_app_module_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
+            [['unique_id'], 'string', 'max' => 65],
+            [['unique_id'], 'unique'],
             [['id'], 'unique'],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
@@ -62,6 +65,7 @@ class UserAkses extends \sybase\SybaseModel
             'user_created' => \Yii::t('app', 'User Created'),
             'updated_at' => \Yii::t('app', 'Updated At'),
             'user_updated' => \Yii::t('app', 'User Updated'),
+            'unique_id' => \Yii::t('app', 'Unique ID'),
         ];
     }
 
