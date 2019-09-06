@@ -48,8 +48,8 @@ class TransactionSession extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['user_ordered', 'business_id', 'order_id'], 'required'],
-            [['note', 'status', 'discount_type'], 'string'],
+            [['user_ordered', 'business_id'], 'required'],
+            [['note', 'discount_type', 'status'], 'string'],
             [['total_price', 'total_amount', 'discount_value'], 'default', 'value' => null],
             [['total_price', 'total_amount', 'discount_value'], 'integer', 'min' => 1],
             [['created_at', 'updated_at'], 'safe'],
@@ -83,9 +83,11 @@ class TransactionSession extends \sybase\SybaseModel
             'user_updated' => \Yii::t('app', 'User Updated'),
             'is_closed' => \Yii::t('app', 'Is Closed'),
             'total_amount' => \Yii::t('app', 'Total Amount'),
-            'promo_item_id' => \Yii::t('app', 'Promo Item ID'),
             'discount_type' => \Yii::t('app', 'Discount Type'),
             'discount_value' => \Yii::t('app', 'Discount Value'),
+            'promo_item_id' => \Yii::t('app', 'Promo Item ID'),
+            'status' => \Yii::t('app', 'Status'),
+            'order_id' => \Yii::t('app', 'Order ID'),
         ];
     }
 
