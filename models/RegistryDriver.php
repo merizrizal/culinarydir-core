@@ -121,4 +121,12 @@ class RegistryDriver extends \sybase\SybaseModel
     {
         return $this->hasOne(User::className(), ['id' => 'user_updated']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRegistryDriverAttachments()
+    {
+        return $this->hasMany(RegistryDriverAttachment::className(), ['registry_driver_id' => 'id']);
+    }
 }
