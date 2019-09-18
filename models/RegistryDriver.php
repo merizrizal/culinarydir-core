@@ -32,6 +32,7 @@ namespace core\models;
  * @property District $district
  * @property User $userCreated
  * @property User $userUpdated
+ * @property RegistryDriverAttachment[] $registryDriverAttachments
  */
 class RegistryDriver extends \sybase\SybaseModel
 {
