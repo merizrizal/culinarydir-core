@@ -28,10 +28,15 @@ namespace core\models;
  * @property string $updated_at
  * @property string $user_updated
  * @property string $district_id
+ * @property string $application_driver_id
+ * @property int $application_driver_counter
+ * @property string $user_in_charge
  *
+ * @property ApplicationDriver $applicationDriver
  * @property District $district
  * @property User $userCreated
  * @property User $userUpdated
+ * @property User $userInCharge
  * @property RegistryDriverAttachment[] $registryDriverAttachments
  */
 class RegistryDriver extends \sybase\SybaseModel
@@ -50,11 +55,13 @@ class RegistryDriver extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['first_name', 'email', 'phone', 'no_ktp', 'no_sim', 'date_birth', 'motor_brand', 'motor_type', 'emergency_contact_name', 'emergency_contact_phone', 'emergency_contact_address', 'number_plate', 'stnk_expired', 'district_id'], 'required'],
+            [['first_name', 'email', 'phone', 'district_id', 'no_ktp', 'no_sim', 'date_birth', 'motor_brand', 'motor_type', 'emergency_contact_name', 'emergency_contact_phone', 'emergency_contact_address', 'number_plate', 'stnk_expired', 'application_driver_id'], 'required'],
             [['date_birth', 'stnk_expired', 'created_at', 'updated_at'], 'safe'],
             [['emergency_contact_address'], 'string'],
             [['is_criteria_passed'], 'boolean'],
-            [['id', 'emergency_contact_name', 'user_created', 'user_updated', 'district_id'], 'string', 'max' => 32],
+            [['application_driver_counter'], 'default', 'value' => null],
+            [['application_driver_counter'], 'integer'],
+            [['id', 'district_id', 'emergency_contact_name', 'user_created', 'user_updated', 'application_driver_id', 'user_in_charge'], 'string', 'max' => 32],
             [['first_name', 'last_name', 'phone', 'emergency_contact_phone'], 'string', 'max' => 16],
             [['email'], 'string', 'max' => 64],
             [['no_ktp', 'no_sim'], 'string', 'max' => 19],
@@ -62,9 +69,11 @@ class RegistryDriver extends \sybase\SybaseModel
             [['number_plate'], 'string', 'max' => 10],
             [['other_driver'], 'string', 'max' => 20],
             [['id'], 'unique'],
+            [['application_driver_id'], 'exist', 'skipOnError' => true, 'targetClass' => ApplicationDriver::className(), 'targetAttribute' => ['application_driver_id' => 'id']],
             [['district_id'], 'exist', 'skipOnError' => true, 'targetClass' => District::className(), 'targetAttribute' => ['district_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
+            [['user_in_charge'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_in_charge' => 'id']],
         ];
     }
 
@@ -96,7 +105,18 @@ class RegistryDriver extends \sybase\SybaseModel
             'user_created' => \Yii::t('app', 'User Created'),
             'updated_at' => \Yii::t('app', 'Updated At'),
             'user_updated' => \Yii::t('app', 'User Updated'),
+            'application_driver_id' => \Yii::t('app', 'Application Driver ID'),
+            'application_driver_counter' => \Yii::t('app', 'Application Driver Counter'),
+            'user_in_charge' => \Yii::t('app', 'User In Charge'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getApplicationDriver()
+    {
+        return $this->hasOne(ApplicationDriver::className(), ['id' => 'application_driver_id']);
     }
 
     /**
@@ -121,6 +141,14 @@ class RegistryDriver extends \sybase\SybaseModel
     public function getUserUpdated()
     {
         return $this->hasOne(User::className(), ['id' => 'user_updated']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserInCharge()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_in_charge']);
     }
 
     /**

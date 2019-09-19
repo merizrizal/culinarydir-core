@@ -2,10 +2,10 @@
 
 namespace core\models\search;
 
-use Yii;
+use core\models\RegistryDriver;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use core\models\RegistryDriver;
+use function yii\db\QueryTrait\andFilterWhere;
 
 /**
  * RegistryDriverSearch represents the model behind the search form of `core\models\RegistryDriver`.
@@ -18,8 +18,9 @@ class RegistryDriverSearch extends RegistryDriver
     public function rules()
     {
         return [
-            [['id', 'first_name', 'last_name', 'email', 'phone', 'no_ktp', 'no_sim', 'date_birth', 'motor_brand', 'motor_type', 'emergency_contact_name', 'emergency_contact_phone', 'emergency_contact_address', 'number_plate', 'stnk_expired', 'other_driver', 'created_at', 'user_created', 'updated_at', 'user_updated', 'district_id'], 'safe'],
+            [['id', 'first_name', 'last_name', 'email', 'phone', 'district_id', 'no_ktp', 'no_sim', 'date_birth', 'motor_brand', 'motor_type', 'emergency_contact_name', 'emergency_contact_phone', 'emergency_contact_address', 'number_plate', 'stnk_expired', 'other_driver', 'created_at', 'user_created', 'updated_at', 'user_updated', 'application_driver_id', 'user_in_charge'], 'safe'],
             [['is_criteria_passed'], 'boolean'],
+            [['application_driver_counter'], 'integer'],
         ];
     }
 
@@ -41,7 +42,11 @@ class RegistryDriverSearch extends RegistryDriver
      */
     public function search($params)
     {
-        $query = RegistryDriver::find();
+        $query = RegistryDriver::find()
+            ->joinWith([
+                'applicationDriver',
+                'applicationDriver.logStatusApprovalDrivers'
+            ]);
 
         // add conditions that should always apply here
 
@@ -67,6 +72,7 @@ class RegistryDriverSearch extends RegistryDriver
             'is_criteria_passed' => $this->is_criteria_passed,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'application_driver_counter' => $this->application_driver_counter,
         ]);
 
         $query->andFilterWhere(['ilike', 'id', $this->id])
@@ -85,7 +91,9 @@ class RegistryDriverSearch extends RegistryDriver
             ->andFilterWhere(['ilike', 'other_driver', $this->other_driver])
             ->andFilterWhere(['ilike', 'user_created', $this->user_created])
             ->andFilterWhere(['ilike', 'user_updated', $this->user_updated])
-            ->andFilterWhere(['ilike', 'district_id', $this->district_id]);
+            ->andFilterWhere(['ilike', 'district_id', $this->district_id])
+            ->andFilterWhere(['ilike', 'application_driver_id', $this->application_driver_id])
+            ->andFilterWhere(['ilike', 'user_in_charge', $this->user_in_charge]);
 
         return $dataProvider;
     }
