@@ -5,7 +5,6 @@ namespace core\models\search;
 use core\models\RegistryDriver;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use function yii\db\QueryTrait\andFilterWhere;
 
 /**
  * RegistryDriverSearch represents the model behind the search form of `core\models\RegistryDriver`.
@@ -18,10 +17,16 @@ class RegistryDriverSearch extends RegistryDriver
     public function rules()
     {
         return [
-            [['id', 'first_name', 'last_name', 'email', 'phone', 'district_id', 'no_ktp', 'no_sim', 'date_birth', 'motor_brand', 'motor_type', 'emergency_contact_name', 'emergency_contact_phone', 'emergency_contact_address', 'number_plate', 'stnk_expired', 'other_driver', 'created_at', 'user_created', 'updated_at', 'user_updated', 'application_driver_id', 'user_in_charge'], 'safe'],
             [['is_criteria_passed'], 'boolean'],
             [['application_driver_counter'], 'integer'],
+            [['id', 'first_name', 'last_name', 'email', 'phone', 'district_id', 'no_ktp', 'no_sim', 'date_birth', 'motor_brand', 'motor_type', 'emergency_contact_name', 'emergency_contact_phone', 'emergency_contact_address', 'number_plate', 'stnk_expired', 'other_driver', 'created_at', 'user_created', 'updated_at', 'user_updated', 'application_driver_id', 'user_in_charge',
+                'userInCharge.full_name'], 'safe'],
         ];
+    }
+
+    public function attributes() {
+        // add related fields to searchable attributes
+        return array_merge(parent::attributes(), ['userInCharge.full_name']);
     }
 
     /**
@@ -43,9 +48,11 @@ class RegistryDriverSearch extends RegistryDriver
     public function search($params)
     {
         $query = RegistryDriver::find()
+            ->select('user.full_name, registry_driver.*')
             ->joinWith([
                 'applicationDriver',
-                'applicationDriver.logStatusApprovalDrivers'
+                'applicationDriver.logStatusApprovalDrivers',
+                'userInCharge'
             ]);
 
         // add conditions that should always apply here
@@ -56,6 +63,11 @@ class RegistryDriverSearch extends RegistryDriver
                 'pageSize' => \Yii::$app->params['pageSize'],
             ),
         ]);
+
+        $dataProvider->sort->attributes['userInCharge.full_name'] = [
+            'asc' => ['user.full_name' => SORT_ASC],
+            'desc' => ['user.full_name' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -93,7 +105,8 @@ class RegistryDriverSearch extends RegistryDriver
             ->andFilterWhere(['ilike', 'user_updated', $this->user_updated])
             ->andFilterWhere(['ilike', 'district_id', $this->district_id])
             ->andFilterWhere(['ilike', 'application_driver_id', $this->application_driver_id])
-            ->andFilterWhere(['ilike', 'user_in_charge', $this->user_in_charge]);
+            ->andFilterWhere(['ilike', 'user_in_charge', $this->user_in_charge])
+            ->andFilterWhere(['ilike', 'user.full_name', $this->getAttribute('userInCharge.full_name')]);
 
         return $dataProvider;
     }
