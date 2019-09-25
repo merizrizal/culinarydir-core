@@ -108,7 +108,6 @@ class RegistryDriver extends \sybase\SybaseModel
             'application_driver_id' => \Yii::t('app', 'Application Driver ID'),
             'application_driver_counter' => \Yii::t('app', 'Application Driver Counter'),
             'user_in_charge' => \Yii::t('app', 'User In Charge'),
-            'userInCharge.full_name' => \Yii::t('app', 'Marketing'),
         ];
     }
 
