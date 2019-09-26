@@ -67,6 +67,11 @@ class PersonAsDriverSearch extends PersonAsDriver
             'desc' => ['person.first_name' => SORT_DESC],
         ];
 
+        $dataProvider->sort->attributes['person.phone'] = [
+            'asc' => ['person.phone' => SORT_ASC],
+            'desc' => ['person.phone' => SORT_DESC],
+        ];
+
         $this->load($params);
 
         if (!$this->validate()) {
