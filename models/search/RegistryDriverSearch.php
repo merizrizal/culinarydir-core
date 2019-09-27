@@ -65,8 +65,8 @@ class RegistryDriverSearch extends RegistryDriver
         ]);
 
         $dataProvider->sort->attributes['userInCharge.full_name'] = [
-            'asc' => ['user.full_name' => SORT_ASC],
-            'desc' => ['user.full_name' => SORT_DESC],
+            'asc' => ['userInCharge.full_name' => SORT_ASC],
+            'desc' => ['userInCharge.full_name' => SORT_DESC],
         ];
 
         $this->load($params);
@@ -79,33 +79,13 @@ class RegistryDriverSearch extends RegistryDriver
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'date_birth' => $this->date_birth,
-            'stnk_expired' => $this->stnk_expired,
             'is_criteria_passed' => $this->is_criteria_passed,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'application_driver_counter' => $this->application_driver_counter,
+            '(registry_driver.created_at + interval \'7 hour\')::date' => $this->created_at,
         ]);
 
-        $query->andFilterWhere(['ilike', 'id', $this->id])
-            ->andFilterWhere(['ilike', 'first_name', $this->first_name])
-            ->andFilterWhere(['ilike', 'last_name', $this->last_name])
-            ->andFilterWhere(['ilike', 'email', $this->email])
+        $query->andFilterWhere(['ilike', 'first_name', $this->first_name])
             ->andFilterWhere(['ilike', 'phone', $this->phone])
-            ->andFilterWhere(['ilike', 'no_ktp', $this->no_ktp])
-            ->andFilterWhere(['ilike', 'no_sim', $this->no_sim])
-            ->andFilterWhere(['ilike', 'motor_brand', $this->motor_brand])
-            ->andFilterWhere(['ilike', 'motor_type', $this->motor_type])
-            ->andFilterWhere(['ilike', 'emergency_contact_name', $this->emergency_contact_name])
-            ->andFilterWhere(['ilike', 'emergency_contact_phone', $this->emergency_contact_phone])
-            ->andFilterWhere(['ilike', 'emergency_contact_address', $this->emergency_contact_address])
             ->andFilterWhere(['ilike', 'number_plate', $this->number_plate])
-            ->andFilterWhere(['ilike', 'other_driver', $this->other_driver])
-            ->andFilterWhere(['ilike', 'user_created', $this->user_created])
-            ->andFilterWhere(['ilike', 'user_updated', $this->user_updated])
-            ->andFilterWhere(['ilike', 'district_id', $this->district_id])
-            ->andFilterWhere(['ilike', 'application_driver_id', $this->application_driver_id])
-            ->andFilterWhere(['ilike', 'user_in_charge', $this->user_in_charge])
             ->andFilterWhere(['ilike', 'user.full_name', $this->getAttribute('userInCharge.full_name')]);
 
         return $dataProvider;

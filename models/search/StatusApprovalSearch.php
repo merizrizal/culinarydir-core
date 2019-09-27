@@ -69,19 +69,10 @@ class StatusApprovalSearch extends StatusApproval
             'condition' => $this->condition,
             'branch' => $this->branch,
             'group' => $this->group,
-            'not_active' => $this->not_active,
-            'created_at' => $this->created_at,
-            'user_created' => $this->user_created,
-            'updated_at' => $this->updated_at,
-            'user_updated' => $this->user_updated,
         ]);
 
         $query->andFilterWhere(['ilike', 'id', $this->id])
-            ->andFilterWhere(['ilike', 'name', $this->name])
-            ->andFilterWhere(['ilike', 'note', $this->note])
-            ->andFilterWhere(['ilike', 'instruction', $this->instruction])
-            ->andFilterWhere(['ilike', 'status', $this->status])
-            ->andFilterWhere(['ilike', 'execute_action', $this->execute_action]);
+            ->andFilterWhere(['ilike', 'name', $this->name]);
 
         return $dataProvider;
     }
