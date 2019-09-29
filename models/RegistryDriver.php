@@ -59,6 +59,7 @@ class RegistryDriver extends \sybase\SybaseModel
             [['date_birth', 'stnk_expired', 'created_at', 'updated_at'], 'safe'],
             [['emergency_contact_address'], 'string'],
             [['is_criteria_passed'], 'boolean'],
+            [['email'], 'email'],
             [['application_driver_counter'], 'default', 'value' => null],
             [['application_driver_counter'], 'integer'],
             [['id', 'district_id', 'emergency_contact_name', 'user_created', 'user_updated', 'application_driver_id', 'user_in_charge'], 'string', 'max' => 32],
