@@ -367,7 +367,7 @@ class SiteController extends Controller
             ],
         ]);
 
-        $query = RegistryBusiness::find()
+        $query1 = RegistryBusiness::find()
             ->select('registry_business.id, membership_type.name, user.full_name, registry_business.*')
             ->joinWith([
                 'membershipType',
@@ -384,10 +384,34 @@ class SiteController extends Controller
             ->distinct()
             ->all($db);
 
-        $content = '';
-        foreach ($query as $data) {
+        $query2 = RegistryBusiness::find()
+            ->select('registry_business.id, membership_type.name, user.full_name, registry_business.*')
+            ->joinWith([
+                'membershipType',
+                'userInCharge',
+                'applicationBusiness',
+                'applicationBusiness.logStatusApprovals',
+                'district',
+                'village'
+            ])
+            ->andWhere(['log_status_approval.status_approval_id' => 'PNDG'])
+            ->andWhere(['log_status_approval.is_actual' => true])
+            ->andWhere('registry_business.application_business_counter = application_business.counter')
+            ->andWhere(['BETWEEN', 'registry_business.created_at', '2019-09-23', '2019-09-26'])
+            ->distinct()
+            ->all();
 
-            $content .= $data->name . ' - ' . $data->userInCharge->full_name . '<br>';
+        $content = '';
+        foreach ($query1 as $data1) {
+            foreach ($query2 as $data2) {
+
+                if ($data1->unique_name == $data2->unique_name) {
+
+                    break;
+                }
+
+                $content .= $data1->name . ' - ' . $data1->unique_name . ' - ' . $data1->userInCharge->full_name . '<br>';
+            }
         }
 
         return $this->renderContent($content);
