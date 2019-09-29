@@ -386,24 +386,31 @@ class SiteController extends Controller
         ]);
 
         $query1 = RegistryBusiness::find()
-            ->select('registry_business.id, membership_type.name, user.full_name, registry_business.*')
             ->joinWith([
                 'membershipType',
                 'userInCharge',
                 'applicationBusiness',
                 'applicationBusiness.logStatusApprovals',
                 'district',
-                'village'
+                'village',
+                'registryBusinessCategories',
+                'registryBusinessProductCategories',
+                'registryBusinessProductFacilities',
+                'registryBusinessHours',
+                'registryBusinessHours.registryBusinessHourAdditionals',
+                'registryBusinessImages',
+                'registryBusinessContactPeople',
+                'registryBusinessContactPeople.person',
+                'registryBusinessPayments',
+                'registryBusinessDeliveries'
             ])
             ->andWhere(['log_status_approval.status_approval_id' => 'PNDG'])
             ->andWhere(['log_status_approval.is_actual' => true])
             ->andWhere('registry_business.application_business_counter = application_business.counter')
             ->andWhere(['BETWEEN', '(registry_business.created_at + interval \'7 hour\')::date', '2019-09-23', '2019-09-26'])
-            ->distinct()
-            ->all($dbv21);
+            ->asArray()->all($dbv21);
 
         $query2 = RegistryBusiness::find()
-            ->select('registry_business.id, membership_type.name, user.full_name, registry_business.*')
             ->joinWith([
                 'membershipType',
                 'userInCharge',
@@ -416,8 +423,7 @@ class SiteController extends Controller
             ->andWhere(['log_status_approval.is_actual' => true])
             ->andWhere('registry_business.application_business_counter = application_business.counter')
             ->andWhere(['BETWEEN', '(registry_business.created_at + interval \'7 hour\')::date', '2019-09-23', '2019-09-26'])
-            ->distinct()
-            ->all();
+            ->asArray()->all();
 
         $content = '';
         $restoreData = [];
@@ -428,14 +434,14 @@ class SiteController extends Controller
 
             foreach ($query2 as $data2) {
 
-                if ($data1->unique_name == $data2->unique_name) {
+                if ($data1['unique_name'] == $data2['unique_name']) {
 
                     $noData = false;
                     break;
                 }
             }
 
-            if ($noData && $data1->unique_name != 'fried-chicken-pak-supardi-satria-raya'&& $data1->unique_name != 'jajagongan-satria-raya' && $data1->unique_name != 'pink-makaroni-satria-raya') {
+            if ($noData && $data1['unique_name'] != 'fried-chicken-pak-supardi-satria-raya'&& $data1['unique_name'] != 'jajagongan-satria-raya' && $data1['unique_name'] != 'pink-makaroni-satria-raya') {
 
                 $restoreData[] = $data1;
             }
@@ -449,7 +455,7 @@ class SiteController extends Controller
         foreach ($restoreData as $data) {
 
             $modelApplicationBusiness = new ApplicationBusiness();
-            $modelApplicationBusiness->user_in_charge = $data->userInCharge->id;
+            $modelApplicationBusiness->user_in_charge = $data['userInCharge']['id'];
             $modelApplicationBusiness->counter = 1;
 
             if (($flag = $modelApplicationBusiness->save())) {
@@ -465,36 +471,36 @@ class SiteController extends Controller
                     $model->application_business_id = $modelApplicationBusiness->id;
                     $model->user_in_charge = $modelApplicationBusiness->user_in_charge;
                     $model->application_business_counter = $modelApplicationBusiness->counter;
-                    $model->membership_type_id = $data->membership_type_id;
-                    $model->name = $data->name;
-                    $model->unique_name = $data->unique_name;
-                    $model->email = $data->email;
-                    $model->phone1 = $data->phone1;
-                    $model->phone2 = $data->phone2;
-                    $model->phone3 = $data->phone3;
-                    $model->address_type = $data->address_type;
-                    $model->address = $data->address;
-                    $model->address_info = $data->address_info;
-                    $model->city_id = $data->city_id;
-                    $model->district_id = $data->district_id;
-                    $model->village_id = $data->village_id;
-                    $model->coordinate = $data->coordinate;
-                    $model->price_min = !empty($data->price_min) ? $data->price_min : 0;
-                    $model->price_max = !empty($data->price_max) ? $data->price_max : 0;
-                    $model->created_at = $data->created_at;
-                    $model->note = $data->note;
-                    $model->note_business_hour = $data->note_business_hour;
-                    $model->about = $data->about;
-                    $model->menu = $data->menu;
+                    $model->membership_type_id = $data['membership_type_id'];
+                    $model->name = $data['name'];
+                    $model->unique_name = $data['unique_name'];
+                    $model->email = $data['email'];
+                    $model->phone1 = $data['phone1'];
+                    $model->phone2 = $data['phone2'];
+                    $model->phone3 = $data['phone3'];
+                    $model->address_type = $data['address_type'];
+                    $model->address = $data['address'];
+                    $model->address_info = $data['address_info'];
+                    $model->city_id = $data['city_id'];
+                    $model->district_id = $data['district_id'];
+                    $model->village_id = $data['village_id'];
+                    $model->coordinate = $data['coordinate'];
+                    $model->price_min = !empty($data['price_min']) ? $data['price_min'] : 0;
+                    $model->price_max = !empty($data['price_max']) ? $data['price_max'] : 0;
+                    $model->created_at = $data['created_at'];
+                    $model->note = $data['note'];
+                    $model->note_business_hour = $data['note_business_hour'];
+                    $model->about = $data['about'];
+                    $model->menu = $data['menu'];
 
                     if (($flag = $model->save())) {
 
-                        foreach ($data->registryBusinessCategories as $registryBusinessCategory) {
-
+                        foreach ($data['registryBusinessCategories'] as $registryBusinessCategory) {
+            print_r($registryBusinessCategory);exit;
                             $newModelRegistryBusinessCategory = new RegistryBusinessCategory();
-                            $newModelRegistryBusinessCategory->unique_id = $model->id . '-' . $registryBusinessCategory->id;
+                            $newModelRegistryBusinessCategory->unique_id = $registryBusinessCategory['unique_id'];
                             $newModelRegistryBusinessCategory->registry_business_id = $model->id;
-                            $newModelRegistryBusinessCategory->category_id = $registryBusinessCategory->id;
+                            $newModelRegistryBusinessCategory->category_id = $registryBusinessCategory['category_id'];
                             $newModelRegistryBusinessCategory->is_active = true;
 
                             if (!($flag = $newModelRegistryBusinessCategory->save())) {
@@ -506,12 +512,12 @@ class SiteController extends Controller
 
                     if ($flag) {
 
-                        foreach ($data->registryBusinessProductCategories as $registryBusinessProductCategory) {
+                        foreach ($data['registryBusinessProductCategories'] as $registryBusinessProductCategory) {
 
                             $newModelRegistryBusinessProductCategory = new RegistryBusinessProductCategory();
-                            $newModelRegistryBusinessProductCategory->unique_id = $model->id . '-' . $registryBusinessProductCategory->id;
+                            $newModelRegistryBusinessProductCategory->unique_id = $registryBusinessProductCategory['unique_id'];
                             $newModelRegistryBusinessProductCategory->registry_business_id = $model->id;
-                            $newModelRegistryBusinessProductCategory->product_category_id = $registryBusinessProductCategory->id;
+                            $newModelRegistryBusinessProductCategory->product_category_id = $registryBusinessProductCategory['product_category_id'];
                             $newModelRegistryBusinessProductCategory->is_active = true;
 
                             if (!($flag = $newModelRegistryBusinessProductCategory->save())) {
@@ -523,12 +529,12 @@ class SiteController extends Controller
 
                     if ($flag) {
 
-                        foreach ($data->registryBusinessFacilities as $registryBusinessFacility) {
+                        foreach ($data['registryBusinessFacilities'] as $registryBusinessFacility) {
 
                             $newModelRegistryBusinessFacility = new RegistryBusinessFacility();
-                            $newModelRegistryBusinessFacility->unique_id = $model->id . '-' . $registryBusinessFacility->id;
+                            $newModelRegistryBusinessFacility->unique_id = $registryBusinessFacility['unique_id'];
                             $newModelRegistryBusinessFacility->registry_business_id = $model->id;
-                            $newModelRegistryBusinessFacility->facility_id = $registryBusinessFacility->id;
+                            $newModelRegistryBusinessFacility->facility_id = $registryBusinessFacility['facility_id'];
                             $newModelRegistryBusinessFacility->is_active = true;
 
                             if (!($flag = $newModelRegistryBusinessFacility->save())) {
@@ -540,30 +546,30 @@ class SiteController extends Controller
 
                     if ($flag) {
 
-                        foreach ($data->registryBusinessHours as $registryBusinessHour) {
+                        foreach ($data['registryBusinessHours'] as $registryBusinessHour) {
 
                             $newModelRegistryBusinessHourDay = new RegistryBusinessHour();
                             $newModelRegistryBusinessHourDay->registry_business_id = $model->id;
-                            $newModelRegistryBusinessHourDay->unique_id = $registryBusinessHour->unique_id;
-                            $newModelRegistryBusinessHourDay->day = $registryBusinessHour->day;
-                            $newModelRegistryBusinessHourDay->is_open = $registryBusinessHour->is_open;
-                            $newModelRegistryBusinessHourDay->open_at = $registryBusinessHour->open_at;
-                            $newModelRegistryBusinessHourDay->close_at = $registryBusinessHour->close_at;
+                            $newModelRegistryBusinessHourDay->unique_id = $registryBusinessHour['unique_id'];
+                            $newModelRegistryBusinessHourDay->day = $registryBusinessHour['day'];
+                            $newModelRegistryBusinessHourDay->is_open = $registryBusinessHour['is_open'];
+                            $newModelRegistryBusinessHourDay->open_at = $registryBusinessHour['open_at'];
+                            $newModelRegistryBusinessHourDay->close_at = $registryBusinessHour['close_at'];
 
                             if (!($flag = $newModelRegistryBusinessHourDay->save())) {
 
                                 break;
                             } else {
 
-                                foreach ($registryBusinessHour->registryBusinessHourAdditionals as $registryBusinessHourAdditional) {
+                                foreach ($registryBusinessHour['registryBusinessHourAdditionals'] as $registryBusinessHourAdditional) {
 
                                     $newModelRegistryBusinessHourAdditional = new RegistryBusinessHourAdditional();
-                                    $newModelRegistryBusinessHourAdditional->unique_id = $registryBusinessHourAdditional->unique_id;
+                                    $newModelRegistryBusinessHourAdditional->unique_id = $registryBusinessHourAdditional['unique_id'];
                                     $newModelRegistryBusinessHourAdditional->registry_business_hour_id = $newModelRegistryBusinessHourDay->id;
-                                    $newModelRegistryBusinessHourAdditional->day = $registryBusinessHourAdditional->day;
-                                    $newModelRegistryBusinessHourAdditional->is_open = $registryBusinessHourAdditional->is_open;
-                                    $newModelRegistryBusinessHourAdditional->open_at = $registryBusinessHourAdditional->open_at;
-                                    $newModelRegistryBusinessHourAdditional->close_at = $registryBusinessHourAdditional->close_at;
+                                    $newModelRegistryBusinessHourAdditional->day = $registryBusinessHourAdditional['day'];
+                                    $newModelRegistryBusinessHourAdditional->is_open = $registryBusinessHourAdditional['is_open'];
+                                    $newModelRegistryBusinessHourAdditional->open_at = $registryBusinessHourAdditional['open_at'];
+                                    $newModelRegistryBusinessHourAdditional->close_at = $registryBusinessHourAdditional['close_at'];
 
                                     if (!($flag = $newModelRegistryBusinessHourAdditional->save())) {
 
@@ -576,13 +582,13 @@ class SiteController extends Controller
 
                     if ($flag) {
 
-                        foreach ($data->registryBusinessImages as $i => $registryBusinessImage) {
+                        foreach ($data['registryBusinessImages'] as $i => $registryBusinessImage) {
 
                             $i++;
 
                             $newModelRegistryBusinessImage = new RegistryBusinessImage();
                             $newModelRegistryBusinessImage->registry_business_id = $model->id;
-                            $newModelRegistryBusinessImage->image = $registryBusinessImage->image;
+                            $newModelRegistryBusinessImage->image = $registryBusinessImage['image'];
                             $newModelRegistryBusinessImage->type = 'Gallery';
                             $newModelRegistryBusinessImage->category = 'Ambience';
                             $newModelRegistryBusinessImage->order = $i;
@@ -596,15 +602,15 @@ class SiteController extends Controller
 
                     if ($flag) {
 
-                        if (!empty($data->registryBusinessContactPeople)) {
+                        if (!empty($data['registryBusinessContactPeople'])) {
 
-                            foreach ($data->registryBusinessContactPeople as $i => $registryBusinessContactPerson) {
+                            foreach ($data['registryBusinessContactPeople'] as $i => $registryBusinessContactPerson) {
 
                                 $newModelPerson = new Person();
-                                $newModelPerson->first_name = $registryBusinessContactPerson->first_name;
-                                $newModelPerson->last_name = $registryBusinessContactPerson->last_name;
-                                $newModelPerson->phone = $registryBusinessContactPerson->phone;
-                                $newModelPerson->email = $registryBusinessContactPerson->email;
+                                $newModelPerson->first_name = $registryBusinessContactPerson['person']['first_name'];
+                                $newModelPerson->last_name = $registryBusinessContactPerson['person']['last_name'];
+                                $newModelPerson->phone = $registryBusinessContactPerson['person']['phone'];
+                                $newModelPerson->email = $registryBusinessContactPerson['person']['email'];
 
                                 if (!($flag = $newModelPerson->save())) {
 
@@ -614,9 +620,9 @@ class SiteController extends Controller
                                     $newModelRegistryBusinessContactPerson = new RegistryBusinessContactPerson();
                                     $newModelRegistryBusinessContactPerson->registry_business_id = $model->id;
                                     $newModelRegistryBusinessContactPerson->person_id = $newModelPerson->id;
-                                    $newModelRegistryBusinessContactPerson->is_primary_contact = $registryBusinessContactPerson->is_primary_contact;
-                                    $newModelRegistryBusinessContactPerson->note = $registryBusinessContactPerson->note;
-                                    $newModelRegistryBusinessContactPerson->position = $registryBusinessContactPerson->position;
+                                    $newModelRegistryBusinessContactPerson->is_primary_contact = $registryBusinessContactPerson['is_primary_contact'];
+                                    $newModelRegistryBusinessContactPerson->note = $registryBusinessContactPerson['note'];
+                                    $newModelRegistryBusinessContactPerson->position = $registryBusinessContactPerson['position'];
 
                                     if (!($flag = $newModelRegistryBusinessContactPerson->save())) {
 
@@ -629,16 +635,16 @@ class SiteController extends Controller
 
                     if ($flag) {
 
-                        if (!empty($data->registryBusinessPayments)) {
+                        if (!empty($data['registryBusinessPayments'])) {
 
-                            foreach ($data->registryBusinessPayments as $registryBusinessPayment) {
+                            foreach ($data['registryBusinessPayments'] as $registryBusinessPayment) {
 
                                 $newModelRegistryBusinessPayment = new RegistryBusinessPayment();
                                 $newModelRegistryBusinessPayment->registry_business_id = $model->id;
-                                $newModelRegistryBusinessPayment->payment_method_id = $registryBusinessPayment->payment_method_id;
+                                $newModelRegistryBusinessPayment->payment_method_id = $registryBusinessPayment['payment_method_id'];
                                 $newModelRegistryBusinessPayment->is_active = true;
-                                $newModelRegistryBusinessPayment->note = $registryBusinessPayment->note;
-                                $newModelRegistryBusinessPayment->description = $registryBusinessPayment->description;
+                                $newModelRegistryBusinessPayment->note = $registryBusinessPayment['note'];
+                                $newModelRegistryBusinessPayment->description = $registryBusinessPayment['description'];
 
                                 if (!($flag = $newModelRegistryBusinessPayment->save())) {
 
@@ -650,16 +656,16 @@ class SiteController extends Controller
 
                     if ($flag) {
 
-                        if (!empty($data->registryBusinessDeliveries)) {
+                        if (!empty($data['registryBusinessDeliveries'])) {
 
-                            foreach ($data->registryBusinessDeliveries as $registryBusinessDelivery) {
+                            foreach ($data['registryBusinessDeliveries'] as $registryBusinessDelivery) {
 
                                 $newModelRegistryBusinessDelivery = new RegistryBusinessDelivery();
                                 $newModelRegistryBusinessDelivery->registry_business_id = $model->id;
-                                $newModelRegistryBusinessDelivery->delivery_method_id = $registryBusinessDelivery->delivery_method_id;
+                                $newModelRegistryBusinessDelivery->delivery_method_id = $registryBusinessDelivery['delivery_method_id'];
                                 $newModelRegistryBusinessDelivery->is_active = true;
-                                $newModelRegistryBusinessDelivery->note = $registryBusinessDelivery->note;
-                                $newModelRegistryBusinessDelivery->description = $registryBusinessDelivery->description;
+                                $newModelRegistryBusinessDelivery->note = $registryBusinessDelivery['note'];
+                                $newModelRegistryBusinessDelivery->description = $registryBusinessDelivery['description'];
 
                                 if (!($flag = $newModelRegistryBusinessDelivery->save())) {
 
