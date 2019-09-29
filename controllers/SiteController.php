@@ -354,6 +354,19 @@ class SiteController extends Controller
 
     public function actionRestorePendingRegistryBusiness() {
 
+        $db = new \yii\db\Connection([
+            'dsn' => 'pgsql:host=localhost;dbname=business_directory_v21',
+            'username' => 'root',
+            'password' => '@sikmakan123Root',
+            'charset' => 'utf8',
+            'schemaMap' => [
+                'pgsql'=> [
+                    'class'=>'yii\db\pgsql\Schema',
+                    'defaultSchema' => 'public' //specify your schema here
+                ]
+            ],
+        ]);
+
         $query = RegistryBusiness::find()
             ->select('registry_business.id, membership_type.name, user.full_name, registry_business.*')
             ->joinWith([
@@ -369,7 +382,7 @@ class SiteController extends Controller
             ->andWhere('registry_business.application_business_counter = application_business.counter')
             ->andWhere(['BETWEEN', 'registry_business.created_at', '2019-09-23', '2019-09-26'])
             ->distinct()
-            ->all();
+            ->all($db);
 
         $content = '';
         foreach ($query as $data) {
