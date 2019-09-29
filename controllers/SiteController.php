@@ -2,11 +2,7 @@
 
 namespace core\controllers;
 
-use core\models\User;
-use core\models\UserAkses;
-use core\models\UserAksesAppModule;
-use core\models\UserLevel;
-use core\models\UserRole;
+use core\models\RegistryBusiness;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -26,7 +22,7 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'migrate-user-akses', 'error'],
+                        'actions' => ['index', 'restore-pending-registry-business', 'error'],
                         'allow' => true,
                     ],
                 ],
@@ -164,6 +160,7 @@ class SiteController extends Controller
     }
     */
 
+    /*
     public function actionMigrateUserAkses() {
 
         $transaction = \Yii::$app->db->beginTransaction();
@@ -352,5 +349,34 @@ class SiteController extends Controller
 
             $transaction->rollBack();
         }
+    }
+    */
+
+    public function actionRestorePendingRegistryBusiness() {
+
+        $query = RegistryBusiness::find()
+            ->select('registry_business.id, membership_type.name, user.full_name, registry_business.*')
+            ->joinWith([
+                'membershipType',
+                'userInCharge',
+                'applicationBusiness',
+                'applicationBusiness.logStatusApprovals',
+                'district',
+                'village'
+            ])
+            ->andWhere(['log_status_approval.status_approval_id' => 'PNDG'])
+            ->andWhere(['log_status_approval.is_actual' => true])
+            ->andWhere('registry_business.application_business_counter = application_business.counter')
+            ->andWhere(['BETWEEN', 'registry_business.created_at', '2019-09-23', '2019-09-26'])
+            ->distinct()
+            ->all();
+
+        $content = '';
+        foreach ($query as $data) {
+
+            $content .= $data->name . ' - ' . $data->userInCharge->full_name . '<br>';
+        }
+
+        return $this->renderContent($content);
     }
 }

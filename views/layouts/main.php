@@ -37,7 +37,7 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Home', 'url' => ['site/index']],
-        ['label' => 'Migrasi ID', 'url' => ['site/migrate-user-akses']],
+        ['label' => 'Restore Registry Business', 'url' => ['site/restore-pending-registry-business']],
     ];
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
