@@ -676,7 +676,7 @@ class SiteController extends Controller
                 break;
             } else {
 
-                $content .= $data->name . '<br>';
+                $content .= $model->name . '<br>';
             }
         }
 
