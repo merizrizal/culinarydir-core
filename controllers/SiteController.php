@@ -468,8 +468,13 @@ class SiteController extends Controller
                     $model->membership_type_id = $data->membership_type_id;
                     $model->name = $data->name;
                     $model->unique_name = $data->unique_name;
+                    $model->email = $data->email;
+                    $model->phone1 = $data->phone1;
+                    $model->phone2 = $data->phone2;
+                    $model->phone3 = $data->phone3;
                     $model->address_type = $data->address_type;
                     $model->address = $data->address;
+                    $model->address_info = $data->address_info;
                     $model->city_id = $data->city_id;
                     $model->district_id = $data->district_id;
                     $model->village_id = $data->village_id;
@@ -477,6 +482,10 @@ class SiteController extends Controller
                     $model->price_min = !empty($data->price_min) ? $data->price_min : 0;
                     $model->price_max = !empty($data->price_max) ? $data->price_max : 0;
                     $model->created_at = $data->created_at;
+                    $model->note = $data->note;
+                    $model->note_business_hour = $data->note_business_hour;
+                    $model->about = $data->about;
+                    $model->menu = $data->menu;
 
                     if (($flag = $model->save())) {
 
