@@ -2,7 +2,20 @@
 
 namespace core\controllers;
 
+use core\models\ApplicationBusiness;
+use core\models\LogStatusApproval;
+use core\models\Person;
 use core\models\RegistryBusiness;
+use core\models\RegistryBusinessCategory;
+use core\models\RegistryBusinessContactPerson;
+use core\models\RegistryBusinessDelivery;
+use core\models\RegistryBusinessFacility;
+use core\models\RegistryBusinessHour;
+use core\models\RegistryBusinessHourAdditional;
+use core\models\RegistryBusinessImage;
+use core\models\RegistryBusinessPayment;
+use core\models\RegistryBusinessProductCategory;
+use core\models\StatusApproval;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -359,7 +372,7 @@ class SiteController extends Controller
 
     public function actionRestorePendingRegistryBusiness() {
 
-        $db = new \yii\db\Connection([
+        $dbv21 = new \yii\db\Connection([
             'dsn' => 'pgsql:host=localhost;dbname=business_directory_v21',
             'username' => 'root',
             'password' => '@sikmakan123Root',
@@ -385,9 +398,9 @@ class SiteController extends Controller
             ->andWhere(['log_status_approval.status_approval_id' => 'PNDG'])
             ->andWhere(['log_status_approval.is_actual' => true])
             ->andWhere('registry_business.application_business_counter = application_business.counter')
-            ->andWhere(['BETWEEN', 'registry_business.created_at', '2019-09-23', '2019-09-26'])
+            ->andWhere(['BETWEEN', '(registry_business.created_at + interval \'7 hour\')::date', '2019-09-23', '2019-09-26'])
             ->distinct()
-            ->all($db);
+            ->all($dbv21);
 
         $query2 = RegistryBusiness::find()
             ->select('registry_business.id, membership_type.name, user.full_name, registry_business.*')
@@ -428,7 +441,6 @@ class SiteController extends Controller
             }
         }
 
-        /*
         $transaction = \Yii::$app->db->beginTransaction();
         $flag = false;
 
@@ -662,7 +674,7 @@ class SiteController extends Controller
 
         if ($flag) {
 
-            $content .= "Berhasil";
+            $content .= "Berhasil<br>";
 
             $transaction->commit();
         } else {
@@ -670,7 +682,7 @@ class SiteController extends Controller
             $content = print_r($model);
 
             $transaction->rollBack();
-        }*/
+        }
 
         foreach ($restoreData as $data) {
 
