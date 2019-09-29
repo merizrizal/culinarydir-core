@@ -372,6 +372,23 @@ class SiteController extends Controller
 
     public function actionRestorePendingRegistryBusiness() {
 
+        /*$query2 = RegistryBusiness::find()
+            ->joinWith([
+                'membershipType',
+                'userInCharge',
+                'applicationBusiness',
+                'applicationBusiness.logStatusApprovals',
+                'district',
+                'village'
+            ])
+            ->andWhere(['log_status_approval.status_approval_id' => 'PNDG'])
+            ->andWhere(['log_status_approval.is_actual' => true])
+            ->andWhere('registry_business.application_business_counter = application_business.counter')
+            ->andWhere(['BETWEEN', '(registry_business.created_at + interval \'7 hour\')::date', '2019-09-23', '2019-09-27'])
+            ->asArray()->all();*/
+
+        $notIn = ['bread-talk-wahid-hasyim', 'j-co-cirangrang', 'steak-osteak-indrayasa', 'sweet-flour-bakeshop-rangga-kencana', 'bandung-kunafe-cirangrang', 'seafood-killoan-bang-bopak-indrayasa', 'austeak-wahid-hasyim', 'hayang-thai-tea-cirangrang', 'ayam-geprek-sambal-dower-cirangrang', 'warung-tenda-bu-riens-cirangrang', 'aprilia-cafe-and-resto-cirangrang', 'ayam-serundeng-cucak-rowo-cirangrang', 'bakakak-ayam-kampung-bu-kosim-cirangrang', 'mamam-cuankie-cirangrang', 'de-purple-drink-cirangrang', 'kedai-es-sop-buah-blok-kupat-babakan', 'thai-tea-suramadu-babakan', 'twenty-three-thai-tea-and-roti-bakar-babakan', 'cilok-sadulur-satria-raya'];
+
         $dbv21 = new \yii\db\Connection([
             'dsn' => 'pgsql:host=localhost;dbname=business_directory_v21',
             'username' => 'root',
@@ -382,7 +399,7 @@ class SiteController extends Controller
                     'class'=>'yii\db\pgsql\Schema',
                     'defaultSchema' => 'public' //specify your schema here
                 ]
-            ],
+            ]
         ]);
 
         $query1 = RegistryBusiness::find()
@@ -404,48 +421,15 @@ class SiteController extends Controller
                 'registryBusinessPayments',
                 'registryBusinessDeliveries'
             ])
+            ->andWhere('registry_business.application_business_counter = application_business.counter')
             ->andWhere(['log_status_approval.status_approval_id' => 'PNDG'])
             ->andWhere(['log_status_approval.is_actual' => true])
-            ->andWhere('registry_business.application_business_counter = application_business.counter')
-            ->andWhere(['BETWEEN', '(registry_business.created_at + interval \'7 hour\')::date', '2019-09-23', '2019-09-26'])
+            ->andWhere(['not', ['registry_business.unique_name' => $notIn]])
+            ->andWhere(['BETWEEN', '(registry_business.created_at + interval \'7 hour\')::date', '2019-09-23', '2019-09-27'])
             ->asArray()->all($dbv21);
 
-        $query2 = RegistryBusiness::find()
-            ->joinWith([
-                'membershipType',
-                'userInCharge',
-                'applicationBusiness',
-                'applicationBusiness.logStatusApprovals',
-                'district',
-                'village'
-            ])
-            ->andWhere(['log_status_approval.status_approval_id' => 'PNDG'])
-            ->andWhere(['log_status_approval.is_actual' => true])
-            ->andWhere('registry_business.application_business_counter = application_business.counter')
-            ->andWhere(['BETWEEN', '(registry_business.created_at + interval \'7 hour\')::date', '2019-09-23', '2019-09-26'])
-            ->asArray()->all();
-
         $content = '';
-        $restoreData = [];
-
-        foreach ($query1 as $data1) {
-
-            $noData = true;
-
-            foreach ($query2 as $data2) {
-
-                if ($data1['unique_name'] == $data2['unique_name']) {
-
-                    $noData = false;
-                    break;
-                }
-            }
-
-            if ($noData && $data1['unique_name'] != 'fried-chicken-pak-supardi-satria-raya'&& $data1['unique_name'] != 'jajagongan-satria-raya' && $data1['unique_name'] != 'pink-makaroni-satria-raya') {
-
-                $restoreData[] = $data1;
-            }
-        }
+        print_r($query1);exit;
 
         $transaction = \Yii::$app->db->beginTransaction();
         $flag = false;
@@ -455,7 +439,7 @@ class SiteController extends Controller
         foreach ($restoreData as $data) {
 
             $modelApplicationBusiness = new ApplicationBusiness();
-            $modelApplicationBusiness->user_in_charge = $data['userInCharge']['id'];
+            $modelApplicationBusiness->user_in_charge = $data['applicationBusiness']['user_in_charge'];
             $modelApplicationBusiness->counter = 1;
 
             if (($flag = $modelApplicationBusiness->save())) {
@@ -705,5 +689,15 @@ class SiteController extends Controller
         }
 
         return $this->renderContent($content);
+    }
+
+    private function array_copy($arr) {
+        $newArray = array();
+        foreach($arr as $key => $value) {
+            if(is_array($value)) $newArray[$key] = $this->array_copy($value);
+            else if(is_object($value)) $newArray[$key] = clone $value;
+            else $newArray[$key] = $value;
+        }
+        return $newArray;
     }
 }
