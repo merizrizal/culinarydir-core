@@ -2,7 +2,20 @@
 
 namespace core\controllers;
 
+use core\models\ApplicationBusiness;
+use core\models\LogStatusApproval;
+use core\models\Person;
 use core\models\RegistryBusiness;
+use core\models\RegistryBusinessCategory;
+use core\models\RegistryBusinessContactPerson;
+use core\models\RegistryBusinessDelivery;
+use core\models\RegistryBusinessFacility;
+use core\models\RegistryBusinessHour;
+use core\models\RegistryBusinessHourAdditional;
+use core\models\RegistryBusinessImage;
+use core\models\RegistryBusinessPayment;
+use core\models\RegistryBusinessProductCategory;
+use core\models\StatusApproval;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -397,21 +410,274 @@ class SiteController extends Controller
             ->andWhere(['log_status_approval.status_approval_id' => 'PNDG'])
             ->andWhere(['log_status_approval.is_actual' => true])
             ->andWhere('registry_business.application_business_counter = application_business.counter')
-            ->andWhere(['BETWEEN', 'registry_business.created_at', '2019-09-23', '2019-09-26'])
+            ->andWhere(['BETWEEN', '(registry_business.created_at + interval \'7 hour\')::date', '2019-09-23', '2019-09-26'])
             ->distinct()
             ->all();
 
         $content = '';
+        $restoreData = [];
+
         foreach ($query1 as $data1) {
+
+            $noData = true;
+
             foreach ($query2 as $data2) {
 
                 if ($data1->unique_name == $data2->unique_name) {
 
+                    $noData = false;
                     break;
                 }
-
-                $content .= $data1->name . ' - ' . $data1->unique_name . ' - ' . $data1->userInCharge->full_name . '<br>';
             }
+
+            if ($noData && $data1->unique_name != 'fried-chicken-pak-supardi-satria-raya'&& $data1->unique_name != 'jajagongan-satria-raya' && $data1->unique_name != 'pink-makaroni-satria-raya') {
+
+                $restoreData[] = $data1;
+            }
+        }
+
+        $db = new \yii\db\Connection([
+            'dsn' => 'pgsql:host=localhost;dbname=business_directory_v2_2_8_backup',
+            'username' => 'root',
+            'password' => '@sikmakan123Root',
+            'charset' => 'utf8',
+            'schemaMap' => [
+                'pgsql'=> [
+                    'class'=>'yii\db\pgsql\Schema',
+                    'defaultSchema' => 'public' //specify your schema here
+                ]
+            ],
+        ]);
+
+        $transaction = $db->beginTransaction();
+        $flag = false;
+
+        $model = new RegistryBusiness();
+
+        foreach ($restoreData as $data) {
+
+            $modelApplicationBusiness = new ApplicationBusiness();
+            $modelApplicationBusiness->user_in_charge = $data->userInCharge->id;
+            $modelApplicationBusiness->counter = 1;
+
+            if (($flag = $modelApplicationBusiness->save())) {
+
+                $modelLogStatusApproval = new LogStatusApproval();
+                $modelLogStatusApproval->application_business_id = $modelApplicationBusiness->id;
+                $modelLogStatusApproval->status_approval_id = StatusApproval::find()->andWhere(['group' => 0])->asArray()->one()['id'];
+                $modelLogStatusApproval->is_actual = true;
+                $modelLogStatusApproval->application_business_counter = $modelApplicationBusiness->counter;
+
+                if (($flag = $modelLogStatusApproval->save())) {
+
+                    $model->application_business_id = $modelApplicationBusiness->id;
+                    $model->user_in_charge = $modelApplicationBusiness->user_in_charge;
+                    $model->application_business_counter = $modelApplicationBusiness->counter;
+                    $model->coordinate = $data->coordinate;
+                    $model->price_min = !empty($data->price_min) ? $data->price_min : 0;
+                    $model->price_max = !empty($data->price_max) ? $data->price_max : 0;
+
+                    if (($flag = $model->save())) {
+
+                        foreach ($data->registryBusinessCategories as $registryBusinessCategory) {
+
+                            $newModelRegistryBusinessCategory = new RegistryBusinessCategory();
+                            $newModelRegistryBusinessCategory->unique_id = $model->id . '-' . $registryBusinessCategory->id;
+                            $newModelRegistryBusinessCategory->registry_business_id = $model->id;
+                            $newModelRegistryBusinessCategory->category_id = $registryBusinessCategory->id;
+                            $newModelRegistryBusinessCategory->is_active = true;
+
+                            if (!($flag = $newModelRegistryBusinessCategory->save())) {
+
+                                break;
+                            }
+                        }
+                    }
+
+                    if ($flag) {
+
+                        foreach ($data->registryBusinessProductCategories as $registryBusinessProductCategory) {
+
+                            $newModelRegistryBusinessProductCategory = new RegistryBusinessProductCategory();
+                            $newModelRegistryBusinessProductCategory->unique_id = $model->id . '-' . $registryBusinessProductCategory->id;
+                            $newModelRegistryBusinessProductCategory->registry_business_id = $model->id;
+                            $newModelRegistryBusinessProductCategory->product_category_id = $registryBusinessProductCategory->id;
+                            $newModelRegistryBusinessProductCategory->is_active = true;
+
+                            if (!($flag = $newModelRegistryBusinessProductCategory->save())) {
+
+                                break;
+                            }
+                        }
+                    }
+
+                    if ($flag) {
+
+                        foreach ($data->registryBusinessFacilities as $registryBusinessFacility) {
+
+                            $newModelRegistryBusinessFacility = new RegistryBusinessFacility();
+                            $newModelRegistryBusinessFacility->unique_id = $model->id . '-' . $registryBusinessFacility->id;
+                            $newModelRegistryBusinessFacility->registry_business_id = $model->id;
+                            $newModelRegistryBusinessFacility->facility_id = $registryBusinessFacility->id;
+                            $newModelRegistryBusinessFacility->is_active = true;
+
+                            if (!($flag = $newModelRegistryBusinessFacility->save())) {
+
+                                break;
+                            }
+                        }
+                    }
+
+                    if ($flag) {
+
+                        foreach ($data->registryBusinessHours as $registryBusinessHour) {
+
+                            $newModelRegistryBusinessHourDay = new RegistryBusinessHour();
+                            $newModelRegistryBusinessHourDay->registry_business_id = $model->id;
+                            $newModelRegistryBusinessHourDay->unique_id = $registryBusinessHour->unique_id;
+                            $newModelRegistryBusinessHourDay->day = $registryBusinessHour->day;
+                            $newModelRegistryBusinessHourDay->is_open = $registryBusinessHour->is_open;
+                            $newModelRegistryBusinessHourDay->open_at = $registryBusinessHour->open_at;
+                            $newModelRegistryBusinessHourDay->close_at = $registryBusinessHour->close_at;
+
+                            if (!($flag = $newModelRegistryBusinessHourDay->save())) {
+
+                                break;
+                            } else {
+
+                                foreach ($registryBusinessHour->registryBusinessHourAdditionals as $registryBusinessHourAdditional) {
+
+                                    $newModelRegistryBusinessHourAdditional = new RegistryBusinessHourAdditional();
+                                    $newModelRegistryBusinessHourAdditional->unique_id = $registryBusinessHourAdditional->unique_id;
+                                    $newModelRegistryBusinessHourAdditional->registry_business_hour_id = $newModelRegistryBusinessHourDay->id;
+                                    $newModelRegistryBusinessHourAdditional->day = $registryBusinessHourAdditional->day;
+                                    $newModelRegistryBusinessHourAdditional->is_open = $registryBusinessHourAdditional->is_open;
+                                    $newModelRegistryBusinessHourAdditional->open_at = $registryBusinessHourAdditional->open_at;
+                                    $newModelRegistryBusinessHourAdditional->close_at = $registryBusinessHourAdditional->close_at;
+
+                                    if (!($flag = $newModelRegistryBusinessHourAdditional->save())) {
+
+                                        break 2;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if ($flag) {
+
+                        foreach ($data->registryBusinessImages as $i => $registryBusinessImage) {
+
+                            $i++;
+
+                            $newModelRegistryBusinessImage = new RegistryBusinessImage();
+                            $newModelRegistryBusinessImage->registry_business_id = $model->id;
+                            $newModelRegistryBusinessImage->image = $registryBusinessImage->image;
+                            $newModelRegistryBusinessImage->type = 'Gallery';
+                            $newModelRegistryBusinessImage->category = 'Ambience';
+                            $newModelRegistryBusinessImage->order = $i;
+
+                            if (!($flag = $newModelRegistryBusinessImage->save())) {
+
+                                break;
+                            }
+                        }
+                    }
+
+                    if ($flag) {
+
+                        if (!empty($data->registryBusinessContactPeople)) {
+
+                            foreach ($data->registryBusinessContactPeople as $i => $registryBusinessContactPerson) {
+
+                                $newModelPerson = new Person();
+                                $newModelPerson->first_name = $registryBusinessContactPerson->first_name;
+                                $newModelPerson->last_name = $registryBusinessContactPerson->last_name;
+                                $newModelPerson->phone = $registryBusinessContactPerson->phone;
+                                $newModelPerson->email = $registryBusinessContactPerson->email;
+
+                                if (!($flag = $newModelPerson->save())) {
+
+                                    break;
+                                } else {
+
+                                    $newModelRegistryBusinessContactPerson = new RegistryBusinessContactPerson();
+                                    $newModelRegistryBusinessContactPerson->registry_business_id = $model->id;
+                                    $newModelRegistryBusinessContactPerson->person_id = $newModelPerson->id;
+                                    $newModelRegistryBusinessContactPerson->is_primary_contact = $registryBusinessContactPerson->is_primary_contact;
+                                    $newModelRegistryBusinessContactPerson->note = $registryBusinessContactPerson->note;
+                                    $newModelRegistryBusinessContactPerson->position = $registryBusinessContactPerson->position;
+
+                                    if (!($flag = $newModelRegistryBusinessContactPerson->save())) {
+
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if ($flag) {
+
+                        if (!empty($data->registryBusinessPayments)) {
+
+                            foreach ($data->registryBusinessPayments as $registryBusinessPayment) {
+
+                                $newModelRegistryBusinessPayment = new RegistryBusinessPayment();
+                                $newModelRegistryBusinessPayment->registry_business_id = $model->id;
+                                $newModelRegistryBusinessPayment->payment_method_id = $registryBusinessPayment->payment_method_id;
+                                $newModelRegistryBusinessPayment->is_active = true;
+                                $newModelRegistryBusinessPayment->note = $registryBusinessPayment->note;
+                                $newModelRegistryBusinessPayment->description = $registryBusinessPayment->description;
+
+                                if (!($flag = $newModelRegistryBusinessPayment->save())) {
+
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    if ($flag) {
+
+                        if (!empty($data->registryBusinessDeliveries)) {
+
+                            foreach ($data->registryBusinessDeliveries as $registryBusinessDelivery) {
+
+                                $newModelRegistryBusinessDelivery = new RegistryBusinessDelivery();
+                                $newModelRegistryBusinessDelivery->registry_business_id = $model->id;
+                                $newModelRegistryBusinessDelivery->delivery_method_id = $registryBusinessDelivery->delivery_method_id;
+                                $newModelRegistryBusinessDelivery->is_active = true;
+                                $newModelRegistryBusinessDelivery->note = $registryBusinessDelivery->note;
+                                $newModelRegistryBusinessDelivery->description = $registryBusinessDelivery->description;
+
+                                if (!($flag = $newModelRegistryBusinessDelivery->save())) {
+
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!$flag) {
+
+                break;
+            }
+        }
+
+
+        if ($flag) {
+
+            $content = "Berhasil";
+
+            $transaction->commit();
+        } else {
+
+            $content = "Gagal";
+
+            $transaction->rollBack();
         }
 
         return $this->renderContent($content);
