@@ -478,6 +478,14 @@ class SiteController extends Controller
                     $model->application_business_id = $modelApplicationBusiness->id;
                     $model->user_in_charge = $modelApplicationBusiness->user_in_charge;
                     $model->application_business_counter = $modelApplicationBusiness->counter;
+                    $model->membership_type_id = $data->membership_type_id;
+                    $model->name = $data->name;
+                    $model->unique_name = $data->unique_name;
+                    $model->address_type = $data->address_type;
+                    $model->address = $data->address;
+                    $model->city_id = $data->city_id;
+                    $model->district_id = $data->district_id;
+                    $model->village_id = $data->village_id;
                     $model->coordinate = $data->coordinate;
                     $model->price_min = !empty($data->price_min) ? $data->price_min : 0;
                     $model->price_max = !empty($data->price_max) ? $data->price_max : 0;
@@ -681,7 +689,7 @@ class SiteController extends Controller
             $transaction->commit();
         } else {
 
-            $content = "Gagal";
+            $content = print_r($model);
 
             $transaction->rollBack();
         }
