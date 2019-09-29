@@ -395,7 +395,7 @@ class SiteController extends Controller
                 'village',
                 'registryBusinessCategories',
                 'registryBusinessProductCategories',
-                'registryBusinessProductFacilities',
+                'registryBusinessFacilities',
                 'registryBusinessHours',
                 'registryBusinessHours.registryBusinessHourAdditionals',
                 'registryBusinessImages',
@@ -701,7 +701,7 @@ class SiteController extends Controller
 
         foreach ($restoreData as $data) {
 
-            $content .= $data->name . '<br>';
+            $content .= $data['name'] . '<br>';
         }
 
         return $this->renderContent($content);
