@@ -2,20 +2,7 @@
 
 namespace core\controllers;
 
-use core\models\ApplicationBusiness;
-use core\models\LogStatusApproval;
-use core\models\Person;
 use core\models\RegistryBusiness;
-use core\models\RegistryBusinessCategory;
-use core\models\RegistryBusinessContactPerson;
-use core\models\RegistryBusinessDelivery;
-use core\models\RegistryBusinessFacility;
-use core\models\RegistryBusinessHour;
-use core\models\RegistryBusinessHourAdditional;
-use core\models\RegistryBusinessImage;
-use core\models\RegistryBusinessPayment;
-use core\models\RegistryBusinessProductCategory;
-use core\models\StatusApproval;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -441,20 +428,8 @@ class SiteController extends Controller
             }
         }
 
-        $db = new \yii\db\Connection([
-            'dsn' => 'pgsql:host=localhost;dbname=business_directory_v2_2_8_backup',
-            'username' => 'root',
-            'password' => '@sikmakan123Root',
-            'charset' => 'utf8',
-            'schemaMap' => [
-                'pgsql'=> [
-                    'class'=>'yii\db\pgsql\Schema',
-                    'defaultSchema' => 'public' //specify your schema here
-                ]
-            ],
-        ]);
-
-        $transaction = $db->beginTransaction();
+        /*
+        $transaction = \Yii::$app->db->beginTransaction();
         $flag = false;
 
         $model = new RegistryBusiness();
@@ -678,13 +653,16 @@ class SiteController extends Controller
             if (!$flag) {
 
                 break;
+            } else {
+
+                $content .= $data->name . '<br>';
             }
         }
 
 
         if ($flag) {
 
-            $content = "Berhasil";
+            $content .= "Berhasil";
 
             $transaction->commit();
         } else {
@@ -692,6 +670,11 @@ class SiteController extends Controller
             $content = print_r($model);
 
             $transaction->rollBack();
+        }*/
+
+        foreach ($restoreData as $data) {
+
+            $content .= $data->name . '<br>';
         }
 
         return $this->renderContent($content);
