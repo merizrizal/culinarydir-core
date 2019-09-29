@@ -35,9 +35,14 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'restore-pending-registry-business', 'error'],
+                        'actions' => ['index', 'restore-pending-registry-business'],
                         'allow' => true,
+                        'roles' => ['@']
                     ],
+                    [
+                        'actions' => ['error'],
+                        'allow' => true
+                    ]
                 ],
             ],
             'verbs' => [
@@ -476,6 +481,8 @@ class SiteController extends Controller
                     $model->coordinate = $data->coordinate;
                     $model->price_min = !empty($data->price_min) ? $data->price_min : 0;
                     $model->price_max = !empty($data->price_max) ? $data->price_max : 0;
+                    $model->created_at = $data->created_at;
+                    $model->updated_at = $data->updated_at;
 
                     if (($flag = $model->save())) {
 
