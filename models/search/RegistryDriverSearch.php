@@ -59,6 +59,9 @@ class RegistryDriverSearch extends RegistryDriver
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => ['created_at' => SORT_ASC]
+            ],
             'pagination' => array(
                 'pageSize' => \Yii::$app->params['pageSize'],
             ),

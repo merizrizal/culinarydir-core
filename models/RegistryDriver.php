@@ -55,7 +55,7 @@ class RegistryDriver extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['first_name', 'phone', 'district_id', 'no_ktp', 'no_sim', 'date_birth', 'motor_brand', 'motor_type', 'emergency_contact_name', 'emergency_contact_phone', 'emergency_contact_address', 'number_plate', 'stnk_expired', 'application_driver_id'], 'required'],
+            [['first_name', 'phone', 'email', 'district_id', 'no_ktp', 'no_sim', 'date_birth', 'motor_brand', 'motor_type', 'emergency_contact_name', 'emergency_contact_phone', 'emergency_contact_address', 'number_plate', 'stnk_expired', 'application_driver_id'], 'required'],
             [['date_birth', 'stnk_expired', 'created_at', 'updated_at'], 'safe'],
             [['emergency_contact_address'], 'string'],
             [['is_criteria_passed'], 'boolean'],
