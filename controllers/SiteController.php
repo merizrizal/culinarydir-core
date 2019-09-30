@@ -402,24 +402,24 @@ class SiteController extends Controller
             ]
         ]);
 
-        $query1 = RegistryBusiness::find()
+        $restoreData = RegistryBusiness::find()
             ->joinWith([
-                'membershipType',
-                'userInCharge',
+//                 'membershipType',
+//                 'userInCharge',
                 'applicationBusiness',
-                'applicationBusiness.logStatusApprovals',
-                'district',
-                'village',
-                'registryBusinessCategories',
-                'registryBusinessProductCategories',
-                'registryBusinessFacilities',
-                'registryBusinessHours',
-                'registryBusinessHours.registryBusinessHourAdditionals',
-                'registryBusinessImages',
-                'registryBusinessContactPeople',
-                'registryBusinessContactPeople.person',
-                'registryBusinessPayments',
-                'registryBusinessDeliveries'
+                'applicationBusiness.logStatusApprovals'
+//                 'district',
+//                 'village',
+//                 'registryBusinessCategories',
+//                 'registryBusinessProductCategories',
+//                 'registryBusinessFacilities',
+//                 'registryBusinessHours',
+//                 'registryBusinessHours.registryBusinessHourAdditionals',
+//                 'registryBusinessImages',
+//                 'registryBusinessContactPeople',
+//                 'registryBusinessContactPeople.person',
+//                 'registryBusinessPayments',
+//                 'registryBusinessDeliveries'
             ])
             ->andWhere('registry_business.application_business_counter = application_business.counter')
             ->andWhere(['log_status_approval.status_approval_id' => 'PNDG'])
@@ -429,17 +429,18 @@ class SiteController extends Controller
             ->asArray()->all($dbv21);
 
         $content = '';
-        print_r($query1);exit;
 
         $transaction = \Yii::$app->db->beginTransaction();
         $flag = false;
 
-        $model = new RegistryBusiness();
-
         foreach ($restoreData as $data) {
 
+            $dataApplicationBusiness = ApplicationBusiness::find()
+                ->andWhere(['id' =>$data['application_business_id']])
+                ->asArray()->one($dbv21);
+
             $modelApplicationBusiness = new ApplicationBusiness();
-            $modelApplicationBusiness->user_in_charge = $data['applicationBusiness']['user_in_charge'];
+            $modelApplicationBusiness->user_in_charge = $dataApplicationBusiness['user_in_charge'];
             $modelApplicationBusiness->counter = 1;
 
             if (($flag = $modelApplicationBusiness->save())) {
@@ -451,6 +452,8 @@ class SiteController extends Controller
                 $modelLogStatusApproval->application_business_counter = $modelApplicationBusiness->counter;
 
                 if (($flag = $modelLogStatusApproval->save())) {
+
+                    $model = new RegistryBusiness();
 
                     $model->application_business_id = $modelApplicationBusiness->id;
                     $model->user_in_charge = $modelApplicationBusiness->user_in_charge;
@@ -479,8 +482,12 @@ class SiteController extends Controller
 
                     if (($flag = $model->save())) {
 
-                        foreach ($data['registryBusinessCategories'] as $registryBusinessCategory) {
-            print_r($registryBusinessCategory);exit;
+                        $dataRegistryBusinessCategory = RegistryBusinessCategory::find()
+                            ->andWhere(['registry_business_id' => $data['id']])
+                            ->asArray()->all($dbv21);
+
+                        foreach ($dataRegistryBusinessCategory as $registryBusinessCategory) {
+
                             $newModelRegistryBusinessCategory = new RegistryBusinessCategory();
                             $newModelRegistryBusinessCategory->unique_id = $registryBusinessCategory['unique_id'];
                             $newModelRegistryBusinessCategory->registry_business_id = $model->id;
@@ -496,7 +503,11 @@ class SiteController extends Controller
 
                     if ($flag) {
 
-                        foreach ($data['registryBusinessProductCategories'] as $registryBusinessProductCategory) {
+                        $dataRegistryBusinessProductCategory = RegistryBusinessProductCategory::find()
+                            ->andWhere(['registry_business_id' => $data['id']])
+                            ->asArray()->all($dbv21);
+
+                        foreach ($dataRegistryBusinessProductCategory as $registryBusinessProductCategory) {
 
                             $newModelRegistryBusinessProductCategory = new RegistryBusinessProductCategory();
                             $newModelRegistryBusinessProductCategory->unique_id = $registryBusinessProductCategory['unique_id'];
@@ -513,7 +524,11 @@ class SiteController extends Controller
 
                     if ($flag) {
 
-                        foreach ($data['registryBusinessFacilities'] as $registryBusinessFacility) {
+                        $dataRegistryBusinessFacility = RegistryBusinessFacility::find()
+                            ->andWhere(['registry_business_id' => $data['id']])
+                            ->asArray()->all($dbv21);
+
+                        foreach ($dataRegistryBusinessFacility as $registryBusinessFacility) {
 
                             $newModelRegistryBusinessFacility = new RegistryBusinessFacility();
                             $newModelRegistryBusinessFacility->unique_id = $registryBusinessFacility['unique_id'];
@@ -530,7 +545,11 @@ class SiteController extends Controller
 
                     if ($flag) {
 
-                        foreach ($data['registryBusinessHours'] as $registryBusinessHour) {
+                        $dataRegistryBusinessHour = RegistryBusinessHour::find()
+                            ->andWhere(['registry_business_id' => $data['id']])
+                            ->asArray()->all($dbv21);
+
+                        foreach ($dataRegistryBusinessHour as $registryBusinessHour) {
 
                             $newModelRegistryBusinessHourDay = new RegistryBusinessHour();
                             $newModelRegistryBusinessHourDay->registry_business_id = $model->id;
@@ -545,7 +564,11 @@ class SiteController extends Controller
                                 break;
                             } else {
 
-                                foreach ($registryBusinessHour['registryBusinessHourAdditionals'] as $registryBusinessHourAdditional) {
+                                $dataRegistryBusinessHourAdditional = RegistryBusinessHourAdditional::find()
+                                    ->andWhere(['registry_business_hour_id' => $registryBusinessHour['id']])
+                                    ->asArray()->all($dbv21);
+
+                                foreach ($dataRegistryBusinessHourAdditional as $registryBusinessHourAdditional) {
 
                                     $newModelRegistryBusinessHourAdditional = new RegistryBusinessHourAdditional();
                                     $newModelRegistryBusinessHourAdditional->unique_id = $registryBusinessHourAdditional['unique_id'];
@@ -566,7 +589,11 @@ class SiteController extends Controller
 
                     if ($flag) {
 
-                        foreach ($data['registryBusinessImages'] as $i => $registryBusinessImage) {
+                        $dataRegistryBusinessImage = RegistryBusinessImage::find()
+                            ->andWhere(['registry_business_id' => $data['id']])
+                            ->asArray()->all($dbv21);
+
+                        foreach ($dataRegistryBusinessImage as $i => $registryBusinessImage) {
 
                             $i++;
 
@@ -586,15 +613,23 @@ class SiteController extends Controller
 
                     if ($flag) {
 
-                        if (!empty($data['registryBusinessContactPeople'])) {
+                        $dataRegistryBusinessContactPerson = RegistryBusinessContactPerson::find()
+                            ->andWhere(['registry_business_id' => $data['id']])
+                            ->asArray()->all($dbv21);
 
-                            foreach ($data['registryBusinessContactPeople'] as $i => $registryBusinessContactPerson) {
+                        if (!empty($dataRegistryBusinessContactPerson)) {
+
+                            foreach ($dataRegistryBusinessContactPerson as $registryBusinessContactPerson) {
+
+                                $dataPerson = Person::find()
+                                    ->andWhere(['id' => $registryBusinessContactPerson['person_id']])
+                                    ->asArray()->one($dbv21);
 
                                 $newModelPerson = new Person();
-                                $newModelPerson->first_name = $registryBusinessContactPerson['person']['first_name'];
-                                $newModelPerson->last_name = $registryBusinessContactPerson['person']['last_name'];
-                                $newModelPerson->phone = $registryBusinessContactPerson['person']['phone'];
-                                $newModelPerson->email = $registryBusinessContactPerson['person']['email'];
+                                $newModelPerson->first_name = $dataPerson['first_name'];
+                                $newModelPerson->last_name = $dataPerson['last_name'];
+                                $newModelPerson->phone = $dataPerson['phone'];
+                                $newModelPerson->email = $dataPerson['email'];
 
                                 if (!($flag = $newModelPerson->save())) {
 
@@ -619,9 +654,13 @@ class SiteController extends Controller
 
                     if ($flag) {
 
-                        if (!empty($data['registryBusinessPayments'])) {
+                        $dataRegistryBusinessPayment = RegistryBusinessPayment::find()
+                            ->andWhere(['registry_business_id' => $data['id']])
+                            ->asArray()->all($dbv21);
 
-                            foreach ($data['registryBusinessPayments'] as $registryBusinessPayment) {
+                        if (!empty($dataRegistryBusinessPayment)) {
+
+                            foreach ($dataRegistryBusinessPayment as $registryBusinessPayment) {
 
                                 $newModelRegistryBusinessPayment = new RegistryBusinessPayment();
                                 $newModelRegistryBusinessPayment->registry_business_id = $model->id;
@@ -640,9 +679,13 @@ class SiteController extends Controller
 
                     if ($flag) {
 
-                        if (!empty($data['registryBusinessDeliveries'])) {
+                        $dataRegistryBusinessDelivery = RegistryBusinessDelivery::find()
+                            ->andWhere(['registry_business_id' => $data['id']])
+                            ->asArray()->all($dbv21);
 
-                            foreach ($data['registryBusinessDeliveries'] as $registryBusinessDelivery) {
+                        if (!empty($dataRegistryBusinessDelivery)) {
+
+                            foreach ($dataRegistryBusinessDelivery as $registryBusinessDelivery) {
 
                                 $newModelRegistryBusinessDelivery = new RegistryBusinessDelivery();
                                 $newModelRegistryBusinessDelivery->registry_business_id = $model->id;
@@ -689,15 +732,5 @@ class SiteController extends Controller
         }
 
         return $this->renderContent($content);
-    }
-
-    private function array_copy($arr) {
-        $newArray = array();
-        foreach($arr as $key => $value) {
-            if(is_array($value)) $newArray[$key] = $this->array_copy($value);
-            else if(is_object($value)) $newArray[$key] = clone $value;
-            else $newArray[$key] = $value;
-        }
-        return $newArray;
     }
 }
