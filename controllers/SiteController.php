@@ -372,22 +372,25 @@ class SiteController extends Controller
 
     public function actionRestorePendingRegistryBusiness() {
 
-        /*$query2 = RegistryBusiness::find()
+        $query2 = RegistryBusiness::find()
             ->joinWith([
-                'membershipType',
-                'userInCharge',
                 'applicationBusiness',
                 'applicationBusiness.logStatusApprovals',
-                'district',
-                'village'
             ])
-            ->andWhere(['log_status_approval.status_approval_id' => 'PNDG'])
+            ->andWhere(['log_status_approval.status_approval_id' => 'APPRV'])
             ->andWhere(['log_status_approval.is_actual' => true])
             ->andWhere('registry_business.application_business_counter = application_business.counter')
             ->andWhere(['BETWEEN', '(registry_business.created_at + interval \'7 hour\')::date', '2019-09-23', '2019-09-27'])
-            ->asArray()->all();*/
+            ->asArray()->all();
 
-        $notIn = ['bread-talk-wahid-hasyim', 'j-co-cirangrang', 'steak-osteak-indrayasa', 'sweet-flour-bakeshop-rangga-kencana', 'bandung-kunafe-cirangrang', 'seafood-killoan-bang-bopak-indrayasa', 'austeak-wahid-hasyim', 'hayang-thai-tea-cirangrang', 'ayam-geprek-sambal-dower-cirangrang', 'warung-tenda-bu-riens-cirangrang', 'aprilia-cafe-and-resto-cirangrang', 'ayam-serundeng-cucak-rowo-cirangrang', 'bakakak-ayam-kampung-bu-kosim-cirangrang', 'mamam-cuankie-cirangrang', 'de-purple-drink-cirangrang', 'kedai-es-sop-buah-blok-kupat-babakan', 'thai-tea-suramadu-babakan', 'twenty-three-thai-tea-and-roti-bakar-babakan', 'cilok-sadulur-satria-raya'];
+        $notIn = [];
+
+        foreach ($query2 as $data2) {
+
+            $notIn[] = $data2['unique_name'];
+        }
+
+        $notIn[] = 'austeak-wahid-hasyim';
 
         $dbv21 = new \yii\db\Connection([
             'dsn' => 'pgsql:host=localhost;dbname=business_directory_v21',
@@ -422,7 +425,7 @@ class SiteController extends Controller
 //                 'registryBusinessDeliveries'
             ])
             ->andWhere('registry_business.application_business_counter = application_business.counter')
-            ->andWhere(['log_status_approval.status_approval_id' => 'PNDG'])
+            ->andWhere(['log_status_approval.status_approval_id' => 'APPRV'])
             ->andWhere(['log_status_approval.is_actual' => true])
             ->andWhere(['not', ['registry_business.unique_name' => $notIn]])
             ->andWhere(['BETWEEN', '(registry_business.created_at + interval \'7 hour\')::date', '2019-09-23', '2019-09-27'])
@@ -489,7 +492,7 @@ class SiteController extends Controller
                         foreach ($dataRegistryBusinessCategory as $registryBusinessCategory) {
 
                             $newModelRegistryBusinessCategory = new RegistryBusinessCategory();
-                            $newModelRegistryBusinessCategory->unique_id = $registryBusinessCategory['unique_id'];
+                            $newModelRegistryBusinessCategory->unique_id = $model->id . '-' . $registryBusinessCategory['category_id'];
                             $newModelRegistryBusinessCategory->registry_business_id = $model->id;
                             $newModelRegistryBusinessCategory->category_id = $registryBusinessCategory['category_id'];
                             $newModelRegistryBusinessCategory->is_active = true;
@@ -507,10 +510,10 @@ class SiteController extends Controller
                             ->andWhere(['registry_business_id' => $data['id']])
                             ->asArray()->all($dbv21);
 
-                        foreach ($dataRegistryBusinessProductCategory as $registryBusinessProductCategory) {
+                            foreach ($dataRegistryBusinessProductCategory as $registryBusinessProductCategory) {
 
                             $newModelRegistryBusinessProductCategory = new RegistryBusinessProductCategory();
-                            $newModelRegistryBusinessProductCategory->unique_id = $registryBusinessProductCategory['unique_id'];
+                            $newModelRegistryBusinessProductCategory->unique_id = $model->id . '-' . $registryBusinessProductCategory['product_category_id'];
                             $newModelRegistryBusinessProductCategory->registry_business_id = $model->id;
                             $newModelRegistryBusinessProductCategory->product_category_id = $registryBusinessProductCategory['product_category_id'];
                             $newModelRegistryBusinessProductCategory->is_active = true;
@@ -531,7 +534,7 @@ class SiteController extends Controller
                         foreach ($dataRegistryBusinessFacility as $registryBusinessFacility) {
 
                             $newModelRegistryBusinessFacility = new RegistryBusinessFacility();
-                            $newModelRegistryBusinessFacility->unique_id = $registryBusinessFacility['unique_id'];
+                            $newModelRegistryBusinessFacility->unique_id = $model->id . '-' . $registryBusinessFacility['facility_id'];
                             $newModelRegistryBusinessFacility->registry_business_id = $model->id;
                             $newModelRegistryBusinessFacility->facility_id = $registryBusinessFacility['facility_id'];
                             $newModelRegistryBusinessFacility->is_active = true;
@@ -553,7 +556,7 @@ class SiteController extends Controller
 
                             $newModelRegistryBusinessHourDay = new RegistryBusinessHour();
                             $newModelRegistryBusinessHourDay->registry_business_id = $model->id;
-                            $newModelRegistryBusinessHourDay->unique_id = $registryBusinessHour['unique_id'];
+                            $newModelRegistryBusinessHourDay->unique_id = $model->id . '-' . $registryBusinessHour['day'];
                             $newModelRegistryBusinessHourDay->day = $registryBusinessHour['day'];
                             $newModelRegistryBusinessHourDay->is_open = $registryBusinessHour['is_open'];
                             $newModelRegistryBusinessHourDay->open_at = $registryBusinessHour['open_at'];
@@ -568,10 +571,10 @@ class SiteController extends Controller
                                     ->andWhere(['registry_business_hour_id' => $registryBusinessHour['id']])
                                     ->asArray()->all($dbv21);
 
-                                foreach ($dataRegistryBusinessHourAdditional as $registryBusinessHourAdditional) {
+                                foreach ($dataRegistryBusinessHourAdditional as $i => $registryBusinessHourAdditional) {
 
                                     $newModelRegistryBusinessHourAdditional = new RegistryBusinessHourAdditional();
-                                    $newModelRegistryBusinessHourAdditional->unique_id = $registryBusinessHourAdditional['unique_id'];
+                                    $newModelRegistryBusinessHourAdditional->unique_id = $newModelRegistryBusinessHourDay->id . '-' . $registryBusinessHour['day'] . '-' . $i;
                                     $newModelRegistryBusinessHourAdditional->registry_business_hour_id = $newModelRegistryBusinessHourDay->id;
                                     $newModelRegistryBusinessHourAdditional->day = $registryBusinessHourAdditional['day'];
                                     $newModelRegistryBusinessHourAdditional->is_open = $registryBusinessHourAdditional['is_open'];
@@ -721,7 +724,7 @@ class SiteController extends Controller
             $transaction->commit();
         } else {
 
-            $content = print_r($model);
+            $content = print_r($newModelRegistryBusinessCategory);
 
             $transaction->rollBack();
         }
