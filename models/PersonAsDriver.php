@@ -24,8 +24,10 @@ namespace core\models;
  * @property string $user_updated
  * @property string $other_driver
  * @property bool $is_criteria_passed
+ * @property string $application_driver_id
  *
  * @property DriverAttachment[] $driverAttachments
+ * @property ApplicationDriver $applicationDriver
  * @property District $district
  * @property Person $person
  * @property User $userCreated
@@ -47,17 +49,18 @@ class PersonAsDriver extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['person_id', 'district_id', 'no_ktp', 'no_sim', 'date_birth', 'motor_brand', 'motor_type', 'emergency_contact_name', 'emergency_contact_phone', 'emergency_contact_address', 'number_plate', 'stnk_expired'], 'required'],
+            [['person_id', 'district_id', 'no_ktp', 'no_sim', 'date_birth', 'motor_brand', 'motor_type', 'emergency_contact_name', 'emergency_contact_phone', 'emergency_contact_address', 'number_plate', 'stnk_expired', 'application_driver_id'], 'required'],
             [['date_birth', 'stnk_expired', 'created_at', 'updated_at'], 'safe'],
             [['emergency_contact_address'], 'string'],
             [['is_criteria_passed'], 'boolean'],
-            [['person_id', 'district_id', 'emergency_contact_name', 'user_created', 'user_updated'], 'string', 'max' => 32],
+            [['person_id', 'district_id', 'emergency_contact_name', 'user_created', 'user_updated', 'application_driver_id'], 'string', 'max' => 32],
             [['no_ktp', 'no_sim'], 'string', 'max' => 19],
             [['motor_brand', 'motor_type'], 'string', 'max' => 30],
             [['emergency_contact_phone'], 'string', 'max' => 16],
             [['number_plate'], 'string', 'max' => 10],
             [['other_driver'], 'string', 'max' => 20],
             [['person_id'], 'unique'],
+            [['application_driver_id'], 'exist', 'skipOnError' => true, 'targetClass' => ApplicationDriver::className(), 'targetAttribute' => ['application_driver_id' => 'id']],
             [['district_id'], 'exist', 'skipOnError' => true, 'targetClass' => District::className(), 'targetAttribute' => ['district_id' => 'id']],
             [['person_id'], 'exist', 'skipOnError' => true, 'targetClass' => Person::className(), 'targetAttribute' => ['person_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
@@ -89,6 +92,7 @@ class PersonAsDriver extends \sybase\SybaseModel
             'user_updated' => \Yii::t('app', 'User Updated'),
             'other_driver' => \Yii::t('app', 'Other Driver'),
             'is_criteria_passed' => \Yii::t('app', 'Is Criteria Passed'),
+            'application_driver_id' => \Yii::t('app', 'Application Driver ID'),
         ];
     }
 
@@ -98,6 +102,14 @@ class PersonAsDriver extends \sybase\SybaseModel
     public function getDriverAttachments()
     {
         return $this->hasMany(DriverAttachment::className(), ['person_as_driver_id' => 'person_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getApplicationDriver()
+    {
+        return $this->hasOne(ApplicationDriver::className(), ['id' => 'application_driver_id']);
     }
 
     /**
