@@ -68,8 +68,8 @@ class RegistryDriverSearch extends RegistryDriver
         ]);
 
         $dataProvider->sort->attributes['userInCharge.full_name'] = [
-            'asc' => ['userInCharge.full_name' => SORT_ASC],
-            'desc' => ['userInCharge.full_name' => SORT_DESC],
+            'asc' => ['user.full_name' => SORT_ASC],
+            'desc' => ['user.full_name' => SORT_DESC],
         ];
 
         $this->load($params);
