@@ -23,9 +23,14 @@ use yii\web\IdentityInterface;
  * @property string $login_token
  *
  * @property ApplicationBusiness[] $applicationBusinesses
+ * @property ApplicationDriver[] $applicationDrivers
  * @property Business[] $businesses
+ * @property DriverAttachment[] $driverAttachments
  * @property PromoItem[] $promoItems
+ * @property PersonAsDriver[] $personAsDrivers
  * @property RegistryBusiness[] $registryBusinesses
+ * @property RegistryDriver[] $registryDrivers
+ * @property RegistryDriverAttachment[] $registryDriverAttachments
  * @property TransactionCanceledByDriver[] $transactionCanceledByDrivers
  * @property TransactionSession[] $transactionSessions
  * @property TransactionSessionDelivery[] $transactionSessionDeliveries
@@ -125,9 +130,25 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getApplicationDrivers()
+    {
+        return $this->hasMany(ApplicationDriver::className(), ['user_in_charge' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getBusinesses()
     {
         return $this->hasMany(Business::className(), ['user_in_charge' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDriverAttachments()
+    {
+        return $this->hasMany(DriverAttachment::className(), ['user_created' => 'id']);
     }
 
     /**
@@ -141,9 +162,33 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getPersonAsDrivers()
+    {
+        return $this->hasMany(PersonAsDriver::className(), ['user_created' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getRegistryBusinesses()
     {
         return $this->hasMany(RegistryBusiness::className(), ['user_in_charge' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRegistryDrivers()
+    {
+        return $this->hasMany(RegistryDriver::className(), ['user_created' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRegistryDriverAttachments()
+    {
+        return $this->hasMany(RegistryDriverAttachment::className(), ['user_created' => 'id']);
     }
 
     /**

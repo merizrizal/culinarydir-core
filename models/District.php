@@ -20,6 +20,7 @@ namespace core\models;
  * @property User $userUpdated
  * @property PersonAsDriver[] $personAsDrivers
  * @property RegistryBusiness[] $registryBusinesses
+ * @property RegistryDriver[] $registryDrivers
  * @property Village[] $villages
  */
 class District extends \sybase\SybaseModel
@@ -105,13 +106,20 @@ class District extends \sybase\SybaseModel
         return $this->hasMany(PersonAsDriver::className(), ['district_id' => 'id']);
     }
 
-
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getRegistryBusinesses()
     {
         return $this->hasMany(RegistryBusiness::className(), ['district_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRegistryDrivers()
+    {
+        return $this->hasMany(RegistryDriver::className(), ['district_id' => 'id']);
     }
 
     /**

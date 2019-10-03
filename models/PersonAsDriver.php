@@ -32,6 +32,7 @@ namespace core\models;
  * @property Person $person
  * @property User $userCreated
  * @property User $userUpdated
+ * @property UserAsDriver[] $userAsDrivers
  */
 class PersonAsDriver extends \sybase\SybaseModel
 {
@@ -142,5 +143,13 @@ class PersonAsDriver extends \sybase\SybaseModel
     public function getUserUpdated()
     {
         return $this->hasOne(User::className(), ['id' => 'user_updated']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserAsDrivers()
+    {
+        return $this->hasMany(UserAsDriver::className(), ['person_as_driver_id' => 'person_id']);
     }
 }

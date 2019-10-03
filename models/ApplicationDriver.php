@@ -18,6 +18,8 @@ namespace core\models;
  * @property User $userCreated
  * @property User $userUpdated
  * @property LogStatusApprovalDriver[] $logStatusApprovalDrivers
+ * @property PersonAsDriver[] $personAsDrivers
+ * @property RegistryDriver[] $registryDrivers
  */
 class ApplicationDriver extends \sybase\SybaseModel
 {
@@ -93,5 +95,21 @@ class ApplicationDriver extends \sybase\SybaseModel
     public function getLogStatusApprovalDrivers()
     {
         return $this->hasMany(LogStatusApprovalDriver::className(), ['application_driver_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPersonAsDrivers()
+    {
+        return $this->hasMany(PersonAsDriver::className(), ['application_driver_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRegistryDrivers()
+    {
+        return $this->hasMany(RegistryDriver::className(), ['application_driver_id' => 'id']);
     }
 }

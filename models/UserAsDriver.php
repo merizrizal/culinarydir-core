@@ -16,7 +16,9 @@ use Yii;
  * @property string $user_created
  * @property string $updated_at
  * @property string $user_updated
+ * @property string $person_as_driver_id
  *
+ * @property PersonAsDriver $personAsDriver
  * @property User $user
  * @property User $userCreated
  * @property User $userUpdated
@@ -46,6 +48,7 @@ class UserAsDriver extends \sybase\SybaseModel
             [['user_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
             [['coordinate'], 'string', 'max' => 64],
             [['user_id'], 'unique'],
+            [['person_as_driver_id'], 'exist', 'skipOnError' => true, 'targetClass' => PersonAsDriver::className(), 'targetAttribute' => ['person_as_driver_id' => 'person_id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['user_created'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_created' => 'id']],
             [['user_updated'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_updated' => 'id']],
@@ -67,7 +70,16 @@ class UserAsDriver extends \sybase\SybaseModel
             'user_created' => Yii::t('app', 'User Created'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'user_updated' => Yii::t('app', 'User Updated'),
+            'person_as_driver_id' => \Yii::t('app', 'Person As Driver ID'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPersonAsDriver()
+    {
+        return $this->hasOne(PersonAsDriver::className(), ['person_id' => 'person_as_driver_id']);
     }
 
     /**
