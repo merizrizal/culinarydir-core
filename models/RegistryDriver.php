@@ -11,6 +11,7 @@ namespace core\models;
  * @property string $last_name
  * @property string $email
  * @property string $phone
+ * @property string $district_id
  * @property string $no_ktp
  * @property string $no_sim
  * @property string $date_birth
@@ -27,7 +28,6 @@ namespace core\models;
  * @property string $user_created
  * @property string $updated_at
  * @property string $user_updated
- * @property string $district_id
  * @property string $application_driver_id
  * @property int $application_driver_counter
  * @property string $user_in_charge

@@ -18,12 +18,12 @@ namespace core\models;
  * @property string $emergency_contact_address
  * @property string $number_plate
  * @property string $stnk_expired
+ * @property string $other_driver
+ * @property bool $is_criteria_passed
  * @property string $created_at
  * @property string $user_created
  * @property string $updated_at
  * @property string $user_updated
- * @property string $other_driver
- * @property bool $is_criteria_passed
  * @property string $application_driver_id
  *
  * @property DriverAttachment[] $driverAttachments
