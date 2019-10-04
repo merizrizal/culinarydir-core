@@ -25,12 +25,9 @@ use yii\web\IdentityInterface;
  * @property ApplicationBusiness[] $applicationBusinesses
  * @property ApplicationDriver[] $applicationDrivers
  * @property Business[] $businesses
- * @property DriverAttachment[] $driverAttachments
  * @property PromoItem[] $promoItems
- * @property PersonAsDriver[] $personAsDrivers
  * @property RegistryBusiness[] $registryBusinesses
  * @property RegistryDriver[] $registryDrivers
- * @property RegistryDriverAttachment[] $registryDriverAttachments
  * @property TransactionCanceledByDriver[] $transactionCanceledByDrivers
  * @property TransactionSession[] $transactionSessions
  * @property TransactionSessionDelivery[] $transactionSessionDeliveries
@@ -146,25 +143,9 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDriverAttachments()
-    {
-        return $this->hasMany(DriverAttachment::className(), ['user_created' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getPromoItems()
     {
         return $this->hasMany(PromoItem::className(), ['user_claimed' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPersonAsDrivers()
-    {
-        return $this->hasMany(PersonAsDriver::className(), ['user_created' => 'id']);
     }
 
     /**
@@ -181,14 +162,6 @@ class User extends \sybase\SybaseModel implements IdentityInterface
     public function getRegistryDrivers()
     {
         return $this->hasMany(RegistryDriver::className(), ['user_created' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRegistryDriverAttachments()
-    {
-        return $this->hasMany(RegistryDriverAttachment::className(), ['user_created' => 'id']);
     }
 
     /**

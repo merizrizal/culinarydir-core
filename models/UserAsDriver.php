@@ -2,7 +2,6 @@
 
 namespace core\models;
 
-use Yii;
 
 /**
  * This is the model class for table "user_as_driver".
@@ -39,13 +38,13 @@ class UserAsDriver extends \sybase\SybaseModel
     public function rules()
     {
         return [
-            [['user_id'], 'required'],
+            [['user_id', 'person_as_driver_id'], 'required'],
             [['is_online'], 'boolean'],
             [['total_cash'], 'default', 'value' => null],
             [['total_cash'], 'integer'],
             [['socket_id'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
-            [['user_id', 'user_created', 'user_updated'], 'string', 'max' => 32],
+            [['user_id', 'user_created', 'user_updated', 'person_as_driver_id'], 'string', 'max' => 32],
             [['coordinate'], 'string', 'max' => 64],
             [['user_id'], 'unique'],
             [['person_as_driver_id'], 'exist', 'skipOnError' => true, 'targetClass' => PersonAsDriver::className(), 'targetAttribute' => ['person_as_driver_id' => 'person_id']],
@@ -61,15 +60,15 @@ class UserAsDriver extends \sybase\SybaseModel
     public function attributeLabels()
     {
         return [
-            'user_id' => Yii::t('app', 'User ID'),
-            'coordinate' => Yii::t('app', 'Coordinate'),
-            'is_online' => Yii::t('app', 'Is Online'),
-            'total_cash' => Yii::t('app', 'Total Cash'),
-            'socket_id' => Yii::t('app', 'Socket ID'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'user_created' => Yii::t('app', 'User Created'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'user_updated' => Yii::t('app', 'User Updated'),
+            'user_id' => \Yii::t('app', 'User ID'),
+            'coordinate' => \Yii::t('app', 'Coordinate'),
+            'is_online' => \Yii::t('app', 'Is Online'),
+            'total_cash' => \Yii::t('app', 'Total Cash'),
+            'socket_id' => \Yii::t('app', 'Socket ID'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'user_created' => \Yii::t('app', 'User Created'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'user_updated' => \Yii::t('app', 'User Updated'),
             'person_as_driver_id' => \Yii::t('app', 'Person As Driver ID'),
         ];
     }
